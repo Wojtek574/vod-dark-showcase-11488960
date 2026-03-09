@@ -36,7 +36,7 @@ const Index = () => {
           </h2>
           <div className="mt-5 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {serials.map((item) => (
-              <MovieCard key={item.id} title={item.title} genre={item.genre} year={item.year} image={item.image} />
+              <MovieCard key={item.id} title={item.title} genre={item.genre} year={item.year} image={item.image} slug={item.slug} />
             ))}
           </div>
         </section>

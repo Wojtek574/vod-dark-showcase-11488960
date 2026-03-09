@@ -17,7 +17,7 @@ const Films = () => {
         </p>
         <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
           {films.map((item) => (
-            <MovieCard key={item.id} title={item.title} genre={item.genre} year={item.year} image={item.image} />
+            <MovieCard key={item.id} title={item.title} genre={item.genre} year={item.year} image={item.image} slug={item.slug} />
           ))}
         </div>
       </main>
