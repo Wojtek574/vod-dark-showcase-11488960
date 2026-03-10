@@ -1,9 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import { mediaItems } from "@/data/movies";
-import { ArrowLeft, Play, Pause, Volume2, Maximize, Minimize, SkipBack, SkipForward } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize, SkipBack, SkipForward, Star, Calendar, Clock, Film } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
+import PlayerIntro from "@/components/player/PlayerIntro";
 
 type PlayerPhase = "idle" | "intro" | "playing";
 
@@ -16,6 +16,7 @@ const Player = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [introOpacity, setIntroOpacity] = useState(0);
   const [introTextVisible, setIntroTextVisible] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
@@ -26,17 +27,12 @@ const Player = () => {
     ? movie.duration.split(":").reduce((acc, val, i) => acc + parseInt(val) * [3600, 60, 1][i], 0)
     : 5445;
 
-  // Warner Bros intro sequence
   const startIntro = useCallback(() => {
     setPhase("intro");
     setIntroOpacity(0);
     setIntroTextVisible(false);
-
-    // Fade in
     setTimeout(() => setIntroOpacity(1), 100);
-    // Show text
     setTimeout(() => setIntroTextVisible(true), 800);
-    // Fade out and start movie
     setTimeout(() => {
       setIntroOpacity(0);
       setTimeout(() => {
@@ -46,7 +42,6 @@ const Player = () => {
     }, 4000);
   }, []);
 
-  // Timer for playing
   useEffect(() => {
     if (phase === "playing") {
       intervalRef.current = setInterval(() => {
@@ -66,7 +61,6 @@ const Player = () => {
     };
   }, [phase, totalDuration]);
 
-  // Fullscreen change listener
   useEffect(() => {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", handler);
@@ -147,204 +141,205 @@ const Player = () => {
     );
   }
 
+  const genres = movie.genre.split(" / ");
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="container py-6">
-        {/* Back link */}
-        <Link
-          to="/"
-          className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Wróć do katalogu
-        </Link>
 
-        {/* Video Player */}
+      {/* Full-width Video Player */}
+      <div
+        ref={playerContainerRef}
+        className={`relative w-full cursor-pointer bg-black ${isFullscreen ? "" : "border-b border-border"}`}
+        style={{ aspectRatio: isFullscreen ? undefined : "16/9", height: isFullscreen ? "100vh" : undefined, maxHeight: isFullscreen ? undefined : "70vh" }}
+        onClick={handlePlayerClick}
+        onMouseMove={handleMouseMove}
+      >
+        {/* Movie poster as background */}
+        <img
+          src={movie.image}
+          alt={movie.title}
+          className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${phase !== "idle" ? "opacity-20 blur-md scale-110" : "opacity-50"}`}
+        />
+
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/70" />
+
+        {/* Warner Bros Intro */}
+        <PlayerIntro
+          phase={phase}
+          introOpacity={introOpacity}
+          introTextVisible={introTextVisible}
+        />
+
+        {/* Play button center */}
+        {phase === "idle" && (
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="group flex h-20 w-20 items-center justify-center rounded-full border-2 border-primary/50 bg-primary/20 text-primary backdrop-blur-sm transition-all hover:scale-110 hover:bg-primary/30 hover:border-primary">
+              <Play className="h-9 w-9 fill-current ml-1 transition-transform group-hover:scale-110" />
+            </div>
+          </div>
+        )}
+
+        {/* Playing indicator */}
+        {phase === "playing" && (
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+            <p className="font-display text-xl tracking-[0.3em] text-foreground/20 select-none uppercase">
+              ▶ Odtwarzanie
+            </p>
+          </div>
+        )}
+
+        {/* CTA banner (like the reference site) */}
+        {phase === "idle" && (
+          <div className="absolute bottom-20 left-0 right-0 z-20 flex justify-center pointer-events-none">
+            <p className="text-sm text-muted-foreground">
+              Obejrzyj zwiastun i{" "}
+              <span className="text-primary font-medium">zarejestruj się</span>
+              , by uzyskać dostęp do pełnej biblioteki filmów i seriali.
+            </p>
+          </div>
+        )}
+
+        {/* Controls bar */}
         <div
-          ref={playerContainerRef}
-          className={`relative w-full overflow-hidden rounded-xl border border-border bg-black cursor-pointer ${isFullscreen ? "rounded-none border-none" : ""}`}
-          style={{ aspectRatio: isFullscreen ? undefined : "16/9", height: isFullscreen ? "100vh" : undefined }}
-          onClick={handlePlayerClick}
-          onMouseMove={handleMouseMove}
+          className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/95 via-black/60 to-transparent px-4 pb-3 pt-12 transition-opacity duration-300 ${showControls || phase === "idle" ? "opacity-100" : "opacity-0"}`}
+          onClick={(e) => e.stopPropagation()}
         >
-          {/* Movie poster as background */}
-          <img
-            src={movie.image}
-            alt={movie.title}
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${phase !== "idle" ? "opacity-30 blur-sm scale-105" : "opacity-60"}`}
-          />
-
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/60" />
-
-          {/* Warner Bros Intro */}
-          {phase === "intro" && (
-            <div
-              className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black transition-opacity duration-700"
-              style={{ opacity: introOpacity }}
-            >
-              {/* WB Shield */}
-              <div className="relative flex flex-col items-center">
-                <div className="relative mb-4">
-                  <svg width="120" height="120" viewBox="0 0 120 120" className="drop-shadow-[0_0_40px_hsl(var(--primary)/0.5)]">
-                    {/* Shield shape */}
-                    <path
-                      d="M60 8 L108 30 L108 70 Q108 100 60 115 Q12 100 12 70 L12 30 Z"
-                      fill="none"
-                      stroke="hsl(45, 80%, 55%)"
-                      strokeWidth="3"
-                      className={`transition-all duration-1000 ${introTextVisible ? "opacity-100" : "opacity-0"}`}
-                    />
-                    {/* WB Letters */}
-                    <text
-                      x="60"
-                      y="72"
-                      textAnchor="middle"
-                      className={`transition-all duration-700 ${introTextVisible ? "opacity-100" : "opacity-0"}`}
-                      style={{
-                        fontSize: "42px",
-                        fontFamily: "serif",
-                        fontWeight: "bold",
-                        fill: "hsl(45, 80%, 55%)",
-                        letterSpacing: "2px",
-                      }}
-                    >
-                      WB
-                    </text>
-                  </svg>
-                </div>
-
-                <p
-                  className={`font-display text-lg tracking-[0.4em] uppercase transition-all duration-700 ${introTextVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-                  style={{ color: "hsl(45, 80%, 55%)" }}
-                >
-                  Warner Bros.
-                </p>
-                <p
-                  className={`mt-1 text-xs tracking-[0.3em] uppercase transition-all duration-700 delay-300 ${introTextVisible ? "opacity-60 translate-y-0" : "opacity-0 translate-y-4"}`}
-                  style={{ color: "hsl(45, 60%, 60%)" }}
-                >
-                  Pictures
-                </p>
-              </div>
-
-              {/* Subtle particles / stars */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(20)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute rounded-full animate-pulse"
-                    style={{
-                      width: `${Math.random() * 3 + 1}px`,
-                      height: `${Math.random() * 3 + 1}px`,
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`,
-                      backgroundColor: "hsl(45, 80%, 55%)",
-                      opacity: Math.random() * 0.3,
-                      animationDelay: `${Math.random() * 2}s`,
-                      animationDuration: `${Math.random() * 3 + 2}s`,
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Play button center */}
-          {phase === "idle" && (
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/90 text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-110">
-                <Play className="h-9 w-9 fill-current ml-1" />
-              </div>
-            </div>
-          )}
-
-          {/* Playing indicator */}
-          {phase === "playing" && (
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <p className="font-display text-2xl tracking-widest text-foreground/40 select-none">
-                ▶ ODTWARZANIE
-              </p>
-            </div>
-          )}
-
-          {/* Controls bar */}
+          {/* Progress bar */}
           <div
-            className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/95 to-transparent p-4 pt-10 transition-opacity duration-300 ${showControls || phase === "idle" ? "opacity-100" : "opacity-0"}`}
-            onClick={(e) => e.stopPropagation()}
+            className="group mb-2 h-1 w-full cursor-pointer rounded-full bg-muted/20 transition-all hover:h-1.5"
+            onClick={handleProgressClick}
           >
-            {/* Progress bar */}
             <div
-              className="group mb-3 h-1 w-full cursor-pointer rounded-full bg-muted/30 transition-all hover:h-2"
-              onClick={handleProgressClick}
+              className="relative h-full rounded-full bg-primary transition-all"
+              style={{ width: `${progress}%` }}
             >
-              <div
-                className="h-full rounded-full bg-primary transition-all"
-                style={{ width: `${progress}%` }}
-              />
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity shadow-lg shadow-primary/50" />
             </div>
+          </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setCurrentTime(Math.max(0, currentTime - 10))}
-                  className="text-foreground/70 transition-colors hover:text-foreground"
-                >
-                  <SkipBack className="h-5 w-5" />
-                </button>
-                <button
-                  onClick={handlePlayPause}
-                  className="text-foreground transition-colors hover:text-primary"
-                >
-                  {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 fill-current" />}
-                </button>
-                <button
-                  onClick={() => setCurrentTime(Math.min(totalDuration, currentTime + 10))}
-                  className="text-foreground/70 transition-colors hover:text-foreground"
-                >
-                  <SkipForward className="h-5 w-5" />
-                </button>
-                <span className="ml-2 text-sm tabular-nums text-foreground/70">
-                  {formatTime(currentTime)} / {formatTime(totalDuration)}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Volume2 className="h-5 w-5 text-foreground/70" />
-                <button
-                  onClick={toggleFullscreen}
-                  className="text-foreground/70 transition-colors hover:text-foreground"
-                >
-                  {isFullscreen ? <Minimize className="h-5 w-5" /> : <Maximize className="h-5 w-5" />}
-                </button>
-              </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePlayPause}
+                className="rounded-sm p-1 text-foreground/90 transition-colors hover:text-foreground"
+              >
+                {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 fill-current" />}
+              </button>
+              <button
+                onClick={() => setCurrentTime(Math.max(0, currentTime - 10))}
+                className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"
+              >
+                <SkipBack className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setCurrentTime(Math.min(totalDuration, currentTime + 10))}
+                className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"
+              >
+                <SkipForward className="h-4 w-4" />
+              </button>
+              <span className="ml-2 text-xs tabular-nums text-foreground/60">
+                {formatTime(currentTime)} / {formatTime(totalDuration)}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsMuted(!isMuted)}
+                className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"
+              >
+                {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+              </button>
+              <button
+                onClick={toggleFullscreen}
+                className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"
+              >
+                {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
+              </button>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Movie info */}
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_300px]">
-          <div>
-            <h1 className="font-display text-4xl tracking-wider text-foreground md:text-5xl">
-              {movie.title}
+      {/* Movie Info Section - like nowefilmyonline.pl */}
+      <main className="container py-8">
+        <div className="flex flex-col gap-6 md:flex-row md:gap-8">
+          {/* Poster */}
+          <div className="shrink-0">
+            <img
+              src={movie.image}
+              alt={movie.title}
+              className="w-40 rounded-lg border border-border shadow-xl md:w-48"
+            />
+          </div>
+
+          {/* Info */}
+          <div className="flex-1">
+            <h1 className="font-display text-3xl tracking-wider text-foreground md:text-4xl">
+              {movie.title} ({movie.year})
             </h1>
-            <div className="mt-3 flex items-center gap-3 text-sm text-muted-foreground">
-              <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 text-primary">
-                {movie.genre}
+
+            {/* Meta row */}
+            <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <Calendar className="h-3.5 w-3.5" />
+                {movie.year}
               </span>
-              <span>{movie.year}</span>
-              {movie.duration && <span>⏱ {movie.duration}</span>}
-              <span className="rounded-md border border-border bg-muted/20 px-2 py-0.5 text-muted-foreground text-xs">
+              {movie.duration && (
+                <span className="flex items-center gap-1">
+                  <Clock className="h-3.5 w-3.5" />
+                  {movie.duration.replace(":", "h ").replace(":", "m ")}s
+                </span>
+              )}
+              <span className="flex items-center gap-1">
+                <Film className="h-3.5 w-3.5" />
                 Warner Bros. Pictures
               </span>
             </div>
+
+            {/* Rating */}
+            <div className="mt-4 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/15 border border-primary/30">
+                <span className="font-display text-lg text-primary">9.2</span>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Star
+                      key={i}
+                      className={`h-3.5 w-3.5 ${i <= 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`}
+                    />
+                  ))}
+                </div>
+                <span className="text-xs text-muted-foreground mt-0.5">6 ocen(y)</span>
+              </div>
+            </div>
+
+            {/* Genre tags */}
+            <div className="mt-4 flex flex-wrap gap-2">
+              {genres.map((genre) => (
+                <span
+                  key={genre}
+                  className="rounded-md border border-border bg-muted/30 px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary cursor-pointer"
+                >
+                  {genre.trim()}
+                </span>
+              ))}
+            </div>
+
+            {/* Description */}
             {movie.description && (
-              <p className="mt-6 max-w-2xl leading-relaxed text-muted-foreground">
-                {movie.description}
-              </p>
+              <div className="mt-6">
+                <h2 className="font-display text-lg tracking-wider text-foreground mb-2">Opis</h2>
+                <p className="max-w-3xl leading-relaxed text-muted-foreground text-sm">
+                  {movie.description}
+                </p>
+              </div>
             )}
-            <Button
-              className="mt-6 gap-2 bg-primary font-semibold text-primary-foreground hover:bg-primary/90"
+
+            {/* Action button */}
+            <button
+              className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
               onClick={() => {
                 setCurrentTime(0);
                 startIntro();
@@ -353,18 +348,18 @@ const Player = () => {
             >
               <Play className="h-4 w-4 fill-current" />
               Oglądaj od początku
-            </Button>
-          </div>
-
-          {/* Sidebar poster */}
-          <div className="hidden lg:block">
-            <img
-              src={movie.image}
-              alt={movie.title}
-              className="w-full rounded-lg border border-border shadow-lg"
-            />
+            </button>
           </div>
         </div>
+
+        {/* Back link */}
+        <Link
+          to="/"
+          className="mt-10 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Wróć do katalogu
+        </Link>
       </main>
     </div>
   );
