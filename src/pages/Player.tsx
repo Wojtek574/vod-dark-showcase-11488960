@@ -30,16 +30,15 @@ const Player = () => {
   const startIntro = useCallback(() => {
     setPhase("intro");
     setIntroOpacity(0);
-    setIntroTextVisible(false);
     setTimeout(() => setIntroOpacity(1), 100);
-    setTimeout(() => setIntroTextVisible(true), 800);
+  }, []);
+
+  const handleIntroEnd = useCallback(() => {
+    setIntroOpacity(0);
     setTimeout(() => {
-      setIntroOpacity(0);
-      setTimeout(() => {
-        setPhase("playing");
-        setCurrentTime(0);
-      }, 800);
-    }, 4000);
+      setPhase("idle");
+      setCurrentTime(0);
+    }, 500);
   }, []);
 
   useEffect(() => {
