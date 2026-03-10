@@ -15,7 +15,6 @@ const Player = () => {
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [introOpacity, setIntroOpacity] = useState(0);
-  const [introTextVisible, setIntroTextVisible] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
