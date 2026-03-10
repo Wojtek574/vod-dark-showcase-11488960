@@ -15,7 +15,6 @@ const Player = () => {
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [introOpacity, setIntroOpacity] = useState(0);
-  const [introTextVisible, setIntroTextVisible] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -30,16 +29,15 @@ const Player = () => {
   const startIntro = useCallback(() => {
     setPhase("intro");
     setIntroOpacity(0);
-    setIntroTextVisible(false);
     setTimeout(() => setIntroOpacity(1), 100);
-    setTimeout(() => setIntroTextVisible(true), 800);
+  }, []);
+
+  const handleIntroEnd = useCallback(() => {
+    setIntroOpacity(0);
     setTimeout(() => {
-      setIntroOpacity(0);
-      setTimeout(() => {
-        setPhase("playing");
-        setCurrentTime(0);
-      }, 800);
-    }, 4000);
+      setPhase("idle");
+      setCurrentTime(0);
+    }, 500);
   }, []);
 
   useEffect(() => {
@@ -169,7 +167,8 @@ const Player = () => {
         <PlayerIntro
           phase={phase}
           introOpacity={introOpacity}
-          introTextVisible={introTextVisible}
+          movieTitle={movie.title}
+          onIntroEnd={handleIntroEnd}
         />
 
         {/* Play button center */}
