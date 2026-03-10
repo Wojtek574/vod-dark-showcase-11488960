@@ -1,63 +1,42 @@
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import { mediaItems } from "@/data/movies";
-import { ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize, SkipBack, SkipForward, Star, Calendar, Clock, Film } from "lucide-react";
+import {
+  ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize,
+  SkipBack, SkipForward, Star, Calendar, Clock, Film,
+  Users, Shield, Eye, ThumbsUp, MessageCircle, Crown, Zap
+} from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
-import PlayerIntro from "@/components/player/PlayerIntro";
-
-type PlayerPhase = "idle" | "intro" | "playing";
 
 const Player = () => {
   const { slug } = useParams();
   const movie = mediaItems.find((m) => m.slug === slug);
-  const [phase, setPhase] = useState<PlayerPhase>("idle");
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const playerContainerRef = useRef<HTMLDivElement>(null);
+  const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [introOpacity, setIntroOpacity] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const playerContainerRef = useRef<HTMLDivElement>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const isPlaying = phase === "playing";
-
-  const totalDuration = movie?.duration
-    ? movie.duration.split(":").reduce((acc, val, i) => acc + parseInt(val) * [3600, 60, 1][i], 0)
-    : 5445;
-
-  const startIntro = useCallback(() => {
-    setPhase("intro");
-    setIntroOpacity(0);
-    setTimeout(() => setIntroOpacity(1), 100);
-  }, []);
-
-  const handleIntroEnd = useCallback(() => {
-    setIntroOpacity(0);
-    setTimeout(() => {
-      setPhase("idle");
-      setCurrentTime(0);
-    }, 500);
-  }, []);
-
+  // Start 5s popup timer when video plays
   useEffect(() => {
-    if (phase === "playing") {
-      intervalRef.current = setInterval(() => {
-        setCurrentTime((prev) => {
-          if (prev >= totalDuration) {
-            setPhase("idle");
-            return totalDuration;
-          }
-          return prev + 1;
-        });
-      }, 1000);
-    } else {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+    if (isPlaying && !showPopup) {
+      popupTimerRef.current = setTimeout(() => {
+        setShowPopup(true);
+        videoRef.current?.pause();
+        setIsPlaying(false);
+      }, 5000);
     }
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
     };
-  }, [phase, totalDuration]);
+  }, [isPlaying, showPopup]);
 
   useEffect(() => {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);
@@ -69,33 +48,22 @@ const Player = () => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = Math.floor(seconds % 60);
-    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
-  const progress = (currentTime / totalDuration) * 100;
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
-  const handlePlayerClick = () => {
-    if (phase === "intro") return;
-    if (phase === "idle") {
-      startIntro();
+  const togglePlay = useCallback(() => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setIsPlaying(true);
     } else {
-      setPhase("idle");
+      videoRef.current.pause();
+      setIsPlaying(false);
     }
-    setShowControls(true);
-    if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
-    controlsTimeoutRef.current = setTimeout(() => setShowControls(false), 3000);
-  };
-
-  const handlePlayPause = () => {
-    if (phase === "intro") return;
-    if (phase === "idle" && currentTime === 0) {
-      startIntro();
-    } else if (phase === "idle") {
-      setPhase("playing");
-    } else {
-      setPhase("idle");
-    }
-  };
+  }, []);
 
   const handleMouseMove = () => {
     setShowControls(true);
@@ -106,23 +74,23 @@ const Player = () => {
   };
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!videoRef.current || !duration) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const percent = (e.clientX - rect.left) / rect.width;
-    setCurrentTime(Math.floor(percent * totalDuration));
-    if (phase === "idle") setPhase("playing");
+    videoRef.current.currentTime = percent * duration;
   };
 
   const toggleFullscreen = async () => {
     if (!playerContainerRef.current) return;
     try {
-      if (!document.fullscreenElement) {
-        await playerContainerRef.current.requestFullscreen();
-      } else {
-        await document.exitFullscreen();
-      }
-    } catch (err) {
-      console.log("Fullscreen not supported", err);
-    }
+      if (!document.fullscreenElement) await playerContainerRef.current.requestFullscreen();
+      else await document.exitFullscreen();
+    } catch {}
+  };
+
+  const skip = (seconds: number) => {
+    if (!videoRef.current) return;
+    videoRef.current.currentTime = Math.max(0, Math.min(duration, videoRef.current.currentTime + seconds));
   };
 
   if (!movie) {
@@ -131,9 +99,7 @@ const Player = () => {
         <Header />
         <main className="container py-20 text-center">
           <h1 className="font-display text-4xl text-foreground">Nie znaleziono filmu</h1>
-          <Link to="/" className="mt-4 inline-block text-primary hover:underline">
-            Wróć na stronę główną
-          </Link>
+          <Link to="/" className="mt-4 inline-block text-primary hover:underline">Wróć na stronę główną</Link>
         </main>
       </div>
     );
@@ -141,118 +107,126 @@ const Player = () => {
 
   const genres = movie.genre.split(" / ");
 
+  const cast = [
+    { name: "Jessie Buckley", role: "Panna Młoda", avatar: "JB" },
+    { name: "Christian Bale", role: "Potwór", avatar: "CB" },
+    { name: "Annette Bening", role: "Dr. Euphronious", avatar: "AB" },
+    { name: "Penélope Cruz", role: "Eva", avatar: "PC" },
+    { name: "Peter Sarsgaard", role: "Igor", avatar: "PS" },
+    { name: "Jeannie Berlin", role: "Mrs. Klein", avatar: "JB" },
+  ];
+
+  const comments = [
+    { user: "Kinomaniak92", avatar: "K", rating: 5, text: "Absolutnie genialny film! Jessie Buckley daje niesamowity występ. Obowiązkowa pozycja na ten rok.", time: "2 godziny temu", likes: 34 },
+    { user: "FilmowyKrytyk", avatar: "F", rating: 4, text: "Świetna reinterpretacja klasycznej historii. Scenografia i zdjęcia są zapierające dech w piersiach.", time: "5 godzin temu", likes: 21 },
+    { user: "CinemaFan_PL", avatar: "C", rating: 5, text: "Jeden z najlepszych horrorów ostatnich lat. Christian Bale jak zawsze na najwyższym poziomie!", time: "1 dzień temu", likes: 47 },
+    { user: "AnnaW", avatar: "A", rating: 4, text: "Pięknie nakręcony, z świetną muzyką. Trochę za długi w środku, ale końcówka wynagrodzi wszystko.", time: "2 dni temu", likes: 15 },
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ background: "linear-gradient(180deg, hsl(220 20% 7%) 0%, hsl(220 25% 10%) 40%, hsl(225 20% 12%) 70%, hsl(220 20% 7%) 100%)" }}>
       <Header />
 
-      {/* Full-width Video Player */}
+      {/* Video Player */}
       <div
         ref={playerContainerRef}
         className={`relative w-full cursor-pointer bg-black ${isFullscreen ? "" : "border-b border-border"}`}
         style={{ aspectRatio: isFullscreen ? undefined : "16/9", height: isFullscreen ? "100vh" : undefined, maxHeight: isFullscreen ? undefined : "70vh" }}
-        onClick={handlePlayerClick}
+        onClick={togglePlay}
         onMouseMove={handleMouseMove}
       >
-        {/* Movie poster as background */}
-        <img
-          src={movie.image}
-          alt={movie.title}
-          className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${phase !== "idle" ? "opacity-20 blur-md scale-110" : "opacity-50"}`}
+        <video
+          ref={videoRef}
+          src="/trailers/panna-mloda-trailer.mp4"
+          className="absolute inset-0 h-full w-full object-contain bg-black"
+          muted={isMuted}
+          onTimeUpdate={() => setCurrentTime(videoRef.current?.currentTime || 0)}
+          onLoadedMetadata={() => setDuration(videoRef.current?.duration || 0)}
+          onEnded={() => setIsPlaying(false)}
+          playsInline
         />
 
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/70" />
-
-        {/* Warner Bros Intro */}
-        <PlayerIntro
-          phase={phase}
-          introOpacity={introOpacity}
-          movieTitle={movie.title}
-          onIntroEnd={handleIntroEnd}
-        />
-
-        {/* Play button center */}
-        {phase === "idle" && (
-          <div className="absolute inset-0 flex items-center justify-center z-10">
+        {/* Play overlay when paused */}
+        {!isPlaying && !showPopup && (
+          <div className="absolute inset-0 flex items-center justify-center z-10 bg-black/30">
             <div className="group flex h-20 w-20 items-center justify-center rounded-full border-2 border-primary/50 bg-primary/20 text-primary backdrop-blur-sm transition-all hover:scale-110 hover:bg-primary/30 hover:border-primary">
               <Play className="h-9 w-9 fill-current ml-1 transition-transform group-hover:scale-110" />
             </div>
           </div>
         )}
 
-        {/* Playing indicator */}
-        {phase === "playing" && (
-          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-            <p className="font-display text-xl tracking-[0.3em] text-foreground/20 select-none uppercase">
-              ▶ Odtwarzanie
-            </p>
-          </div>
-        )}
+        {/* Popup - registration required */}
+        {showPopup && (
+          <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/85 backdrop-blur-sm" onClick={(e) => e.stopPropagation()}>
+            <div className="mx-4 max-w-md w-full rounded-2xl border border-border bg-card p-8 text-center shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-primary/15 border border-primary/30">
+                <Crown className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="font-display text-2xl tracking-wider text-foreground">
+                Darmowe konto wymagane
+              </h3>
+              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                Aby kontynuować oglądanie <span className="text-foreground font-medium">"{movie.title}"</span>, załóż darmowe konto. 
+                Uzyskasz dostęp do pełnej biblioteki filmów i seriali w najwyższej jakości.
+              </p>
 
-        {/* CTA banner (like the reference site) */}
-        {phase === "idle" && (
-          <div className="absolute bottom-20 left-0 right-0 z-20 flex justify-center pointer-events-none">
-            <p className="text-sm text-muted-foreground">
-              Obejrzyj zwiastun i{" "}
-              <span className="text-primary font-medium">zarejestruj się</span>
-              , by uzyskać dostęp do pełnej biblioteki filmów i seriali.
-            </p>
+              {/* Social proof */}
+              <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5 text-primary" /> 12,847 użytkowników</span>
+                <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-primary" /> 100% za darmo</span>
+              </div>
+
+              <div className="mt-6 flex flex-col gap-3">
+                <button className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 flex items-center justify-center gap-2">
+                  <Zap className="h-4 w-4" />
+                  Zarejestruj się za darmo
+                </button>
+                <button className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-foreground/30">
+                  Mam już konto — Zaloguj się
+                </button>
+                <button
+                  onClick={() => {
+                    setShowPopup(false);
+                    if (videoRef.current) {
+                      videoRef.current.currentTime = 0;
+                    }
+                  }}
+                  className="text-xs text-muted-foreground/50 transition-colors hover:text-muted-foreground mt-1"
+                >
+                  Obejrzyj zwiastun ponownie
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
         {/* Controls bar */}
         <div
-          className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/95 via-black/60 to-transparent px-4 pb-3 pt-12 transition-opacity duration-300 ${showControls || phase === "idle" ? "opacity-100" : "opacity-0"}`}
+          className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/95 via-black/60 to-transparent px-4 pb-3 pt-12 transition-opacity duration-300 ${showControls || !isPlaying ? "opacity-100" : "opacity-0"}`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Progress bar */}
           <div
             className="group mb-2 h-1 w-full cursor-pointer rounded-full bg-muted/20 transition-all hover:h-1.5"
             onClick={handleProgressClick}
           >
-            <div
-              className="relative h-full rounded-full bg-primary transition-all"
-              style={{ width: `${progress}%` }}
-            >
+            <div className="relative h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }}>
               <div className="absolute right-0 top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity shadow-lg shadow-primary/50" />
             </div>
           </div>
-
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <button
-                onClick={handlePlayPause}
-                className="rounded-sm p-1 text-foreground/90 transition-colors hover:text-foreground"
-              >
+              <button onClick={togglePlay} className="rounded-sm p-1 text-foreground/90 transition-colors hover:text-foreground">
                 {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 fill-current" />}
               </button>
-              <button
-                onClick={() => setCurrentTime(Math.max(0, currentTime - 10))}
-                className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"
-              >
-                <SkipBack className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setCurrentTime(Math.min(totalDuration, currentTime + 10))}
-                className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"
-              >
-                <SkipForward className="h-4 w-4" />
-              </button>
-              <span className="ml-2 text-xs tabular-nums text-foreground/60">
-                {formatTime(currentTime)} / {formatTime(totalDuration)}
-              </span>
+              <button onClick={() => skip(-10)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"><SkipBack className="h-4 w-4" /></button>
+              <button onClick={() => skip(10)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"><SkipForward className="h-4 w-4" /></button>
+              <span className="ml-2 text-xs tabular-nums text-foreground/60">{formatTime(currentTime)} / {formatTime(duration)}</span>
             </div>
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsMuted(!isMuted)}
-                className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"
-              >
+              <button onClick={() => setIsMuted(!isMuted)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground">
                 {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
               </button>
-              <button
-                onClick={toggleFullscreen}
-                className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"
-              >
+              <button onClick={toggleFullscreen} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground">
                 {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
               </button>
             </div>
@@ -260,67 +234,54 @@ const Player = () => {
         </div>
       </div>
 
-      {/* Movie Info Section - like nowefilmyonline.pl */}
-      <main className="container py-8">
-        <div className="flex flex-col gap-6 md:flex-row md:gap-8">
+      {/* Movie Info */}
+      <main className="container py-10">
+        <div className="flex flex-col gap-6 md:flex-row md:gap-10">
           {/* Poster */}
           <div className="shrink-0">
-            <img
-              src={movie.image}
-              alt={movie.title}
-              className="w-40 rounded-lg border border-border shadow-xl md:w-48"
-            />
+            <img src={movie.image} alt={movie.title} className="w-40 rounded-xl border border-border shadow-2xl md:w-52 transition-transform hover:scale-[1.02]" />
+            {/* Quick stats under poster */}
+            <div className="mt-4 space-y-2 text-xs text-muted-foreground">
+              <div className="flex items-center gap-2"><Eye className="h-3.5 w-3.5 text-primary" /> 24,531 wyświetleń</div>
+              <div className="flex items-center gap-2"><ThumbsUp className="h-3.5 w-3.5 text-primary" /> 98% pozytywnych</div>
+              <div className="flex items-center gap-2"><MessageCircle className="h-3.5 w-3.5 text-primary" /> 142 komentarze</div>
+            </div>
           </div>
 
           {/* Info */}
           <div className="flex-1">
-            <h1 className="font-display text-3xl tracking-wider text-foreground md:text-4xl">
-              {movie.title} ({movie.year})
+            <h1 className="font-display text-3xl tracking-wider text-foreground md:text-4xl lg:text-5xl">
+              {movie.title}
+              <span className="ml-3 text-muted-foreground text-2xl md:text-3xl">({movie.year})</span>
             </h1>
 
-            {/* Meta row */}
             <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Calendar className="h-3.5 w-3.5" />
-                {movie.year}
-              </span>
+              <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />{movie.year}</span>
               {movie.duration && (
-                <span className="flex items-center gap-1">
-                  <Clock className="h-3.5 w-3.5" />
-                  {movie.duration.replace(":", "h ").replace(":", "m ")}s
-                </span>
+                <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{movie.duration.replace(":", "h ").replace(":", "m ")}s</span>
               )}
-              <span className="flex items-center gap-1">
-                <Film className="h-3.5 w-3.5" />
-                Warner Bros. Pictures
-              </span>
+              <span className="flex items-center gap-1"><Film className="h-3.5 w-3.5" />Warner Bros. Pictures</span>
             </div>
 
             {/* Rating */}
-            <div className="mt-4 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/15 border border-primary/30">
-                <span className="font-display text-lg text-primary">9.2</span>
+            <div className="mt-5 flex items-center gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/15 border border-primary/30">
+                <span className="font-display text-xl text-primary">9.2</span>
               </div>
-              <div className="flex flex-col">
+              <div>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <Star
-                      key={i}
-                      className={`h-3.5 w-3.5 ${i <= 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`}
-                    />
+                    <Star key={i} className={`h-4 w-4 ${i <= 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`} />
                   ))}
                 </div>
-                <span className="text-xs text-muted-foreground mt-0.5">6 ocen(y)</span>
+                <span className="text-xs text-muted-foreground mt-1 block">Na podstawie 1,247 ocen</span>
               </div>
             </div>
 
-            {/* Genre tags */}
-            <div className="mt-4 flex flex-wrap gap-2">
+            {/* Genres */}
+            <div className="mt-5 flex flex-wrap gap-2">
               {genres.map((genre) => (
-                <span
-                  key={genre}
-                  className="rounded-md border border-border bg-muted/30 px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary cursor-pointer"
-                >
+                <span key={genre} className="rounded-lg border border-border bg-secondary/50 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary cursor-pointer">
                   {genre.trim()}
                 </span>
               ))}
@@ -330,34 +291,123 @@ const Player = () => {
             {movie.description && (
               <div className="mt-6">
                 <h2 className="font-display text-lg tracking-wider text-foreground mb-2">Opis</h2>
-                <p className="max-w-3xl leading-relaxed text-muted-foreground text-sm">
-                  {movie.description}
-                </p>
+                <p className="max-w-3xl leading-relaxed text-muted-foreground text-sm">{movie.description}</p>
               </div>
             )}
 
-            {/* Action button */}
-            <button
-              className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-              onClick={() => {
-                setCurrentTime(0);
-                startIntro();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              <Play className="h-4 w-4 fill-current" />
-              Oglądaj od początku
-            </button>
+            {/* CTA buttons */}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25"
+                onClick={() => {
+                  if (videoRef.current) {
+                    videoRef.current.currentTime = 0;
+                    videoRef.current.play();
+                    setIsPlaying(true);
+                    setShowPopup(false);
+                  }
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                <Play className="h-4 w-4 fill-current" />
+                Oglądaj zwiastun
+              </button>
+              <button className="inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-6 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary/20">
+                <Crown className="h-4 w-4" />
+                Oglądaj cały film — Za darmo
+              </button>
+            </div>
           </div>
         </div>
 
+        {/* Divider */}
+        <div className="my-10 h-px bg-border" />
+
+        {/* Cast Section */}
+        <section>
+          <h2 className="font-display text-2xl tracking-wider text-foreground mb-6 flex items-center gap-2">
+            <Users className="h-5 w-5 text-primary" /> Obsada
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+            {cast.map((person) => (
+              <div key={person.name} className="group flex flex-col items-center rounded-xl border border-border bg-card/50 p-4 transition-all hover:border-primary/30 hover:bg-card">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-foreground font-display text-lg mb-3 border border-border group-hover:border-primary/30 transition-colors">
+                  {person.avatar}
+                </div>
+                <span className="text-sm font-medium text-foreground text-center">{person.name}</span>
+                <span className="text-xs text-muted-foreground mt-0.5">{person.role}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Divider */}
+        <div className="my-10 h-px bg-border" />
+
+        {/* Comments Section */}
+        <section>
+          <h2 className="font-display text-2xl tracking-wider text-foreground mb-6 flex items-center gap-2">
+            <MessageCircle className="h-5 w-5 text-primary" /> Komentarze
+            <span className="text-sm font-normal text-muted-foreground ml-2">({comments.length})</span>
+          </h2>
+
+          {/* Add comment CTA */}
+          <div className="mb-6 rounded-xl border border-border bg-card/50 p-5">
+            <p className="text-sm text-muted-foreground mb-3">Chcesz dodać komentarz? Załóż darmowe konto.</p>
+            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90">
+              <Zap className="h-3.5 w-3.5" />
+              Zarejestruj się i komentuj
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {comments.map((comment, i) => (
+              <div key={i} className="rounded-xl border border-border bg-card/30 p-5 transition-colors hover:bg-card/50">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground font-display text-sm border border-border">
+                    {comment.avatar}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className="text-sm font-semibold text-foreground">{comment.user}</span>
+                      <div className="flex items-center gap-0.5">
+                        {Array.from({ length: 5 }).map((_, j) => (
+                          <Star key={j} className={`h-3 w-3 ${j < comment.rating ? "fill-primary text-primary" : "text-muted/30"}`} />
+                        ))}
+                      </div>
+                      <span className="text-xs text-muted-foreground">{comment.time}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{comment.text}</p>
+                    <div className="mt-3 flex items-center gap-4">
+                      <button className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary">
+                        <ThumbsUp className="h-3.5 w-3.5" /> {comment.likes}
+                      </button>
+                      <button className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground">
+                        Odpowiedz
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Bottom CTA Banner */}
+        <div className="my-10 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-8 text-center md:text-left md:flex md:items-center md:justify-between">
+          <div>
+            <h3 className="font-display text-xl tracking-wider text-foreground">Nie przegap żadnego filmu</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Dołącz do 12,847 widzów i oglądaj za darmo w najwyższej jakości.</p>
+          </div>
+          <button className="mt-4 md:mt-0 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25">
+            <Crown className="h-4 w-4" />
+            Załóż darmowe konto
+          </button>
+        </div>
+
         {/* Back link */}
-        <Link
-          to="/"
-          className="mt-10 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Wróć do katalogu
+        <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary">
+          <ArrowLeft className="h-4 w-4" /> Wróć do katalogu
         </Link>
       </main>
     </div>
