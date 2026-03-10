@@ -167,7 +167,8 @@ const Player = () => {
         <PlayerIntro
           phase={phase}
           introOpacity={introOpacity}
-          introTextVisible={introTextVisible}
+          movieTitle={movie.title}
+          onIntroEnd={handleIntroEnd}
         />
 
         {/* Play button center */}
