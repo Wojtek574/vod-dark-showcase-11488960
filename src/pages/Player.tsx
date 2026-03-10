@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import { mediaItems } from "@/data/movies";
 import { ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize, SkipBack, SkipForward, Star, Calendar, Clock, Film } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
-import PlayerControls from "@/components/player/PlayerControls";
 import PlayerIntro from "@/components/player/PlayerIntro";
 
 type PlayerPhase = "idle" | "intro" | "playing";
