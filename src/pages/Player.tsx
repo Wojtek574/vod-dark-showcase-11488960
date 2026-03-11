@@ -358,10 +358,10 @@ const Player = () => {
 
           {/* Add comment CTA */}
           <div className="mb-6 rounded-xl border border-border bg-card/50 p-5">
-            <p className="text-sm text-muted-foreground mb-3">Chcesz dodać komentarz? Załóż darmowe konto.</p>
+            <p className="text-sm text-muted-foreground mb-3">Chcesz dodać komentarz? Utwórz konto w kilka sekund.</p>
             <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90">
               <Zap className="h-3.5 w-3.5" />
-              Zarejestruj się i komentuj
+              Utwórz konto i komentuj
             </button>
           </div>
 
