@@ -54,7 +54,7 @@ const Player = () => {
     return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const progress = duration > 0 ? (currentTime / FAKE_DURATION) * 100 : 0;
 
   const togglePlay = useCallback(() => {
     if (!videoRef.current) return;
