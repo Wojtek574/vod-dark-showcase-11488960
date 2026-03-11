@@ -225,7 +225,7 @@ const Player = () => {
               </button>
               <button onClick={() => skip(-10)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"><SkipBack className="h-4 w-4" /></button>
               <button onClick={() => skip(10)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"><SkipForward className="h-4 w-4" /></button>
-              <span className="ml-2 text-xs tabular-nums text-foreground/60">{formatTime(currentTime)} / {formatTime(duration)}</span>
+              <span className="ml-2 text-xs tabular-nums text-foreground/60">{formatTime(currentTime)} / 2:06:32</span>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={() => setIsMuted(!isMuted)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground">
