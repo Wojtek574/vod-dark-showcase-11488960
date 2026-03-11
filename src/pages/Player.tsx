@@ -24,14 +24,16 @@ const Player = () => {
   const [showPopup, setShowPopup] = useState(false);
   const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Start 5s popup timer when video plays
+  const FAKE_DURATION = 7592; // 2:06:32
+
+  // Start 10s popup timer when video plays
   useEffect(() => {
     if (isPlaying && !showPopup) {
       popupTimerRef.current = setTimeout(() => {
         setShowPopup(true);
         videoRef.current?.pause();
         setIsPlaying(false);
-      }, 5000);
+      }, 10000);
     }
     return () => {
       if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
