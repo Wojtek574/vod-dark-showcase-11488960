@@ -163,23 +163,28 @@ const Player = () => {
                 <Crown className="h-8 w-8 text-primary" />
               </div>
               <h3 className="font-display text-2xl tracking-wider text-foreground">
-                Darmowe konto wymagane
+                Kontynuuj oglądanie
               </h3>
               <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                Aby kontynuować oglądanie <span className="text-foreground font-medium">"{movie.title}"</span>, załóż darmowe konto. 
-                Uzyskasz dostęp do pełnej biblioteki filmów i seriali w najwyższej jakości.
+                Aby obejrzeć pełną wersję <span className="text-foreground font-medium">"{movie.title}"</span>, utwórz konto. 
+                Zajmie to mniej niż 30 sekund — odblokuj dostęp do całej biblioteki filmów i seriali w najwyższej jakości.
               </p>
 
               {/* Social proof */}
               <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5 text-primary" /> 12,847 użytkowników</span>
-                <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-primary" /> 100% za darmo</span>
+                <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-primary" /> Bezpieczna rejestracja</span>
+              </div>
+
+              {/* Urgency */}
+              <div className="mt-4 rounded-lg bg-primary/10 border border-primary/20 px-3 py-2 text-xs text-primary">
+                🔥 Trending — ten film ogląda teraz 348 osób
               </div>
 
               <div className="mt-6 flex flex-col gap-3">
                 <button className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 flex items-center justify-center gap-2">
                   <Zap className="h-4 w-4" />
-                  Zarejestruj się za darmo
+                  Utwórz konto i oglądaj
                 </button>
                 <button className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-foreground/30">
                   Mam już konto — Zaloguj się
