@@ -24,14 +24,16 @@ const Player = () => {
   const [showPopup, setShowPopup] = useState(false);
   const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Start 5s popup timer when video plays
+  const FAKE_DURATION = 7592; // 2:06:32
+
+  // Start 10s popup timer when video plays
   useEffect(() => {
     if (isPlaying && !showPopup) {
       popupTimerRef.current = setTimeout(() => {
         setShowPopup(true);
         videoRef.current?.pause();
         setIsPlaying(false);
-      }, 5000);
+      }, 10000);
     }
     return () => {
       if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
@@ -52,7 +54,7 @@ const Player = () => {
     return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const progress = duration > 0 ? (currentTime / FAKE_DURATION) * 100 : 0;
 
   const togglePlay = useCallback(() => {
     if (!videoRef.current) return;
