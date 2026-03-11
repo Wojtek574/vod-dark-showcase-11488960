@@ -402,12 +402,17 @@ const Player = () => {
         <div className="my-10 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-8 text-center md:text-left md:flex md:items-center md:justify-between">
           <div>
             <h3 className="font-display text-xl tracking-wider text-foreground">Nie przegap żadnego filmu</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Dołącz do 12,847 widzów i oglądaj za darmo w najwyższej jakości.</p>
+            <p className="mt-1 text-sm text-muted-foreground">Dołącz do 12,847 widzów i oglądaj w najwyższej jakości.</p>
           </div>
-          <button className="mt-4 md:mt-0 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25">
-            <Crown className="h-4 w-4" />
-            Załóż darmowe konto
-          </button>
+          <div className="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
+            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25">
+              <Zap className="h-4 w-4" />
+              Utwórz konto
+            </button>
+            <button className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium text-muted-foreground transition-all hover:text-foreground hover:border-foreground/30">
+              Zaloguj się
+            </button>
+          </div>
         </div>
 
         {/* Back link */}
