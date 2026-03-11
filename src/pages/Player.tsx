@@ -319,7 +319,7 @@ const Player = () => {
               </button>
               <button className="inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-6 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary/20">
                 <Crown className="h-4 w-4" />
-                Oglądaj cały film — Za darmo
+                Oglądaj cały film
               </button>
             </div>
           </div>
