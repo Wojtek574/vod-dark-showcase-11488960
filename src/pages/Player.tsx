@@ -163,23 +163,28 @@ const Player = () => {
                 <Crown className="h-8 w-8 text-primary" />
               </div>
               <h3 className="font-display text-2xl tracking-wider text-foreground">
-                Darmowe konto wymagane
+                Kontynuuj oglądanie
               </h3>
               <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                Aby kontynuować oglądanie <span className="text-foreground font-medium">"{movie.title}"</span>, załóż darmowe konto. 
-                Uzyskasz dostęp do pełnej biblioteki filmów i seriali w najwyższej jakości.
+                Aby obejrzeć pełną wersję <span className="text-foreground font-medium">"{movie.title}"</span>, utwórz konto. 
+                Zajmie to mniej niż 30 sekund — odblokuj dostęp do całej biblioteki filmów i seriali w najwyższej jakości.
               </p>
 
               {/* Social proof */}
               <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5 text-primary" /> 12,847 użytkowników</span>
-                <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-primary" /> 100% za darmo</span>
+                <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-primary" /> Bezpieczna rejestracja</span>
+              </div>
+
+              {/* Urgency */}
+              <div className="mt-4 rounded-lg bg-primary/10 border border-primary/20 px-3 py-2 text-xs text-primary">
+                🔥 Trending — ten film ogląda teraz 348 osób
               </div>
 
               <div className="mt-6 flex flex-col gap-3">
                 <button className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 flex items-center justify-center gap-2">
                   <Zap className="h-4 w-4" />
-                  Zarejestruj się za darmo
+                  Utwórz konto i oglądaj
                 </button>
                 <button className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-foreground/30">
                   Mam już konto — Zaloguj się
@@ -220,7 +225,7 @@ const Player = () => {
               </button>
               <button onClick={() => skip(-10)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"><SkipBack className="h-4 w-4" /></button>
               <button onClick={() => skip(10)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"><SkipForward className="h-4 w-4" /></button>
-              <span className="ml-2 text-xs tabular-nums text-foreground/60">{formatTime(currentTime)} / {formatTime(duration)}</span>
+              <span className="ml-2 text-xs tabular-nums text-foreground/60">{formatTime(currentTime)} / 2:06:32</span>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={() => setIsMuted(!isMuted)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground">
@@ -314,7 +319,7 @@ const Player = () => {
               </button>
               <button className="inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-6 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary/20">
                 <Crown className="h-4 w-4" />
-                Oglądaj cały film — Za darmo
+                Oglądaj cały film
               </button>
             </div>
           </div>
@@ -353,10 +358,10 @@ const Player = () => {
 
           {/* Add comment CTA */}
           <div className="mb-6 rounded-xl border border-border bg-card/50 p-5">
-            <p className="text-sm text-muted-foreground mb-3">Chcesz dodać komentarz? Załóż darmowe konto.</p>
+            <p className="text-sm text-muted-foreground mb-3">Chcesz dodać komentarz? Utwórz konto w kilka sekund.</p>
             <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90">
               <Zap className="h-3.5 w-3.5" />
-              Zarejestruj się i komentuj
+              Utwórz konto i komentuj
             </button>
           </div>
 
@@ -397,12 +402,17 @@ const Player = () => {
         <div className="my-10 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-8 text-center md:text-left md:flex md:items-center md:justify-between">
           <div>
             <h3 className="font-display text-xl tracking-wider text-foreground">Nie przegap żadnego filmu</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Dołącz do 12,847 widzów i oglądaj za darmo w najwyższej jakości.</p>
+            <p className="mt-1 text-sm text-muted-foreground">Dołącz do 12,847 widzów i oglądaj w najwyższej jakości.</p>
           </div>
-          <button className="mt-4 md:mt-0 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25">
-            <Crown className="h-4 w-4" />
-            Załóż darmowe konto
-          </button>
+          <div className="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
+            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25">
+              <Zap className="h-4 w-4" />
+              Utwórz konto
+            </button>
+            <button className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium text-muted-foreground transition-all hover:text-foreground hover:border-foreground/30">
+              Zaloguj się
+            </button>
+          </div>
         </div>
 
         {/* Back link */}
