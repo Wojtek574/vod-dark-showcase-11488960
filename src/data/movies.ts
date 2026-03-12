@@ -7,6 +7,7 @@ import cover6 from "@/assets/cover6.jpg";
 import cover7 from "@/assets/cover7.jpg";
 import cover8 from "@/assets/cover8.jpg";
 import coverPannaMloda from "@/assets/cover-panna-mloda.webp";
+import coverDobryChlopiec from "@/assets/cover-dobry-chlopiec.webp";
 
 export interface MediaItem {
   id: number;
