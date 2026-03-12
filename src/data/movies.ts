@@ -9,6 +9,7 @@ import cover8 from "@/assets/cover8.jpg";
 import coverPannaMloda from "@/assets/cover-panna-mloda.webp";
 import coverDobryChlopiec from "@/assets/cover-dobry-chlopiec.webp";
 import coverBezWyjscia from "@/assets/cover-bez-wyjscia.webp";
+import coverOdyseja from "@/assets/cover-odyseja.webp";
 
 export interface MediaItem {
   id: number;
