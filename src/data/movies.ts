@@ -41,7 +41,7 @@ export const mediaItems: MediaItem[] = [
     year: "2025",
     image: coverDobryChlopiec,
     type: "film",
-    description: "Dziewiętnastoletni przestępca Tommy zostaje porwany. Jest zmuszany do resocjalizacji przez dysfunkcyjną parę Chrisa i Kathryn, którzy próbują zrobić z niego „dobrego chłopca". Tommy usiłuje znaleźć sposób ucieczki. Reżyseria: Jan Komasa. W obsadzie: Stephen Graham, Samson Kayo, Andrea Riseborough, Toni Collette.",
+    description: "Dziewiętnastoletni przestępca Tommy zostaje porwany. Jest zmuszany do resocjalizacji przez dysfunkcyjn\u0105 par\u0119 Chrisa i Kathryn, kt\u00f3rzy pr\u00f3buj\u0105 zrobi\u0107 z niego 'dobrego ch\u0142opca'. Tommy usi\u0142uje znale\u017a\u0107 spos\u00f3b ucieczki. Re\u017cyseria: Jan Komasa. W obsadzie: Stephen Graham, Samson Kayo, Andrea Riseborough, Toni Collette.",
     duration: "1:50:00",
   },
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
