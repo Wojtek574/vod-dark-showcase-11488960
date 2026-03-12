@@ -134,6 +134,14 @@ const Player = () => {
       { name: "Lee Jung-jae", role: "CEO Park", avatar: "LJ" },
       { name: "Song Kang-ho", role: "Detektyw Kim", avatar: "SK" },
     ],
+    "odyseja": [
+      { name: "Matt Damon", role: "Odyseusz", avatar: "MD" },
+      { name: "Anne Hathaway", role: "Penelopa", avatar: "AH" },
+      { name: "Zendaya", role: "Atena", avatar: "ZE" },
+      { name: "Tom Holland", role: "Telemach", avatar: "TH" },
+      { name: "Robert Pattinson", role: "Antinous", avatar: "RP" },
+      { name: "Charlize Theron", role: "Kirke", avatar: "CT" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
