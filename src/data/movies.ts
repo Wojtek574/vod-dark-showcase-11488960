@@ -7,6 +7,7 @@ import cover6 from "@/assets/cover6.jpg";
 import cover7 from "@/assets/cover7.jpg";
 import cover8 from "@/assets/cover8.jpg";
 import coverPannaMloda from "@/assets/cover-panna-mloda.webp";
+import coverDobryChlopiec from "@/assets/cover-dobry-chlopiec.webp";
 
 export interface MediaItem {
   id: number;
@@ -31,6 +32,17 @@ export const mediaItems: MediaItem[] = [
     type: "film",
     description: "Samotny potwór Frankensteina (Bale) udaje się w latach 30. XX wieku do Chicago. Tam prosi dokonującą przełomowych odkryć badaczkę, doktor Euphronious (pięciokrotnie nominowana do Oscara Annette Bening), o stworzenie mu towarzyszki. Wspólnie ożywiają zamordowaną młodą kobietę i tak oto rodzi się panna młoda (Buckley). Następstw tego czynu żadne z nich nie mogło przewidzieć. Są to morderstwa, zaborczość, nieokiełznany i radykalny ruch kulturowy oraz dziki i szalony romans dwójki wyrzutków!",
     duration: "2:06:32",
+  },
+  {
+    id: 10,
+    title: "Dobry Chłopiec",
+    slug: "dobry-chlopiec",
+    genre: "Thriller",
+    year: "2025",
+    image: coverDobryChlopiec,
+    type: "film",
+    description: "Dziewiętnastoletni przestępca Tommy zostaje porwany. Jest zmuszany do resocjalizacji przez dysfunkcyjn\u0105 par\u0119 Chrisa i Kathryn, kt\u00f3rzy pr\u00f3buj\u0105 zrobi\u0107 z niego 'dobrego ch\u0142opca'. Tommy usi\u0142uje znale\u017a\u0107 spos\u00f3b ucieczki. Re\u017cyseria: Jan Komasa. W obsadzie: Stephen Graham, Samson Kayo, Andrea Riseborough, Toni Collette.",
+    duration: "1:50:00",
   },
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
   { id: 2, title: "Noir District", slug: "noir-district", genre: "Thriller", year: "2025", image: cover2, type: "film" },
