@@ -8,6 +8,7 @@ import cover7 from "@/assets/cover7.jpg";
 import cover8 from "@/assets/cover8.jpg";
 import coverPannaMloda from "@/assets/cover-panna-mloda.webp";
 import coverDobryChlopiec from "@/assets/cover-dobry-chlopiec.webp";
+import coverBezWyjscia from "@/assets/cover-bez-wyjscia.webp";
 
 export interface MediaItem {
   id: number;
@@ -43,6 +44,17 @@ export const mediaItems: MediaItem[] = [
     type: "film",
     description: "Dziewiętnastoletni przestępca Tommy zostaje porwany. Jest zmuszany do resocjalizacji przez dysfunkcyjn\u0105 par\u0119 Chrisa i Kathryn, kt\u00f3rzy pr\u00f3buj\u0105 zrobi\u0107 z niego 'dobrego ch\u0142opca'. Tommy usi\u0142uje znale\u017a\u0107 spos\u00f3b ucieczki. Re\u017cyseria: Jan Komasa. W obsadzie: Stephen Graham, Samson Kayo, Andrea Riseborough, Toni Collette.",
     duration: "1:50:00",
+  },
+  {
+    id: 11,
+    title: "Bez Wyjścia",
+    slug: "bez-wyjscia",
+    genre: "Thriller / Czarna komedia",
+    year: "2025",
+    image: coverBezWyjscia,
+    type: "film",
+    description: "Po tym, jak Man-su zostaje zwolniony z firmy, w której pracował 25 lat, musi zmierzyć się z trudnościami. Nowy thriller w reżyserii Park Chan-wooka. Produkcja południowokoreańska, nagrodzona 5 nagrodami i 43 nominacjami.",
+    duration: "2:19:00",
   },
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
   { id: 2, title: "Noir District", slug: "noir-district", genre: "Thriller", year: "2025", image: cover2, type: "film" },
