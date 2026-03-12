@@ -9,6 +9,7 @@ import cover8 from "@/assets/cover8.jpg";
 import coverPannaMloda from "@/assets/cover-panna-mloda.webp";
 import coverDobryChlopiec from "@/assets/cover-dobry-chlopiec.webp";
 import coverBezWyjscia from "@/assets/cover-bez-wyjscia.webp";
+import coverOdyseja from "@/assets/cover-odyseja.webp";
 
 export interface MediaItem {
   id: number;
@@ -55,6 +56,17 @@ export const mediaItems: MediaItem[] = [
     type: "film",
     description: "Po tym, jak Man-su zostaje zwolniony z firmy, w której pracował 25 lat, musi zmierzyć się z trudnościami. Nowy thriller w reżyserii Park Chan-wooka. Produkcja południowokoreańska, nagrodzona 5 nagrodami i 43 nominacjami.",
     duration: "2:19:00",
+  },
+  {
+    id: 12,
+    title: "Odyseja",
+    slug: "odyseja",
+    genre: "Dramat / Historyczny",
+    year: "2026",
+    image: coverOdyseja,
+    type: "film",
+    description: "Historia Odyseusza i jego niebezpiecznej podróży do domu po wojnie trojańskiej. Nowy film Christophera Nolana z gwiazdorską obsadą, w tym Mattem Damonem, Anne Hathaway, Zendayą i Tomem Hollandem. Produkcja USA / Wielka Brytania, premiera kinowa 17 lipca 2026.",
+    duration: "2:30:00",
   },
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
   { id: 2, title: "Noir District", slug: "noir-district", genre: "Thriller", year: "2025", image: cover2, type: "film" },
