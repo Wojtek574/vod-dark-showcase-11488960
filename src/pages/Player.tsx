@@ -163,6 +163,12 @@ const Player = () => {
       { user: "FilmNerd99", avatar: "F", rating: 4, text: "Genialny scenariusz, pełen zwrotów akcji. Park znów udowadnia, że jest jednym z najlepszych reżyserów na świecie.", time: "1 dzień temu", likes: 38 },
       { user: "KrytykFilmowy", avatar: "K", rating: 5, text: "2h 19min czystej adrenaliny. Koreańskie kino po raz kolejny pokazuje Hollywood, jak robi się prawdziwe thrillery.", time: "2 dni temu", likes: 51 },
     ],
+    "odyseja": [
+      { user: "NolanFanPL", avatar: "N", rating: 5, text: "Nolan po raz kolejny udowadnia, że jest mistrzem kina epickiego. Matt Damon jako Odyseusz to strzał w dziesiątkę!", time: "2 godziny temu", likes: 89 },
+      { user: "EpicCinema", avatar: "E", rating: 5, text: "Zdjęcia kręcone w IMAX zapierają dech. Sceny morskie są tak realistyczne, że czujesz fale. Arcydzieło wizualne.", time: "6 godzin temu", likes: 72 },
+      { user: "HistoriaFilmu", avatar: "H", rating: 4, text: "Zendaya jako Atena to rewelacja — majestatyczna i potężna. Tom Holland świetnie oddaje młodzieńczą determinację Telemacha.", time: "1 dzień temu", likes: 56 },
+      { user: "CinephilePL", avatar: "C", rating: 5, text: "Nolan + Homer = absolutna perfekcja. Hans Zimmer stworzył ścieżkę dźwiękową, która zostaje w głowie na długo po seansie.", time: "3 dni temu", likes: 64 },
+    ],
   };
 
   const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
