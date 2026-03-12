@@ -109,21 +109,56 @@ const Player = () => {
 
   const genres = movie.genre.split(" / ");
 
-  const cast = [
-    { name: "Jessie Buckley", role: "Panna Młoda", avatar: "JB" },
-    { name: "Christian Bale", role: "Potwór", avatar: "CB" },
-    { name: "Annette Bening", role: "Dr. Euphronious", avatar: "AB" },
-    { name: "Penélope Cruz", role: "Eva", avatar: "PC" },
-    { name: "Peter Sarsgaard", role: "Igor", avatar: "PS" },
-    { name: "Jeannie Berlin", role: "Mrs. Klein", avatar: "JB" },
-  ];
+  const castBySlug: Record<string, { name: string; role: string; avatar: string }[]> = {
+    "panna-mloda": [
+      { name: "Jessie Buckley", role: "Panna Młoda", avatar: "JB" },
+      { name: "Christian Bale", role: "Potwór", avatar: "CB" },
+      { name: "Annette Bening", role: "Dr. Euphronious", avatar: "AB" },
+      { name: "Penélope Cruz", role: "Eva", avatar: "PC" },
+      { name: "Peter Sarsgaard", role: "Igor", avatar: "PS" },
+      { name: "Jeannie Berlin", role: "Mrs. Klein", avatar: "JB" },
+    ],
+    "dobry-chlopiec": [
+      { name: "Stephen Graham", role: "Chris", avatar: "SG" },
+      { name: "Toni Collette", role: "Kathryn", avatar: "TC" },
+      { name: "Samson Kayo", role: "Tommy", avatar: "SK" },
+      { name: "Andrea Riseborough", role: "Sarah", avatar: "AR" },
+      { name: "John Heffernan", role: "Detektyw", avatar: "JH" },
+      { name: "Stella Sheridan", role: "Molly", avatar: "SS" },
+    ],
+    "bez-wyjscia": [
+      { name: "Choi Min-sik", role: "Man-su", avatar: "CM" },
+      { name: "Yoo Hae-jin", role: "Dong-hyuk", avatar: "YH" },
+      { name: "Im Si-wan", role: "Ji-hoon", avatar: "IS" },
+      { name: "Jeon Do-yeon", role: "Soo-jung", avatar: "JD" },
+      { name: "Lee Jung-jae", role: "CEO Park", avatar: "LJ" },
+      { name: "Song Kang-ho", role: "Detektyw Kim", avatar: "SK" },
+    ],
+  };
 
-  const comments = [
-    { user: "Kinomaniak92", avatar: "K", rating: 5, text: "Absolutnie genialny film! Jessie Buckley daje niesamowity występ. Obowiązkowa pozycja na ten rok.", time: "2 godziny temu", likes: 34 },
-    { user: "FilmowyKrytyk", avatar: "F", rating: 4, text: "Świetna reinterpretacja klasycznej historii. Scenografia i zdjęcia są zapierające dech w piersiach.", time: "5 godzin temu", likes: 21 },
-    { user: "CinemaFan_PL", avatar: "C", rating: 5, text: "Jeden z najlepszych horrorów ostatnich lat. Christian Bale jak zawsze na najwyższym poziomie!", time: "1 dzień temu", likes: 47 },
-    { user: "AnnaW", avatar: "A", rating: 4, text: "Pięknie nakręcony, z świetną muzyką. Trochę za długi w środku, ale końcówka wynagrodzi wszystko.", time: "2 dni temu", likes: 15 },
-  ];
+  const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
+    "panna-mloda": [
+      { user: "Kinomaniak92", avatar: "K", rating: 5, text: "Absolutnie genialny film! Jessie Buckley daje niesamowity występ. Obowiązkowa pozycja na ten rok.", time: "2 godziny temu", likes: 34 },
+      { user: "FilmowyKrytyk", avatar: "F", rating: 4, text: "Świetna reinterpretacja klasycznej historii. Scenografia i zdjęcia są zapierające dech w piersiach.", time: "5 godzin temu", likes: 21 },
+      { user: "CinemaFan_PL", avatar: "C", rating: 5, text: "Jeden z najlepszych horrorów ostatnich lat. Christian Bale jak zawsze na najwyższym poziomie!", time: "1 dzień temu", likes: 47 },
+      { user: "AnnaW", avatar: "A", rating: 4, text: "Pięknie nakręcony, z świetną muzyką. Trochę za długi w środku, ale końcówka wynagrodzi wszystko.", time: "2 dni temu", likes: 15 },
+    ],
+    "dobry-chlopiec": [
+      { user: "TomaszK", avatar: "T", rating: 5, text: "Jan Komasa znów pokazał klasę! Stephen Graham jest fenomenalny jako Chris — niepokojący i fascynujący jednocześnie.", time: "3 godziny temu", likes: 42 },
+      { user: "KinoManiacPL", avatar: "K", rating: 4, text: "Mocny thriller psychologiczny. Toni Collette kradnie każdą scenę. Napięcie nie puszcza do ostatniej minuty.", time: "8 godzin temu", likes: 28 },
+      { user: "DarkCinema", avatar: "D", rating: 5, text: "Brutalnie szczery film o resocjalizacji. Samson Kayo świetnie oddaje wewnętrzny konflikt Tommy'ego.", time: "1 dzień temu", likes: 53 },
+      { user: "MagdaFilm", avatar: "M", rating: 4, text: "Komasa w angielskojęzycznym debiucie nie zawodzi. Klimat duszny i intensywny, aktorstwo na światowym poziomie.", time: "3 dni temu", likes: 19 },
+    ],
+    "bez-wyjscia": [
+      { user: "AzjatyckaKlasyka", avatar: "A", rating: 5, text: "Park Chan-wook w szczytowej formie! Mistrzowskie połączenie czarnej komedii z thrillerem. Każdy kadr to dzieło sztuki.", time: "1 godzinę temu", likes: 67 },
+      { user: "SeoulCinema", avatar: "S", rating: 5, text: "Choi Min-sik daje występ życia jako Man-su. Scena w biurze to czyste kino — napięcie sięga zenitu.", time: "4 godziny temu", likes: 45 },
+      { user: "FilmNerd99", avatar: "F", rating: 4, text: "Genialny scenariusz, pełen zwrotów akcji. Park znów udowadnia, że jest jednym z najlepszych reżyserów na świecie.", time: "1 dzień temu", likes: 38 },
+      { user: "KrytykFilmowy", avatar: "K", rating: 5, text: "2h 19min czystej adrenaliny. Koreańskie kino po raz kolejny pokazuje Hollywood, jak robi się prawdziwe thrillery.", time: "2 dni temu", likes: 51 },
+    ],
+  };
+
+  const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
+  const comments = commentsBySlug[movie.slug] || commentsBySlug["panna-mloda"];
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(180deg, hsl(220 20% 7%) 0%, hsl(220 25% 10%) 40%, hsl(225 20% 12%) 70%, hsl(220 20% 7%) 100%)" }}>
