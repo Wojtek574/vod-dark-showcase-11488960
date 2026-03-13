@@ -1,15 +1,18 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
+import MediaRow from "@/components/MediaRow";
 import { mediaItems } from "@/data/movies";
 import {
   ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize,
-  SkipBack, SkipForward, Star, Calendar, Clock, Film,
-  Users, Shield, Eye, ThumbsUp, MessageCircle, Crown, Zap
+  SkipBack, SkipForward, Star, Clock, Film,
+  Users, Shield, Eye, ThumbsUp, MessageCircle, Crown, Zap,
+  Plus, Share2, ChevronDown
 } from "lucide-react";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 
 const Player = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const movie = mediaItems.find((m) => m.slug === slug);
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
@@ -22,11 +25,18 @@ const Player = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
   const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const FAKE_DURATION = 7592; // 2:06:32
+  const FAKE_DURATION = 7592;
 
-  // Start 10s popup timer when video plays
+  // Similar content
+  const similarItems = useMemo(() => {
+    if (!movie) return [];
+    return mediaItems.filter((m) => m.id !== movie.id).slice(0, 10);
+  }, [movie]);
+
+  // 10s popup timer
   useEffect(() => {
     if (isPlaying && !showPopup) {
       popupTimerRef.current = setTimeout(() => {
@@ -99,9 +109,12 @@ const Player = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="container py-20 text-center">
-          <h1 className="font-display text-4xl text-foreground">Nie znaleziono filmu</h1>
-          <Link to="/" className="mt-4 inline-block text-primary hover:underline">Wróć na stronę główną</Link>
+        <main className="flex flex-col items-center justify-center py-32 px-6">
+          <h1 className="font-display text-5xl text-foreground">404</h1>
+          <p className="mt-2 text-muted-foreground">Nie znaleziono filmu</p>
+          <Link to="/" className="mt-6 text-sm text-primary hover:underline">
+            Wróć na stronę główną
+          </Link>
         </main>
       </div>
     );
@@ -174,15 +187,23 @@ const Player = () => {
   const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
   const comments = commentsBySlug[movie.slug] || commentsBySlug["panna-mloda"];
 
+  const durationDisplay = movie.duration
+    ? movie.duration.replace(":", "h ").replace(":", "m")
+    : null;
+
   return (
-    <div className="min-h-screen" style={{ background: "linear-gradient(180deg, hsl(220 20% 7%) 0%, hsl(220 25% 10%) 40%, hsl(225 20% 12%) 70%, hsl(220 20% 7%) 100%)" }}>
+    <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Video Player */}
+      {/* ─── Video Player ─── */}
       <div
         ref={playerContainerRef}
-        className={`relative w-full cursor-pointer bg-black ${isFullscreen ? "" : "border-b border-border"}`}
-        style={{ aspectRatio: isFullscreen ? undefined : "16/9", height: isFullscreen ? "100vh" : undefined, maxHeight: isFullscreen ? undefined : "70vh" }}
+        className={`relative w-full bg-black ${isFullscreen ? "" : ""}`}
+        style={{
+          aspectRatio: isFullscreen ? undefined : "16/9",
+          height: isFullscreen ? "100vh" : undefined,
+          maxHeight: isFullscreen ? undefined : "75vh",
+        }}
         onClick={togglePlay}
         onMouseMove={handleMouseMove}
       >
@@ -197,57 +218,51 @@ const Player = () => {
           playsInline
         />
 
-        {/* Play overlay when paused */}
+        {/* Play button overlay */}
         {!isPlaying && !showPopup && (
           <div className="absolute inset-0 flex items-center justify-center z-10 bg-black/30">
-            <div className="group flex h-20 w-20 items-center justify-center rounded-full border-2 border-primary/50 bg-primary/20 text-primary backdrop-blur-sm transition-all hover:scale-110 hover:bg-primary/30 hover:border-primary">
-              <Play className="h-9 w-9 fill-current ml-1 transition-transform group-hover:scale-110" />
+            <div className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-foreground/20 backdrop-blur-sm text-foreground transition-all hover:scale-110 hover:bg-foreground/30 border border-foreground/20">
+              <Play className="h-7 w-7 md:h-9 md:w-9 fill-current ml-1" />
             </div>
           </div>
         )}
 
-        {/* Popup - registration required */}
+        {/* Registration popup */}
         {showPopup && (
-          <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/85 backdrop-blur-sm" onClick={(e) => e.stopPropagation()}>
-            <div className="mx-4 max-w-md w-full rounded-2xl border border-border bg-card p-8 text-center shadow-2xl animate-in fade-in zoom-in-95 duration-300">
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-primary/15 border border-primary/30">
-                <Crown className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="font-display text-2xl tracking-wider text-foreground">
+          <div
+            className="absolute inset-0 z-40 flex items-center justify-center bg-black/85 backdrop-blur-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mx-4 max-w-md w-full rounded-2xl bg-card/95 backdrop-blur-md border border-border p-8 text-center shadow-2xl">
+              <Crown className="h-10 w-10 text-primary mx-auto mb-4" />
+              <h3 className="font-display text-3xl tracking-wider text-foreground">
                 Kontynuuj oglądanie
               </h3>
               <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                Aby obejrzeć pełną wersję <span className="text-foreground font-medium">"{movie.title}"</span>, utwórz konto. 
-                Zajmie to mniej niż 30 sekund — odblokuj dostęp do całej biblioteki filmów i seriali w najwyższej jakości.
+                Utwórz konto, aby obejrzeć pełną wersję{" "}
+                <span className="text-foreground font-medium">"{movie.title}"</span>.
               </p>
-
-              {/* Social proof */}
               <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5 text-primary" /> 12,847 użytkowników</span>
-                <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-primary" /> Bezpieczna rejestracja</span>
+                <span className="flex items-center gap-1">
+                  <Users className="h-3.5 w-3.5 text-primary" /> 12,847 widzów
+                </span>
+                <span className="flex items-center gap-1">
+                  <Shield className="h-3.5 w-3.5 text-primary" /> Bezpiecznie
+                </span>
               </div>
-
-              {/* Urgency */}
-              <div className="mt-4 rounded-lg bg-primary/10 border border-primary/20 px-3 py-2 text-xs text-primary">
-                🔥 Trending — ten film ogląda teraz 348 osób
-              </div>
-
               <div className="mt-6 flex flex-col gap-3">
                 <button className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 flex items-center justify-center gap-2">
-                  <Zap className="h-4 w-4" />
-                  Utwórz konto i oglądaj
+                  <Zap className="h-4 w-4" /> Utwórz konto i oglądaj
                 </button>
                 <button className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-foreground/30">
-                  Mam już konto — Zaloguj się
+                  Mam konto — Zaloguj się
                 </button>
                 <button
                   onClick={() => {
                     setShowPopup(false);
-                    if (videoRef.current) {
-                      videoRef.current.currentTime = 0;
-                    }
+                    if (videoRef.current) videoRef.current.currentTime = 0;
                   }}
-                  className="text-xs text-muted-foreground/50 transition-colors hover:text-muted-foreground mt-1"
+                  className="text-xs text-muted-foreground/50 hover:text-muted-foreground mt-1"
                 >
                   Obejrzyj zwiastun ponownie
                 </button>
@@ -256,189 +271,294 @@ const Player = () => {
           </div>
         )}
 
-        {/* Controls bar */}
+        {/* Controls */}
         <div
-          className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/95 via-black/60 to-transparent px-4 pb-3 pt-12 transition-opacity duration-300 ${showControls || !isPlaying ? "opacity-100" : "opacity-0"}`}
+          className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-4 md:px-6 pb-3 pt-16 transition-opacity duration-300 ${
+            showControls || !isPlaying ? "opacity-100" : "opacity-0"
+          }`}
           onClick={(e) => e.stopPropagation()}
         >
+          {/* Progress bar */}
           <div
-            className="group mb-2 h-1 w-full cursor-pointer rounded-full bg-muted/20 transition-all hover:h-1.5"
+            className="group mb-3 h-1 w-full cursor-pointer rounded-full bg-foreground/20 transition-all hover:h-1.5"
             onClick={handleProgressClick}
           >
-            <div className="relative h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }}>
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity shadow-lg shadow-primary/50" />
+            <div
+              className="relative h-full rounded-full bg-primary transition-all"
+              style={{ width: `${progress}%` }}
+            >
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity shadow-lg shadow-primary/50" />
             </div>
           </div>
+
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <button onClick={togglePlay} className="rounded-sm p-1 text-foreground/90 transition-colors hover:text-foreground">
-                {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 fill-current" />}
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <button
+                onClick={togglePlay}
+                className="rounded-sm p-1.5 text-foreground/90 hover:text-foreground transition-colors"
+              >
+                {isPlaying ? (
+                  <Pause className="h-5 w-5" />
+                ) : (
+                  <Play className="h-5 w-5 fill-current" />
+                )}
               </button>
-              <button onClick={() => skip(-10)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"><SkipBack className="h-4 w-4" /></button>
-              <button onClick={() => skip(10)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground"><SkipForward className="h-4 w-4" /></button>
-              <span className="ml-2 text-xs tabular-nums text-foreground/60">{formatTime(currentTime)} / 2:06:32</span>
+              <button
+                onClick={() => skip(-10)}
+                className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors"
+              >
+                <SkipBack className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => skip(10)}
+                className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors"
+              >
+                <SkipForward className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setIsMuted(!isMuted)}
+                className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors"
+              >
+                {isMuted ? (
+                  <VolumeX className="h-4 w-4" />
+                ) : (
+                  <Volume2 className="h-4 w-4" />
+                )}
+              </button>
+              <span className="ml-1 text-xs tabular-nums text-foreground/50 hidden sm:inline">
+                {formatTime(currentTime)} / {movie.duration ? movie.duration.substring(0, movie.duration.lastIndexOf(":")).replace(":", ":") + ":" + movie.duration.split(":").pop() : "2:06:32"}
+              </span>
             </div>
-            <div className="flex items-center gap-2">
-              <button onClick={() => setIsMuted(!isMuted)} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground">
-                {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              </button>
-              <button onClick={toggleFullscreen} className="rounded-sm p-1 text-foreground/60 transition-colors hover:text-foreground">
-                {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-medium text-foreground/70 mr-2 hidden md:inline">
+                {movie.title}
+              </span>
+              <button
+                onClick={toggleFullscreen}
+                className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors"
+              >
+                {isFullscreen ? (
+                  <Minimize className="h-4 w-4" />
+                ) : (
+                  <Maximize className="h-4 w-4" />
+                )}
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Movie Info */}
-      <main className="container py-10">
-        <div className="flex flex-col gap-6 md:flex-row md:gap-10">
-          {/* Poster */}
-          <div className="shrink-0">
-            <img src={movie.image} alt={movie.title} className="w-40 rounded-xl border border-border shadow-2xl md:w-52 transition-transform hover:scale-[1.02]" />
-            {/* Quick stats under poster */}
-            <div className="mt-4 space-y-2 text-xs text-muted-foreground">
-              <div className="flex items-center gap-2"><Eye className="h-3.5 w-3.5 text-primary" /> 24,531 wyświetleń</div>
-              <div className="flex items-center gap-2"><ThumbsUp className="h-3.5 w-3.5 text-primary" /> 98% pozytywnych</div>
-              <div className="flex items-center gap-2"><MessageCircle className="h-3.5 w-3.5 text-primary" /> 142 komentarze</div>
-            </div>
+      {/* ─── Movie Details ─── */}
+      <main className="pb-16">
+        {/* Info section with poster background blur */}
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0 -z-10">
+            <img
+              src={movie.image}
+              alt=""
+              className="h-full w-full object-cover opacity-10 blur-2xl scale-125"
+            />
+            <div className="absolute inset-0 bg-background/80" />
           </div>
 
-          {/* Info */}
-          <div className="flex-1">
-            <h1 className="font-display text-3xl tracking-wider text-foreground md:text-4xl lg:text-5xl">
-              {movie.title}
-              <span className="ml-3 text-muted-foreground text-2xl md:text-3xl">({movie.year})</span>
-            </h1>
-
-            <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />{movie.year}</span>
-              {movie.duration && (
-                <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{movie.duration.replace(":", "h ").replace(":", "m ")}s</span>
-              )}
-              <span className="flex items-center gap-1"><Film className="h-3.5 w-3.5" />Warner Bros. Pictures</span>
-            </div>
-
-            {/* Rating */}
-            <div className="mt-5 flex items-center gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/15 border border-primary/30">
-                <span className="font-display text-xl text-primary">9.2</span>
+          <div className="px-6 md:px-12 max-w-screen-xl mx-auto py-8 md:py-12">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-10">
+              {/* Poster - hidden on mobile, visible on md+ */}
+              <div className="hidden md:block shrink-0">
+                <img
+                  src={movie.image}
+                  alt={movie.title}
+                  className="w-48 lg:w-56 rounded-lg shadow-2xl shadow-black/50"
+                />
               </div>
-              <div>
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className={`h-4 w-4 ${i <= 4 ? "fill-primary text-primary" : "fill-primary/30 text-primary/30"}`} />
+
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-wider text-foreground leading-none">
+                  {movie.title}
+                </h1>
+
+                <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                  {/* Rating badge */}
+                  <span className="inline-flex items-center gap-1 rounded bg-primary/15 border border-primary/25 px-2 py-0.5 text-primary font-semibold text-xs">
+                    <Star className="h-3 w-3 fill-current" /> 9.2
+                  </span>
+                  <span>{movie.year}</span>
+                  {durationDisplay && (
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5" /> {durationDisplay}
+                    </span>
+                  )}
+                  <span className="flex items-center gap-1">
+                    <Film className="h-3.5 w-3.5" /> HD
+                  </span>
+                </div>
+
+                {/* Genre tags */}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {genres.map((g) => (
+                    <span
+                      key={g}
+                      className="rounded-full border border-border bg-secondary/50 px-3 py-1 text-xs text-muted-foreground"
+                    >
+                      {g.trim()}
+                    </span>
                   ))}
                 </div>
-                <span className="text-xs text-muted-foreground mt-1 block">Na podstawie 1,247 ocen</span>
+
+                {/* Description */}
+                {movie.description && (
+                  <div className="mt-5">
+                    <p
+                      className={`text-sm leading-relaxed text-foreground/70 max-w-2xl ${
+                        descExpanded ? "" : "line-clamp-3"
+                      }`}
+                    >
+                      {movie.description}
+                    </p>
+                    {movie.description.length > 150 && (
+                      <button
+                        onClick={() => setDescExpanded(!descExpanded)}
+                        className="mt-1 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+                      >
+                        {descExpanded ? "Zwiń" : "Pokaż więcej"}
+                        <ChevronDown
+                          className={`h-3 w-3 transition-transform ${
+                            descExpanded ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => {
+                      if (videoRef.current) {
+                        videoRef.current.currentTime = 0;
+                        videoRef.current.play();
+                        setIsPlaying(true);
+                        setShowPopup(false);
+                      }
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="inline-flex items-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-bold text-background transition-all hover:bg-foreground/90"
+                  >
+                    <Play className="h-5 w-5 fill-current" /> Odtwórz
+                  </button>
+                  <button className="inline-flex items-center gap-2 rounded-md bg-muted/80 px-5 py-3 text-sm font-medium text-foreground transition-all hover:bg-muted">
+                    <Plus className="h-5 w-5" /> Moja lista
+                  </button>
+                  <button className="flex items-center justify-center rounded-full border border-border bg-secondary/50 h-10 w-10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors">
+                    <ThumbsUp className="h-4 w-4" />
+                  </button>
+                  <button className="flex items-center justify-center rounded-full border border-border bg-secondary/50 h-10 w-10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors">
+                    <Share2 className="h-4 w-4" />
+                  </button>
+                </div>
+
+                {/* Stats */}
+                <div className="mt-5 flex flex-wrap items-center gap-5 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <Eye className="h-3.5 w-3.5 text-primary" /> 24,531 wyświetleń
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <ThumbsUp className="h-3.5 w-3.5 text-primary" /> 98% pozytywnych
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <MessageCircle className="h-3.5 w-3.5 text-primary" /> {comments.length} komentarzy
+                  </span>
+                </div>
               </div>
-            </div>
-
-            {/* Genres */}
-            <div className="mt-5 flex flex-wrap gap-2">
-              {genres.map((genre) => (
-                <span key={genre} className="rounded-lg border border-border bg-secondary/50 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary cursor-pointer">
-                  {genre.trim()}
-                </span>
-              ))}
-            </div>
-
-            {/* Description */}
-            {movie.description && (
-              <div className="mt-6">
-                <h2 className="font-display text-lg tracking-wider text-foreground mb-2">Opis</h2>
-                <p className="max-w-3xl leading-relaxed text-muted-foreground text-sm">{movie.description}</p>
-              </div>
-            )}
-
-            {/* CTA buttons */}
-            <div className="mt-8 flex flex-wrap gap-3">
-              <button
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25"
-                onClick={() => {
-                  if (videoRef.current) {
-                    videoRef.current.currentTime = 0;
-                    videoRef.current.play();
-                    setIsPlaying(true);
-                    setShowPopup(false);
-                  }
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              >
-                <Play className="h-4 w-4 fill-current" />
-                Oglądaj zwiastun
-              </button>
-              <button className="inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-6 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary/20">
-                <Crown className="h-4 w-4" />
-                Oglądaj cały film
-              </button>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Divider */}
-        <div className="my-10 h-px bg-border" />
-
-        {/* Cast Section */}
-        <section>
-          <h2 className="font-display text-2xl tracking-wider text-foreground mb-6 flex items-center gap-2">
-            <Users className="h-5 w-5 text-primary" /> Obsada
+        {/* ─── Cast ─── */}
+        <section className="mt-10 px-6 md:px-12 max-w-screen-xl mx-auto">
+          <h2 className="font-display text-xl md:text-2xl tracking-wider text-foreground mb-4">
+            Obsada
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          <div className="flex gap-4 overflow-x-auto pb-2" style={{ scrollbarWidth: "none" }}>
             {cast.map((person) => (
-              <div key={person.name} className="group flex flex-col items-center rounded-xl border border-border bg-card/50 p-4 transition-all hover:border-primary/30 hover:bg-card">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-foreground font-display text-lg mb-3 border border-border group-hover:border-primary/30 transition-colors">
+              <div
+                key={person.name}
+                className="flex-shrink-0 w-[100px] md:w-[120px] text-center group"
+              >
+                <div className="mx-auto h-16 w-16 md:h-20 md:w-20 rounded-full bg-secondary border border-border flex items-center justify-center font-display text-lg text-foreground group-hover:border-primary/40 transition-colors">
                   {person.avatar}
                 </div>
-                <span className="text-sm font-medium text-foreground text-center">{person.name}</span>
-                <span className="text-xs text-muted-foreground mt-0.5">{person.role}</span>
+                <p className="mt-2 text-xs font-medium text-foreground truncate">
+                  {person.name}
+                </p>
+                <p className="text-[11px] text-muted-foreground truncate">
+                  {person.role}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Divider */}
-        <div className="my-10 h-px bg-border" />
-
-        {/* Comments Section */}
-        <section>
-          <h2 className="font-display text-2xl tracking-wider text-foreground mb-6 flex items-center gap-2">
-            <MessageCircle className="h-5 w-5 text-primary" /> Komentarze
-            <span className="text-sm font-normal text-muted-foreground ml-2">({comments.length})</span>
+        {/* ─── Comments ─── */}
+        <section className="mt-10 px-6 md:px-12 max-w-screen-xl mx-auto">
+          <h2 className="font-display text-xl md:text-2xl tracking-wider text-foreground mb-5">
+            Komentarze
+            <span className="text-sm font-normal text-muted-foreground ml-2">
+              ({comments.length})
+            </span>
           </h2>
 
           {/* Add comment CTA */}
-          <div className="mb-6 rounded-xl border border-border bg-card/50 p-5">
-            <p className="text-sm text-muted-foreground mb-3">Chcesz dodać komentarz? Utwórz konto w kilka sekund.</p>
-            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90">
-              <Zap className="h-3.5 w-3.5" />
-              Utwórz konto i komentuj
+          <div className="mb-5 flex items-center gap-3 rounded-lg bg-card/50 border border-border p-4">
+            <div className="h-9 w-9 rounded-full bg-secondary border border-border flex items-center justify-center text-muted-foreground text-sm shrink-0">
+              ?
+            </div>
+            <button className="flex-1 text-left text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Dodaj komentarz...
             </button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {comments.map((comment, i) => (
-              <div key={i} className="rounded-xl border border-border bg-card/30 p-5 transition-colors hover:bg-card/50">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground font-display text-sm border border-border">
+              <div
+                key={i}
+                className="rounded-lg bg-card/30 border border-border/50 p-4 transition-colors hover:bg-card/50"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground font-display text-xs border border-border">
                     {comment.avatar}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <span className="text-sm font-semibold text-foreground">{comment.user}</span>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm font-medium text-foreground">
+                        {comment.user}
+                      </span>
                       <div className="flex items-center gap-0.5">
                         {Array.from({ length: 5 }).map((_, j) => (
-                          <Star key={j} className={`h-3 w-3 ${j < comment.rating ? "fill-primary text-primary" : "text-muted/30"}`} />
+                          <Star
+                            key={j}
+                            className={`h-2.5 w-2.5 ${
+                              j < comment.rating
+                                ? "fill-primary text-primary"
+                                : "text-muted/30"
+                            }`}
+                          />
                         ))}
                       </div>
-                      <span className="text-xs text-muted-foreground">{comment.time}</span>
+                      <span className="text-[11px] text-muted-foreground">
+                        {comment.time}
+                      </span>
                     </div>
-                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{comment.text}</p>
-                    <div className="mt-3 flex items-center gap-4">
-                      <button className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary">
-                        <ThumbsUp className="h-3.5 w-3.5" /> {comment.likes}
+                    <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
+                      {comment.text}
+                    </p>
+                    <div className="mt-2 flex items-center gap-4">
+                      <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors">
+                        <ThumbsUp className="h-3 w-3" /> {comment.likes}
                       </button>
-                      <button className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground">
+                      <button className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                         Odpowiedz
                       </button>
                     </div>
@@ -449,27 +569,20 @@ const Player = () => {
           </div>
         </section>
 
-        {/* Bottom CTA Banner */}
-        <div className="my-10 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-8 text-center md:text-left md:flex md:items-center md:justify-between">
-          <div>
-            <h3 className="font-display text-xl tracking-wider text-foreground">Nie przegap żadnego filmu</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Dołącz do 12,847 widzów i oglądaj w najwyższej jakości.</p>
-          </div>
-          <div className="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
-            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25">
-              <Zap className="h-4 w-4" />
-              Utwórz konto
-            </button>
-            <button className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium text-muted-foreground transition-all hover:text-foreground hover:border-foreground/30">
-              Zaloguj się
-            </button>
-          </div>
+        {/* ─── Similar content ─── */}
+        <div className="mt-12">
+          <MediaRow title="Podobne tytuły" items={similarItems} />
         </div>
 
         {/* Back link */}
-        <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary">
-          <ArrowLeft className="h-4 w-4" /> Wróć do katalogu
-        </Link>
+        <div className="mt-10 px-6 md:px-12 max-w-screen-xl mx-auto">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" /> Wróć do katalogu
+          </Link>
+        </div>
       </main>
     </div>
   );
