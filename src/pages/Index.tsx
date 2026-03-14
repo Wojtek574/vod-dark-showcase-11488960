@@ -4,7 +4,7 @@ import MediaRow from "@/components/MediaRow";
 import TopTenRow from "@/components/TopTenRow";
 import { mediaItems } from "@/data/movies";
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Search, X, Play } from "lucide-react";
+import { Search, X, Play, Star } from "lucide-react";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,11 +54,11 @@ const Index = () => {
           onClick={() => setSearchOpen(false)}
         >
           <div
-            className="mx-auto max-w-2xl pt-24 px-6"
+            className="mx-auto max-w-2xl pt-24 px-4 md:px-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 shadow-2xl">
-              <Search className="h-5 w-5 text-muted-foreground shrink-0" />
+            <div className="flex items-center gap-3 rounded-lg border border-primary/30 bg-card px-4 py-3">
+              <Search className="h-5 w-5 text-primary shrink-0" />
               <input
                 ref={searchInputRef}
                 type="text"
@@ -81,24 +81,24 @@ const Index = () => {
             </div>
 
             {filtered && (
-              <div className="mt-4 rounded-xl border border-border bg-card p-4 shadow-2xl max-h-[60vh] overflow-y-auto">
+              <div className="mt-3 rounded-lg border border-border bg-card max-h-[60vh] overflow-y-auto">
                 {filtered.length === 0 ? (
                   <p className="text-center text-muted-foreground py-8">
                     Nie znaleziono wyników dla „{searchQuery}"
                   </p>
                 ) : (
-                  <div className="space-y-1">
+                  <div className="divide-y divide-border">
                     {filtered.map((item) => (
                       <a
                         key={item.id}
                         href={`/odtwarzacz/${item.slug}`}
-                        className="flex items-center gap-4 rounded-lg p-3 transition-colors hover:bg-secondary/50"
+                        className="flex items-center gap-4 p-3 transition-colors hover:bg-primary/5"
                         onClick={() => setSearchOpen(false)}
                       >
                         <img
                           src={item.image}
                           alt={item.title}
-                          className="h-16 w-11 rounded object-cover"
+                          className="h-16 w-11 rounded object-cover border border-border"
                         />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-medium text-foreground truncate">
@@ -107,6 +107,9 @@ const Index = () => {
                           <p className="text-xs text-muted-foreground">
                             {item.genre} • {item.year}
                           </p>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-primary">
+                          <Star className="h-3 w-3 fill-current" /> 4.5
                         </div>
                         <Play className="h-4 w-4 text-primary shrink-0" />
                       </a>
@@ -119,22 +122,16 @@ const Index = () => {
         </div>
       )}
 
-      <main className="-mt-16">
-        {/* Hero — random on each refresh */}
+      <main>
         <HeroSection />
 
-        {/* Content rows */}
-        <div className="relative z-10 -mt-8 space-y-8 pb-16">
+        <div className="relative z-10 -mt-6 space-y-8 pb-16">
           <MediaRow title="Popularne filmy" items={films} linkTo="/filmy" />
-
-          <TopTenRow title="Top 10 w Polsce" items={mediaItems} />
-
+          <TopTenRow title="Najlepsze pozycje wg. IMDb" items={mediaItems} />
           <MediaRow title="Popularne seriale" items={serials} linkTo="/seriale" />
-
           {withDescription.length > 0 && (
             <MediaRow title="Polecane dla Ciebie" items={withDescription} />
           )}
-
           <MediaRow title="Ostatnio dodane" items={newReleases} />
         </div>
       </main>

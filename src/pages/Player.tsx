@@ -5,8 +5,8 @@ import { mediaItems } from "@/data/movies";
 import {
   ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize,
   SkipBack, SkipForward, Star, Clock, Film,
-  Users, Shield, Eye, ThumbsUp, MessageCircle, Crown, Zap,
-  Plus, Share2, ChevronDown
+  Users, Shield, ThumbsUp, MessageCircle, Crown, Zap,
+  Plus, Share2, ChevronDown, User
 } from "lucide-react";
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 
@@ -15,6 +15,7 @@ const Player = () => {
   const navigate = useNavigate();
   const movie = mediaItems.find((m) => m.slug === slug);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const introVideoRef = useRef<HTMLVideoElement>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -26,11 +27,21 @@ const Player = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
+  const [phase, setPhase] = useState<"intro" | "playing">("intro");
+  const [introEnded, setIntroEnded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const FAKE_DURATION = 7592;
 
-  // Similar content
+  // Detect mobile
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const similarItems = useMemo(() => {
     if (!movie) return [];
     return mediaItems.filter((m) => m.id !== movie.id).slice(0, 10);
@@ -38,7 +49,7 @@ const Player = () => {
 
   // 10s popup timer
   useEffect(() => {
-    if (isPlaying && !showPopup) {
+    if (isPlaying && !showPopup && phase === "playing") {
       popupTimerRef.current = setTimeout(() => {
         setShowPopup(true);
         videoRef.current?.pause();
@@ -48,7 +59,7 @@ const Player = () => {
     return () => {
       if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
     };
-  }, [isPlaying, showPopup]);
+  }, [isPlaying, showPopup, phase]);
 
   useEffect(() => {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);
@@ -66,7 +77,24 @@ const Player = () => {
 
   const progress = duration > 0 ? (currentTime / FAKE_DURATION) * 100 : 0;
 
+  const handleIntroEnd = () => {
+    setIntroEnded(true);
+    setPhase("playing");
+  };
+
   const togglePlay = useCallback(() => {
+    if (phase === "intro") {
+      if (introVideoRef.current) {
+        if (introVideoRef.current.paused) {
+          introVideoRef.current.play();
+          setIsPlaying(true);
+        } else {
+          introVideoRef.current.pause();
+          setIsPlaying(false);
+        }
+      }
+      return;
+    }
     if (!videoRef.current) return;
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -75,7 +103,7 @@ const Player = () => {
       videoRef.current.pause();
       setIsPlaying(false);
     }
-  }, []);
+  }, [phase]);
 
   const handleMouseMove = () => {
     setShowControls(true);
@@ -103,6 +131,15 @@ const Player = () => {
   const skip = (seconds: number) => {
     if (!videoRef.current) return;
     videoRef.current.currentTime = Math.max(0, Math.min(duration, videoRef.current.currentTime + seconds));
+  };
+
+  const startPlayback = () => {
+    setPhase("intro");
+    setIntroEnded(false);
+    setIsPlaying(true);
+    setTimeout(() => {
+      introVideoRef.current?.play();
+    }, 100);
   };
 
   if (!movie) {
@@ -159,431 +196,347 @@ const Player = () => {
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
     "panna-mloda": [
-      { user: "Kinomaniak92", avatar: "K", rating: 5, text: "Absolutnie genialny film! Jessie Buckley daje niesamowity występ. Obowiązkowa pozycja na ten rok.", time: "2 godziny temu", likes: 34 },
-      { user: "FilmowyKrytyk", avatar: "F", rating: 4, text: "Świetna reinterpretacja klasycznej historii. Scenografia i zdjęcia są zapierające dech w piersiach.", time: "5 godzin temu", likes: 21 },
-      { user: "CinemaFan_PL", avatar: "C", rating: 5, text: "Jeden z najlepszych horrorów ostatnich lat. Christian Bale jak zawsze na najwyższym poziomie!", time: "1 dzień temu", likes: 47 },
-      { user: "AnnaW", avatar: "A", rating: 4, text: "Pięknie nakręcony, z świetną muzyką. Trochę za długi w środku, ale końcówka wynagrodzi wszystko.", time: "2 dni temu", likes: 15 },
+      { user: "Kinomaniak92", avatar: "K", rating: 5, text: "Absolutnie genialny film! Jessie Buckley daje niesamowity występ.", time: "2 godziny temu", likes: 34 },
+      { user: "FilmowyKrytyk", avatar: "F", rating: 4, text: "Świetna reinterpretacja klasycznej historii. Scenografia jest zapierająca dech.", time: "5 godzin temu", likes: 21 },
+      { user: "CinemaFan_PL", avatar: "C", rating: 5, text: "Jeden z najlepszych horrorów ostatnich lat!", time: "1 dzień temu", likes: 47 },
     ],
     "dobry-chlopiec": [
-      { user: "TomaszK", avatar: "T", rating: 5, text: "Jan Komasa znów pokazał klasę! Stephen Graham jest fenomenalny jako Chris — niepokojący i fascynujący jednocześnie.", time: "3 godziny temu", likes: 42 },
-      { user: "KinoManiacPL", avatar: "K", rating: 4, text: "Mocny thriller psychologiczny. Toni Collette kradnie każdą scenę. Napięcie nie puszcza do ostatniej minuty.", time: "8 godzin temu", likes: 28 },
-      { user: "DarkCinema", avatar: "D", rating: 5, text: "Brutalnie szczery film o resocjalizacji. Samson Kayo świetnie oddaje wewnętrzny konflikt Tommy'ego.", time: "1 dzień temu", likes: 53 },
-      { user: "MagdaFilm", avatar: "M", rating: 4, text: "Komasa w angielskojęzycznym debiucie nie zawodzi. Klimat duszny i intensywny, aktorstwo na światowym poziomie.", time: "3 dni temu", likes: 19 },
+      { user: "TomaszK", avatar: "T", rating: 5, text: "Jan Komasa znów pokazał klasę! Stephen Graham jest fenomenalny.", time: "3 godziny temu", likes: 42 },
+      { user: "KinoManiacPL", avatar: "K", rating: 4, text: "Mocny thriller psychologiczny. Napięcie nie puszcza do ostatniej minuty.", time: "8 godzin temu", likes: 28 },
+      { user: "DarkCinema", avatar: "D", rating: 5, text: "Brutalnie szczery film o resocjalizacji.", time: "1 dzień temu", likes: 53 },
     ],
     "bez-wyjscia": [
-      { user: "AzjatyckaKlasyka", avatar: "A", rating: 5, text: "Park Chan-wook w szczytowej formie! Mistrzowskie połączenie czarnej komedii z thrillerem. Każdy kadr to dzieło sztuki.", time: "1 godzinę temu", likes: 67 },
-      { user: "SeoulCinema", avatar: "S", rating: 5, text: "Choi Min-sik daje występ życia jako Man-su. Scena w biurze to czyste kino — napięcie sięga zenitu.", time: "4 godziny temu", likes: 45 },
-      { user: "FilmNerd99", avatar: "F", rating: 4, text: "Genialny scenariusz, pełen zwrotów akcji. Park znów udowadnia, że jest jednym z najlepszych reżyserów na świecie.", time: "1 dzień temu", likes: 38 },
-      { user: "KrytykFilmowy", avatar: "K", rating: 5, text: "2h 19min czystej adrenaliny. Koreańskie kino po raz kolejny pokazuje Hollywood, jak robi się prawdziwe thrillery.", time: "2 dni temu", likes: 51 },
+      { user: "AzjatyckaKlasyka", avatar: "A", rating: 5, text: "Park Chan-wook w szczytowej formie! Mistrzowskie połączenie.", time: "1 godzinę temu", likes: 67 },
+      { user: "SeoulCinema", avatar: "S", rating: 5, text: "Choi Min-sik daje występ życia jako Man-su.", time: "4 godziny temu", likes: 45 },
+      { user: "FilmNerd99", avatar: "F", rating: 4, text: "Genialny scenariusz, pełen zwrotów akcji.", time: "1 dzień temu", likes: 38 },
     ],
     "odyseja": [
-      { user: "NolanFanPL", avatar: "N", rating: 5, text: "Nolan po raz kolejny udowadnia, że jest mistrzem kina epickiego. Matt Damon jako Odyseusz to strzał w dziesiątkę!", time: "2 godziny temu", likes: 89 },
-      { user: "EpicCinema", avatar: "E", rating: 5, text: "Zdjęcia kręcone w IMAX zapierają dech. Sceny morskie są tak realistyczne, że czujesz fale. Arcydzieło wizualne.", time: "6 godzin temu", likes: 72 },
-      { user: "HistoriaFilmu", avatar: "H", rating: 4, text: "Zendaya jako Atena to rewelacja — majestatyczna i potężna. Tom Holland świetnie oddaje młodzieńczą determinację Telemacha.", time: "1 dzień temu", likes: 56 },
-      { user: "CinephilePL", avatar: "C", rating: 5, text: "Nolan + Homer = absolutna perfekcja. Hans Zimmer stworzył ścieżkę dźwiękową, która zostaje w głowie na długo po seansie.", time: "3 dni temu", likes: 64 },
+      { user: "NolanFanPL", avatar: "N", rating: 5, text: "Nolan po raz kolejny udowadnia, że jest mistrzem kina epickiego.", time: "2 godziny temu", likes: 89 },
+      { user: "EpicCinema", avatar: "E", rating: 5, text: "Zdjęcia kręcone w IMAX zapierają dech. Arcydzieło wizualne.", time: "6 godzin temu", likes: 72 },
+      { user: "HistoriaFilmu", avatar: "H", rating: 4, text: "Zendaya jako Atena to rewelacja — majestatyczna i potężna.", time: "1 dzień temu", likes: 56 },
     ],
   };
 
   const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
   const comments = commentsBySlug[movie.slug] || commentsBySlug["panna-mloda"];
 
-  const durationDisplay = movie.duration
-    ? movie.duration.replace(":", "h ").replace(":", "m")
-    : null;
+  const introSrc = isMobile ? "/intros/intro-mobile.mp4" : "/intros/intro-desktop.mp4";
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* ─── Video Player ─── */}
-      <div
-        ref={playerContainerRef}
-        className={`relative w-full bg-black ${isFullscreen ? "" : ""}`}
-        style={{
-          aspectRatio: isFullscreen ? undefined : "16/9",
-          height: isFullscreen ? "100vh" : undefined,
-          maxHeight: isFullscreen ? undefined : "75vh",
-        }}
-        onClick={togglePlay}
-        onMouseMove={handleMouseMove}
-      >
-        <video
-          ref={videoRef}
-          src="/trailers/panna-mloda-trailer.mp4"
-          className="absolute inset-0 h-full w-full object-contain bg-black"
-          muted={isMuted}
-          onTimeUpdate={() => setCurrentTime(videoRef.current?.currentTime || 0)}
-          onLoadedMetadata={() => setDuration(videoRef.current?.duration || 0)}
-          onEnded={() => setIsPlaying(false)}
-          playsInline
-        />
+      {/* Hero section with movie poster background - e-kinofil style */}
+      <section className="relative w-full overflow-hidden" style={{ minHeight: "400px", maxHeight: "650px", height: "65vh" }}>
+        <div className="absolute inset-0">
+          <img
+            src={movie.image}
+            alt=""
+            className="h-full w-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+        </div>
 
-        {/* Play button overlay */}
-        {!isPlaying && !showPopup && (
-          <div className="absolute inset-0 flex items-center justify-center z-10 bg-black/30">
-            <div className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-foreground/20 backdrop-blur-sm text-foreground transition-all hover:scale-110 hover:bg-foreground/30 border border-foreground/20">
-              <Play className="h-7 w-7 md:h-9 md:w-9 fill-current ml-1" />
-            </div>
-          </div>
-        )}
-
-        {/* Registration popup */}
-        {showPopup && (
-          <div
-            className="absolute inset-0 z-40 flex items-center justify-center bg-black/85 backdrop-blur-sm"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="mx-4 max-w-md w-full rounded-2xl bg-card/95 backdrop-blur-md border border-border p-8 text-center shadow-2xl">
-              <Crown className="h-10 w-10 text-primary mx-auto mb-4" />
-              <h3 className="font-display text-3xl tracking-wider text-foreground">
-                Kontynuuj oglądanie
-              </h3>
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                Utwórz konto, aby obejrzeć pełną wersję{" "}
-                <span className="text-foreground font-medium">"{movie.title}"</span>.
-              </p>
-              <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <Users className="h-3.5 w-3.5 text-primary" /> 12,847 widzów
-                </span>
-                <span className="flex items-center gap-1">
-                  <Shield className="h-3.5 w-3.5 text-primary" /> Bezpiecznie
-                </span>
+        <div className="relative flex h-full items-end pb-8 md:pb-12">
+          <div className="px-4 md:px-8 max-w-screen-xl mx-auto w-full">
+            <div className="max-w-2xl">
+              {/* Star rating */}
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-5 w-5 ${i < 4 ? "fill-primary text-primary" : "fill-primary/40 text-primary/40"}`}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm text-foreground font-medium">Ocena: 4.5 / 5</span>
               </div>
-              <div className="mt-6 flex flex-col gap-3">
-                <button className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 flex items-center justify-center gap-2">
-                  <Zap className="h-4 w-4" /> Utwórz konto i oglądaj
-                </button>
-                <button className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-foreground/30">
-                  Mam konto — Zaloguj się
-                </button>
-                <button
-                  onClick={() => {
-                    setShowPopup(false);
-                    if (videoRef.current) videoRef.current.currentTime = 0;
-                  }}
-                  className="text-xs text-muted-foreground/50 hover:text-muted-foreground mt-1"
-                >
-                  Obejrzyj zwiastun ponownie
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
-        {/* Controls */}
-        <div
-          className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-4 md:px-6 pb-3 pt-16 transition-opacity duration-300 ${
-            showControls || !isPlaying ? "opacity-100" : "opacity-0"
-          }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Progress bar */}
-          <div
-            className="group mb-3 h-1 w-full cursor-pointer rounded-full bg-foreground/20 transition-all hover:h-1.5"
-            onClick={handleProgressClick}
-          >
-            <div
-              className="relative h-full rounded-full bg-primary transition-all"
-              style={{ width: `${progress}%` }}
-            >
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity shadow-lg shadow-primary/50" />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 md:gap-2">
-              <button
-                onClick={togglePlay}
-                className="rounded-sm p-1.5 text-foreground/90 hover:text-foreground transition-colors"
-              >
-                {isPlaying ? (
-                  <Pause className="h-5 w-5" />
-                ) : (
-                  <Play className="h-5 w-5 fill-current" />
-                )}
-              </button>
-              <button
-                onClick={() => skip(-10)}
-                className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors"
-              >
-                <SkipBack className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => skip(10)}
-                className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors"
-              >
-                <SkipForward className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setIsMuted(!isMuted)}
-                className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors"
-              >
-                {isMuted ? (
-                  <VolumeX className="h-4 w-4" />
-                ) : (
-                  <Volume2 className="h-4 w-4" />
-                )}
-              </button>
-              <span className="ml-1 text-xs tabular-nums text-foreground/50 hidden sm:inline">
-                {formatTime(currentTime)} / {movie.duration ? movie.duration.substring(0, movie.duration.lastIndexOf(":")).replace(":", ":") + ":" + movie.duration.split(":").pop() : "2:06:32"}
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs font-medium text-foreground/70 mr-2 hidden md:inline">
+              <h1 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-wider text-foreground leading-none">
                 {movie.title}
-              </span>
-              <button
-                onClick={toggleFullscreen}
-                className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors"
-              >
-                {isFullscreen ? (
-                  <Minimize className="h-4 w-4" />
-                ) : (
-                  <Maximize className="h-4 w-4" />
+              </h1>
+
+              {/* Meta tags in orange-bordered pills */}
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="inline-flex items-center rounded border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground">
+                  Rok: {movie.year}
+                </span>
+                <span className="inline-flex items-center rounded border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground">
+                  Gatunek: {movie.genre}
+                </span>
+                {movie.duration && (
+                  <span className="inline-flex items-center rounded border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground">
+                    Czas trwania: {movie.duration}
+                  </span>
                 )}
-              </button>
+              </div>
+
+              {/* Description */}
+              {movie.description && (
+                <div className="mt-4">
+                  <p className={`text-sm leading-relaxed text-foreground/70 max-w-xl ${descExpanded ? "" : "line-clamp-3"}`}>
+                    {movie.description}
+                  </p>
+                  {movie.description.length > 150 && (
+                    <button
+                      onClick={() => setDescExpanded(!descExpanded)}
+                      className="mt-1 text-xs text-primary hover:text-primary/80 flex items-center gap-1"
+                    >
+                      {descExpanded ? "Zwiń" : "Pokaż więcej"}
+                      <ChevronDown className={`h-3 w-3 transition-transform ${descExpanded ? "rotate-180" : ""}`} />
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* CTA - login required banner */}
+              <div className="mt-5 rounded border border-primary/30 bg-primary/5 p-3 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                <p className="text-xs text-foreground/70 flex-1">
+                  Tylko aktywne konta mają dostęp do sekcji z listą źródeł do filmu
+                </p>
+                <button className="inline-flex items-center gap-2 rounded bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 shrink-0">
+                  <User className="h-4 w-4" />
+                  Zaloguj / Zarejestruj
+                </button>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ─── Video Player ─── */}
+      <div className="px-4 md:px-8 max-w-screen-xl mx-auto -mt-4 mb-8">
+        <div
+          ref={playerContainerRef}
+          className="relative w-full rounded-lg overflow-hidden border border-border bg-card"
+          style={{
+            aspectRatio: isFullscreen ? undefined : "16/9",
+            height: isFullscreen ? "100vh" : undefined,
+          }}
+          onClick={togglePlay}
+          onMouseMove={handleMouseMove}
+        >
+          {/* Intro video */}
+          {phase === "intro" && !introEnded && (
+            <video
+              ref={introVideoRef}
+              src={introSrc}
+              className="absolute inset-0 h-full w-full object-contain bg-background"
+              muted={isMuted}
+              onEnded={handleIntroEnd}
+              playsInline
+            />
+          )}
+
+          {/* Main trailer video */}
+          <video
+            ref={videoRef}
+            src="/trailers/panna-mloda-trailer.mp4"
+            className={`absolute inset-0 h-full w-full object-contain bg-background ${phase === "intro" && !introEnded ? "opacity-0" : "opacity-100"}`}
+            muted={isMuted}
+            onTimeUpdate={() => setCurrentTime(videoRef.current?.currentTime || 0)}
+            onLoadedMetadata={() => setDuration(videoRef.current?.duration || 0)}
+            onEnded={() => setIsPlaying(false)}
+            playsInline
+          />
+
+          {/* Play button overlay */}
+          {!isPlaying && !showPopup && (
+            <div className="absolute inset-0 flex items-center justify-center z-10 bg-background/40">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (!introEnded && phase === "intro") {
+                    startPlayback();
+                  } else {
+                    togglePlay();
+                  }
+                }}
+                className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
+              >
+                <Play className="h-7 w-7 md:h-9 md:w-9 fill-current ml-1" />
+              </button>
+            </div>
+          )}
+
+          {/* Registration popup */}
+          {showPopup && (
+            <div
+              className="absolute inset-0 z-40 flex items-center justify-center bg-background/85 backdrop-blur-sm"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="mx-4 max-w-md w-full rounded-lg border border-primary/30 bg-card p-6 md:p-8 text-center">
+                <Crown className="h-10 w-10 text-primary mx-auto mb-4" />
+                <h3 className="font-display text-2xl md:text-3xl tracking-wider text-foreground">
+                  Kontynuuj oglądanie
+                </h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  Utwórz konto, aby obejrzeć pełną wersję{" "}
+                  <span className="text-primary font-medium">"{movie.title}"</span>.
+                </p>
+                <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <Users className="h-3.5 w-3.5 text-primary" /> 12,847 widzów
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Shield className="h-3.5 w-3.5 text-primary" /> Bezpiecznie
+                  </span>
+                </div>
+                <div className="mt-6 flex flex-col gap-3">
+                  <button className="w-full rounded bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 flex items-center justify-center gap-2">
+                    <Zap className="h-4 w-4" /> Utwórz konto i oglądaj
+                  </button>
+                  <button className="w-full rounded border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30">
+                    Mam konto — Zaloguj się
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowPopup(false);
+                      setPhase("intro");
+                      setIntroEnded(false);
+                      if (videoRef.current) videoRef.current.currentTime = 0;
+                    }}
+                    className="text-xs text-muted-foreground/50 hover:text-primary mt-1"
+                  >
+                    Obejrzyj zwiastun ponownie
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Controls */}
+          {phase === "playing" && (
+            <div
+              className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-background/90 via-background/50 to-transparent px-4 md:px-6 pb-3 pt-16 transition-opacity duration-300 ${
+                showControls || !isPlaying ? "opacity-100" : "opacity-0"
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                className="group mb-3 h-1 w-full cursor-pointer rounded-full bg-foreground/20 transition-all hover:h-1.5"
+                onClick={handleProgressClick}
+              >
+                <div
+                  className="relative h-full rounded-full bg-primary transition-all"
+                  style={{ width: `${progress}%` }}
+                >
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 md:gap-2">
+                  <button onClick={togglePlay} className="rounded-sm p-1.5 text-foreground/90 hover:text-foreground transition-colors">
+                    {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 fill-current" />}
+                  </button>
+                  <button onClick={() => skip(-10)} className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors">
+                    <SkipBack className="h-4 w-4" />
+                  </button>
+                  <button onClick={() => skip(10)} className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors">
+                    <SkipForward className="h-4 w-4" />
+                  </button>
+                  <button onClick={() => setIsMuted(!isMuted)} className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors">
+                    {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                  </button>
+                  <span className="ml-1 text-xs tabular-nums text-foreground/50 hidden sm:inline">
+                    {formatTime(currentTime)} / {movie.duration || "2:06:32"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-medium text-foreground/70 mr-2 hidden md:inline">
+                    {movie.title}
+                  </span>
+                  <button onClick={toggleFullscreen} className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors">
+                    {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* ─── Movie Details ─── */}
-      <main className="pb-16">
-        {/* Info section with poster background blur */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0 -z-10">
-            <img
-              src={movie.image}
-              alt=""
-              className="h-full w-full object-cover opacity-10 blur-2xl scale-125"
-            />
-            <div className="absolute inset-0 bg-background/80" />
-          </div>
+      {/* ─── Cast (e-kinofil style) ─── */}
+      <section className="px-4 md:px-8 max-w-screen-xl mx-auto mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <Star className="h-5 w-5 text-primary fill-primary" />
+          <h2 className="font-display text-xl md:text-2xl tracking-wider text-foreground">
+            Aktorzy
+          </h2>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+          {cast.map((person) => (
+            <div
+              key={person.name}
+              className="rounded border border-border bg-card px-4 py-2.5 text-center transition-colors hover:border-primary/30"
+            >
+              <p className="text-sm font-medium text-foreground truncate">{person.name}</p>
+              <p className="text-[11px] text-muted-foreground truncate">{person.role}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-          <div className="px-6 md:px-12 max-w-screen-xl mx-auto py-8 md:py-12">
-            <div className="flex flex-col md:flex-row gap-6 md:gap-10">
-              {/* Poster - hidden on mobile, visible on md+ */}
-              <div className="hidden md:block shrink-0">
-                <img
-                  src={movie.image}
-                  alt={movie.title}
-                  className="w-48 lg:w-56 rounded-lg shadow-2xl shadow-black/50"
-                />
-              </div>
+      {/* ─── Comments ─── */}
+      <section className="px-4 md:px-8 max-w-screen-xl mx-auto mb-8">
+        <h2 className="font-display text-xl md:text-2xl tracking-wider text-foreground mb-4">
+          Komentarze
+          <span className="text-sm font-normal text-muted-foreground ml-2">({comments.length})</span>
+        </h2>
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-wider text-foreground leading-none">
-                  {movie.title}
-                </h1>
-
-                <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                  {/* Rating badge */}
-                  <span className="inline-flex items-center gap-1 rounded bg-primary/15 border border-primary/25 px-2 py-0.5 text-primary font-semibold text-xs">
-                    <Star className="h-3 w-3 fill-current" /> 9.2
-                  </span>
-                  <span>{movie.year}</span>
-                  {durationDisplay && (
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5" /> {durationDisplay}
-                    </span>
-                  )}
-                  <span className="flex items-center gap-1">
-                    <Film className="h-3.5 w-3.5" /> HD
-                  </span>
+        <div className="space-y-2">
+          {comments.map((comment, i) => (
+            <div
+              key={i}
+              className="rounded border border-border bg-card p-4 transition-colors hover:border-primary/20"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground font-display text-xs border border-border">
+                  {comment.avatar}
                 </div>
-
-                {/* Genre tags */}
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {genres.map((g) => (
-                    <span
-                      key={g}
-                      className="rounded-full border border-border bg-secondary/50 px-3 py-1 text-xs text-muted-foreground"
-                    >
-                      {g.trim()}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Description */}
-                {movie.description && (
-                  <div className="mt-5">
-                    <p
-                      className={`text-sm leading-relaxed text-foreground/70 max-w-2xl ${
-                        descExpanded ? "" : "line-clamp-3"
-                      }`}
-                    >
-                      {movie.description}
-                    </p>
-                    {movie.description.length > 150 && (
-                      <button
-                        onClick={() => setDescExpanded(!descExpanded)}
-                        className="mt-1 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
-                      >
-                        {descExpanded ? "Zwiń" : "Pokaż więcej"}
-                        <ChevronDown
-                          className={`h-3 w-3 transition-transform ${
-                            descExpanded ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-                    )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-sm font-medium text-foreground">{comment.user}</span>
+                    <div className="flex items-center gap-0.5">
+                      {Array.from({ length: 5 }).map((_, j) => (
+                        <Star key={j} className={`h-2.5 w-2.5 ${j < comment.rating ? "fill-primary text-primary" : "text-muted/30"}`} />
+                      ))}
+                    </div>
+                    <span className="text-[11px] text-muted-foreground">{comment.time}</span>
                   </div>
-                )}
-
-                {/* Action buttons */}
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <button
-                    onClick={() => {
-                      if (videoRef.current) {
-                        videoRef.current.currentTime = 0;
-                        videoRef.current.play();
-                        setIsPlaying(true);
-                        setShowPopup(false);
-                      }
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                    className="inline-flex items-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-bold text-background transition-all hover:bg-foreground/90"
-                  >
-                    <Play className="h-5 w-5 fill-current" /> Odtwórz
-                  </button>
-                  <button className="inline-flex items-center gap-2 rounded-md bg-muted/80 px-5 py-3 text-sm font-medium text-foreground transition-all hover:bg-muted">
-                    <Plus className="h-5 w-5" /> Moja lista
-                  </button>
-                  <button className="flex items-center justify-center rounded-full border border-border bg-secondary/50 h-10 w-10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors">
-                    <ThumbsUp className="h-4 w-4" />
-                  </button>
-                  <button className="flex items-center justify-center rounded-full border border-border bg-secondary/50 h-10 w-10 text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors">
-                    <Share2 className="h-4 w-4" />
-                  </button>
-                </div>
-
-                {/* Stats */}
-                <div className="mt-5 flex flex-wrap items-center gap-5 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1.5">
-                    <Eye className="h-3.5 w-3.5 text-primary" /> 24,531 wyświetleń
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <ThumbsUp className="h-3.5 w-3.5 text-primary" /> 98% pozytywnych
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <MessageCircle className="h-3.5 w-3.5 text-primary" /> {comments.length} komentarzy
-                  </span>
+                  <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{comment.text}</p>
+                  <div className="mt-2 flex items-center gap-4">
+                    <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors">
+                      <ThumbsUp className="h-3 w-3" /> {comment.likes}
+                    </button>
+                    <button className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                      Odpowiedz
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* ─── Cast ─── */}
-        <section className="mt-10 px-6 md:px-12 max-w-screen-xl mx-auto">
-          <h2 className="font-display text-xl md:text-2xl tracking-wider text-foreground mb-4">
-            Obsada
-          </h2>
-          <div className="flex gap-4 overflow-x-auto pb-2" style={{ scrollbarWidth: "none" }}>
-            {cast.map((person) => (
-              <div
-                key={person.name}
-                className="flex-shrink-0 w-[100px] md:w-[120px] text-center group"
-              >
-                <div className="mx-auto h-16 w-16 md:h-20 md:w-20 rounded-full bg-secondary border border-border flex items-center justify-center font-display text-lg text-foreground group-hover:border-primary/40 transition-colors">
-                  {person.avatar}
-                </div>
-                <p className="mt-2 text-xs font-medium text-foreground truncate">
-                  {person.name}
-                </p>
-                <p className="text-[11px] text-muted-foreground truncate">
-                  {person.role}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── Comments ─── */}
-        <section className="mt-10 px-6 md:px-12 max-w-screen-xl mx-auto">
-          <h2 className="font-display text-xl md:text-2xl tracking-wider text-foreground mb-5">
-            Komentarze
-            <span className="text-sm font-normal text-muted-foreground ml-2">
-              ({comments.length})
-            </span>
-          </h2>
-
-          {/* Add comment CTA */}
-          <div className="mb-5 flex items-center gap-3 rounded-lg bg-card/50 border border-border p-4">
-            <div className="h-9 w-9 rounded-full bg-secondary border border-border flex items-center justify-center text-muted-foreground text-sm shrink-0">
-              ?
-            </div>
-            <button className="flex-1 text-left text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Dodaj komentarz...
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {comments.map((comment, i) => (
-              <div
-                key={i}
-                className="rounded-lg bg-card/30 border border-border/50 p-4 transition-colors hover:bg-card/50"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground font-display text-xs border border-border">
-                    {comment.avatar}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-sm font-medium text-foreground">
-                        {comment.user}
-                      </span>
-                      <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, j) => (
-                          <Star
-                            key={j}
-                            className={`h-2.5 w-2.5 ${
-                              j < comment.rating
-                                ? "fill-primary text-primary"
-                                : "text-muted/30"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-[11px] text-muted-foreground">
-                        {comment.time}
-                      </span>
-                    </div>
-                    <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
-                      {comment.text}
-                    </p>
-                    <div className="mt-2 flex items-center gap-4">
-                      <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors">
-                        <ThumbsUp className="h-3 w-3" /> {comment.likes}
-                      </button>
-                      <button className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                        Odpowiedz
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── Similar content ─── */}
-        <div className="mt-12">
-          <MediaRow title="Podobne tytuły" items={similarItems} />
+          ))}
         </div>
+      </section>
 
-        {/* Back link */}
-        <div className="mt-10 px-6 md:px-12 max-w-screen-xl mx-auto">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" /> Wróć do katalogu
-          </Link>
-        </div>
-      </main>
+      {/* ─── Similar content ─── */}
+      <div className="mb-8">
+        <MediaRow title="Podobne tytuły" items={similarItems} />
+      </div>
+
+      {/* Back link */}
+      <div className="px-4 md:px-8 max-w-screen-xl mx-auto pb-12">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" /> Wróć do katalogu
+        </Link>
+      </div>
     </div>
   );
 };

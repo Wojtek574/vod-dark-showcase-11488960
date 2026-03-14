@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Film, Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, User } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface HeaderProps {
@@ -18,71 +18,43 @@ const Header = ({ onSearchOpen }: HeaderProps) => {
   }, []);
 
   const navItems = [
-    { label: "Strona główna", path: "/" },
+    { label: "Nowości", path: "/" },
     { label: "Filmy", path: "/filmy" },
     { label: "Seriale", path: "/seriale" },
+    { label: "TOP IMDb", path: "/filmy" },
   ];
 
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/95 backdrop-blur-md border-b border-border shadow-lg shadow-background/50"
-          : "bg-gradient-to-b from-background/80 to-transparent"
+          ? "bg-background/98 backdrop-blur-md border-b border-border"
+          : "bg-background"
       }`}
     >
-      <div className="flex h-16 items-center justify-between px-6 md:px-12 max-w-screen-2xl mx-auto">
-        <div className="flex items-center gap-8">
-          <Link to="/" className="flex items-center gap-2">
-            <Film className="h-6 w-6 text-primary" />
-            <span className="font-display text-2xl tracking-wider text-foreground">
-              FILMKLIK<span className="text-primary">.PL</span>
+      <div className="flex h-16 items-center justify-between px-4 md:px-8 max-w-screen-2xl mx-auto">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1">
+            <div className="grid grid-cols-2 gap-0.5">
+              <div className="w-2 h-2 bg-primary rounded-sm" />
+              <div className="w-2 h-2 bg-primary rounded-sm" />
+              <div className="w-2 h-2 bg-primary rounded-sm" />
+              <div className="w-2 h-2 bg-primary rounded-sm" />
+            </div>
+            <span className="font-display text-2xl tracking-wider text-foreground ml-1">
+              FILMKLIK
             </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`text-sm font-medium transition-colors hover:text-foreground ${
-                  location.pathname === item.path
-                    ? "text-foreground"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
+          </div>
+        </Link>
 
-        <div className="flex items-center gap-3">
-          {onSearchOpen && (
-            <button
-              onClick={onSearchOpen}
-              className="flex items-center justify-center rounded-full p-2 text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <Search className="h-5 w-5" />
-            </button>
-          )}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex items-center justify-center rounded-full p-2 text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-border px-6 py-4 space-y-3">
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <Link
-              key={item.path}
+              key={item.label}
               to={item.path}
-              onClick={() => setMobileOpen(false)}
-              className={`block text-sm font-medium transition-colors ${
+              className={`px-4 py-2 text-sm font-medium rounded transition-colors ${
                 location.pathname === item.path
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
@@ -91,6 +63,54 @@ const Header = ({ onSearchOpen }: HeaderProps) => {
               {item.label}
             </Link>
           ))}
+        </nav>
+
+        {/* Right side */}
+        <div className="flex items-center gap-2">
+          {onSearchOpen && (
+            <button
+              onClick={onSearchOpen}
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Search className="h-5 w-5" />
+            </button>
+          )}
+          <button className="hidden md:inline-flex items-center gap-2 rounded-md border border-primary bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
+            <User className="h-4 w-4" />
+            Zaloguj / Zarejestruj się
+          </button>
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden bg-background border-t border-border px-4 py-4 space-y-1">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              to={item.path}
+              onClick={() => setMobileOpen(false)}
+              className={`block px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                location.pathname === item.path
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <div className="pt-2 border-t border-border mt-2">
+            <button className="w-full flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">
+              <User className="h-4 w-4" />
+              Zaloguj / Zarejestruj się
+            </button>
+          </div>
         </div>
       )}
     </header>
