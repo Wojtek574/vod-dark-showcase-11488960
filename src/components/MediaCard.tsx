@@ -1,13 +1,20 @@
-import { Play, Star } from "lucide-react";
+import { Play, Star, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { MediaItem } from "@/data/movies";
 
 interface MediaCardProps {
   item: MediaItem;
   rank?: number;
+  showPremiereDate?: boolean;
 }
 
-const MediaCard = ({ item, rank }: MediaCardProps) => {
+const formatPremiereDate = (dateStr: string) => {
+  const months = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"];
+  const d = new Date(dateStr);
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+};
+
+const MediaCard = ({ item, rank, showPremiereDate }: MediaCardProps) => {
   const navigate = useNavigate();
 
   return (
@@ -26,6 +33,13 @@ const MediaCard = ({ item, rank }: MediaCardProps) => {
         {rank && (
           <div className="absolute top-2 left-2 flex h-7 w-7 items-center justify-center rounded bg-primary text-xs font-bold text-primary-foreground">
             {rank}
+          </div>
+        )}
+
+        {/* Platform badge */}
+        {item.platform && (
+          <div className="absolute top-2 right-2 rounded bg-background/80 px-1.5 py-0.5 text-[9px] font-bold text-primary backdrop-blur-sm border border-primary/20">
+            {item.platform}
           </div>
         )}
 
@@ -53,6 +67,12 @@ const MediaCard = ({ item, rank }: MediaCardProps) => {
         <p className="text-[11px] text-muted-foreground">
           {item.genre} • {item.year}
         </p>
+        {showPremiereDate && item.premiereDate && (
+          <p className="text-[10px] text-primary flex items-center gap-1 mt-0.5">
+            <Calendar className="h-3 w-3" />
+            {formatPremiereDate(item.premiereDate)}
+          </p>
+        )}
       </div>
     </div>
   );

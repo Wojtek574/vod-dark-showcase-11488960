@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import MediaRow from "@/components/MediaRow";
 import TopTenRow from "@/components/TopTenRow";
-import { mediaItems } from "@/data/movies";
+import { mediaItems, premieres2026 } from "@/data/movies";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Search, X, Play, Star } from "lucide-react";
 
@@ -126,6 +126,9 @@ const Index = () => {
         <HeroSection />
 
         <div className="relative z-10 -mt-6 space-y-8 pb-16">
+          {premieres2026.length > 0 && (
+            <MediaRow title="🎬 Premiery 2026" items={premieres2026} showPremiereDate />
+          )}
           <MediaRow title="Popularne filmy" items={films} linkTo="/filmy" />
           <TopTenRow title="Najlepsze pozycje wg. IMDb" items={mediaItems} />
           <MediaRow title="Popularne seriale" items={serials} linkTo="/seriale" />

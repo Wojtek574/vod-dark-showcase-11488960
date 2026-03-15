@@ -4,7 +4,7 @@ import MediaRow from "@/components/MediaRow";
 import { mediaItems } from "@/data/movies";
 import {
   ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize,
-  SkipBack, SkipForward, Star, Clock, Film,
+  SkipBack, SkipForward, Star, Clock, Film, Calendar,
   Users, Shield, ThumbsUp, MessageCircle, Crown, Zap,
   Plus, Share2, ChevronDown, User, Search
 } from "lucide-react";
@@ -200,6 +200,64 @@ const Player = () => {
       { name: "Robert Pattinson", role: "Antinous", avatar: "RP" },
       { name: "Charlize Theron", role: "Kirke", avatar: "CT" },
     ],
+    "projekt-hail-mary": [
+      { name: "Ryan Gosling", role: "Ryland Grace", avatar: "RG" },
+      { name: "Sandra Hüller", role: "Eva Stratt", avatar: "SH" },
+      { name: "Awkwafina", role: "Dr. Lokken", avatar: "AW" },
+      { name: "Kumail Nanjiani", role: "Rocky (głos)", avatar: "KN" },
+    ],
+    "lup": [
+      { name: "Matt Damon", role: "Sgt. Walker", avatar: "MD" },
+      { name: "Ben Affleck", role: "Det. Torres", avatar: "BA" },
+      { name: "Steven Yeun", role: "Danny", avatar: "SY" },
+      { name: "Teyana Taylor", role: "Agent Cruz", avatar: "TT" },
+      { name: "Kyle Chandler", role: "Kapitan Briggs", avatar: "KC" },
+    ],
+    "peaky-blinders-niesmiertelny": [
+      { name: "Cillian Murphy", role: "Tommy Shelby", avatar: "CM" },
+      { name: "Stephen Graham", role: "Hayden Stagg", avatar: "SG" },
+      { name: "Rebecca Ferguson", role: "Lady Diana", avatar: "RF" },
+      { name: "Tim Roth", role: "Dr. Holford", avatar: "TR" },
+      { name: "Barry Keoghan", role: "Duke Shelby", avatar: "BK" },
+    ],
+    "narnia": [
+      { name: "Emma Mackey", role: "Biała Czarownica", avatar: "EM" },
+      { name: "Meryl Streep", role: "Aslan (głos)", avatar: "MS" },
+      { name: "Daniel Craig", role: "Wuj Andrew", avatar: "DC" },
+      { name: "Carey Mulligan", role: "Polly", avatar: "CM" },
+    ],
+    "apex": [
+      { name: "Charlize Theron", role: "Kate", avatar: "CT" },
+      { name: "Taron Egerton", role: "Viktor", avatar: "TE" },
+      { name: "Eric Bana", role: "Ranger Jim", avatar: "EB" },
+    ],
+    "hopnieci": [
+      { name: "Piper Curda", role: "Lily (głos)", avatar: "PC" },
+      { name: "Jon Hamm", role: "Kapitan (głos)", avatar: "JH" },
+    ],
+    "krol-dopalaczy": [
+      { name: "Tomasz Włosok", role: "Kamil", avatar: "TW" },
+      { name: "Vanessa Aleksander", role: "Ola", avatar: "VA" },
+    ],
+    "reminders-of-him": [
+      { name: "Maika Monroe", role: "Kenna Rowan", avatar: "MM" },
+      { name: "Tyriq Withers", role: "Ledger Ward", avatar: "TW" },
+    ],
+    "enola-holmes-3": [
+      { name: "Millie Bobby Brown", role: "Enola Holmes", avatar: "MB" },
+      { name: "Henry Cavill", role: "Sherlock Holmes", avatar: "HC" },
+    ],
+    "adventures-of-cliff-booth": [
+      { name: "Brad Pitt", role: "Cliff Booth", avatar: "BP" },
+      { name: "Elizabeth Debicki", role: "Veronica", avatar: "ED" },
+      { name: "Yahya Abdul-Mateen II", role: "Jerome", avatar: "YA" },
+      { name: "Timothy Olyphant", role: "Rick Dalton Jr.", avatar: "TO" },
+    ],
+    "here-comes-the-flood": [
+      { name: "Denzel Washington", role: "Marcus", avatar: "DW" },
+      { name: "Robert Pattinson", role: "Leo", avatar: "RP" },
+      { name: "Daisy Edgar-Jones", role: "Ana", avatar: "DE" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
@@ -222,6 +280,38 @@ const Player = () => {
       { user: "NolanFanPL", avatar: "N", rating: 5, text: "Nolan po raz kolejny udowadnia, że jest mistrzem kina epickiego.", time: "2 godziny temu", likes: 89 },
       { user: "EpicCinema", avatar: "E", rating: 5, text: "Zdjęcia kręcone w IMAX zapierają dech. Arcydzieło wizualne.", time: "6 godzin temu", likes: 72 },
       { user: "HistoriaFilmu", avatar: "H", rating: 4, text: "Zendaya jako Atena to rewelacja — majestatyczna i potężna.", time: "1 dzień temu", likes: 56 },
+    ],
+    "projekt-hail-mary": [
+      { user: "SciFiFan", avatar: "S", rating: 5, text: "Ryan Gosling idealnie pasuje do roli samotnego astronauty!", time: "3 godziny temu", likes: 72 },
+      { user: "KosmicznyPodróżnik", avatar: "K", rating: 5, text: "Adaptacja książki Andyego Weira na najwyższym poziomie.", time: "6 godzin temu", likes: 58 },
+    ],
+    "lup": [
+      { user: "ActionFanPL", avatar: "A", rating: 5, text: "Damon i Affleck znów razem — czego chcieć więcej?", time: "2 godziny temu", likes: 91 },
+      { user: "ThrillerManiak", avatar: "T", rating: 4, text: "Napięcie rośnie z każdą minutą. Świetny heist movie.", time: "8 godzin temu", likes: 44 },
+    ],
+    "peaky-blinders-niesmiertelny": [
+      { user: "ShelbyFan", avatar: "S", rating: 5, text: "Tommy Shelby powraca i jest lepszy niż kiedykolwiek!", time: "1 godzinę temu", likes: 112 },
+      { user: "BirminghamBoy", avatar: "B", rating: 5, text: "Barry Keoghan kradnie każdą scenę. Fenomenalny film.", time: "4 godziny temu", likes: 87 },
+    ],
+    "narnia": [
+      { user: "FantasyLover", avatar: "F", rating: 5, text: "Greta Gerwig stworzyła magiczny, piękny świat Narnii.", time: "5 godzin temu", likes: 63 },
+      { user: "BookWorm", avatar: "B", rating: 4, text: "Wierna adaptacja. Meryl Streep jako głos Aslana to strzał w dziesiątkę.", time: "1 dzień temu", likes: 41 },
+    ],
+    "apex": [
+      { user: "MountainClimber", avatar: "M", rating: 5, text: "Charlize Theron w roli survivalowej — idealna obsada!", time: "3 godziny temu", likes: 55 },
+      { user: "AdventureSeeker", avatar: "A", rating: 4, text: "Trzyma w napięciu od początku do końca.", time: "12 godzin temu", likes: 33 },
+    ],
+    "krol-dopalaczy": [
+      { user: "PolskieKino", avatar: "P", rating: 4, text: "Mocny polski film akcji. Włosok gra fenomenalnie.", time: "2 godziny temu", likes: 38 },
+      { user: "Krytyk_PL", avatar: "K", rating: 4, text: "Brutalne, ale potrzebne kino o problemie dopalaczy w Polsce.", time: "8 godzin temu", likes: 29 },
+    ],
+    "adventures-of-cliff-booth": [
+      { user: "TarantinoFan", avatar: "T", rating: 5, text: "Fincher + scenariusz Tarantino = arcydzieło!", time: "1 godzinę temu", likes: 134 },
+      { user: "HollywoodNights", avatar: "H", rating: 5, text: "Brad Pitt znów pokazuje, dlaczego dostał Oscara za tę rolę.", time: "5 godzin temu", likes: 98 },
+    ],
+    "here-comes-the-flood": [
+      { user: "HeistMovieFan", avatar: "H", rating: 5, text: "Denzel Washington i Robert Pattinson razem? Niesamowite!", time: "4 godziny temu", likes: 76 },
+      { user: "CinematicArt", avatar: "C", rating: 4, text: "Meirelles udowadnia, że potrafi kręcić trzymające w napięciu kino.", time: "1 dzień temu", likes: 52 },
     ],
   };
 
@@ -277,6 +367,17 @@ const Player = () => {
                 {movie.duration && (
                   <span className="inline-flex items-center rounded border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground">
                     Czas trwania: {movie.duration}
+                  </span>
+                )}
+                {movie.premiereDate && (
+                  <span className="inline-flex items-center gap-1.5 rounded border border-primary/50 bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary">
+                    <Calendar className="h-3.5 w-3.5" />
+                    Premiera: {new Date(movie.premiereDate).toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" })}
+                  </span>
+                )}
+                {movie.platform && (
+                  <span className="inline-flex items-center rounded border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground">
+                    📺 {movie.platform}
                   </span>
                 )}
               </div>
