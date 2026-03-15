@@ -281,6 +281,38 @@ const Player = () => {
       { user: "EpicCinema", avatar: "E", rating: 5, text: "Zdjęcia kręcone w IMAX zapierają dech. Arcydzieło wizualne.", time: "6 godzin temu", likes: 72 },
       { user: "HistoriaFilmu", avatar: "H", rating: 4, text: "Zendaya jako Atena to rewelacja — majestatyczna i potężna.", time: "1 dzień temu", likes: 56 },
     ],
+    "projekt-hail-mary": [
+      { user: "SciFiFan", avatar: "S", rating: 5, text: "Ryan Gosling idealnie pasuje do roli samotnego astronauty!", time: "3 godziny temu", likes: 72 },
+      { user: "KosmicznyPodróżnik", avatar: "K", rating: 5, text: "Adaptacja książki Andyego Weira na najwyższym poziomie.", time: "6 godzin temu", likes: 58 },
+    ],
+    "lup": [
+      { user: "ActionFanPL", avatar: "A", rating: 5, text: "Damon i Affleck znów razem — czego chcieć więcej?", time: "2 godziny temu", likes: 91 },
+      { user: "ThrillerManiak", avatar: "T", rating: 4, text: "Napięcie rośnie z każdą minutą. Świetny heist movie.", time: "8 godzin temu", likes: 44 },
+    ],
+    "peaky-blinders-niesmiertelny": [
+      { user: "ShelbyFan", avatar: "S", rating: 5, text: "Tommy Shelby powraca i jest lepszy niż kiedykolwiek!", time: "1 godzinę temu", likes: 112 },
+      { user: "BirminghamBoy", avatar: "B", rating: 5, text: "Barry Keoghan kradnie każdą scenę. Fenomenalny film.", time: "4 godziny temu", likes: 87 },
+    ],
+    "narnia": [
+      { user: "FantasyLover", avatar: "F", rating: 5, text: "Greta Gerwig stworzyła magiczny, piękny świat Narnii.", time: "5 godzin temu", likes: 63 },
+      { user: "BookWorm", avatar: "B", rating: 4, text: "Wierna adaptacja. Meryl Streep jako głos Aslana to strzał w dziesiątkę.", time: "1 dzień temu", likes: 41 },
+    ],
+    "apex": [
+      { user: "MountainClimber", avatar: "M", rating: 5, text: "Charlize Theron w roli survivalowej — idealna obsada!", time: "3 godziny temu", likes: 55 },
+      { user: "AdventureSeeker", avatar: "A", rating: 4, text: "Trzyma w napięciu od początku do końca.", time: "12 godzin temu", likes: 33 },
+    ],
+    "krol-dopalaczy": [
+      { user: "PolskieKino", avatar: "P", rating: 4, text: "Mocny polski film akcji. Włosok gra fenomenalnie.", time: "2 godziny temu", likes: 38 },
+      { user: "Krytyk_PL", avatar: "K", rating: 4, text: "Brutalne, ale potrzebne kino o problemie dopalaczy w Polsce.", time: "8 godzin temu", likes: 29 },
+    ],
+    "adventures-of-cliff-booth": [
+      { user: "TarantinoFan", avatar: "T", rating: 5, text: "Fincher + scenariusz Tarantino = arcydzieło!", time: "1 godzinę temu", likes: 134 },
+      { user: "HollywoodNights", avatar: "H", rating: 5, text: "Brad Pitt znów pokazuje, dlaczego dostał Oscara za tę rolę.", time: "5 godzin temu", likes: 98 },
+    ],
+    "here-comes-the-flood": [
+      { user: "HeistMovieFan", avatar: "H", rating: 5, text: "Denzel Washington i Robert Pattinson razem? Niesamowite!", time: "4 godziny temu", likes: 76 },
+      { user: "CinematicArt", avatar: "C", rating: 4, text: "Meirelles udowadnia, że potrafi kręcić trzymające w napięciu kino.", time: "1 dzień temu", likes: 52 },
+    ],
   };
 
   const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
