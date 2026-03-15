@@ -315,17 +315,18 @@ const Player = () => {
       </section>
 
       {/* ─── Video Player ─── */}
-      <div className="px-4 md:px-8 max-w-screen-xl mx-auto -mt-4 mb-8">
-        <div
-          ref={playerContainerRef}
-          className="relative w-full rounded-lg overflow-hidden border border-border bg-card"
-          style={{
-            aspectRatio: isFullscreen ? undefined : "16/9",
-            height: isFullscreen ? "100vh" : undefined,
-          }}
-          onClick={togglePlay}
-          onMouseMove={handleMouseMove}
-        >
+      <div className="px-2 md:px-8 max-w-screen-xl mx-auto -mt-4 mb-8">
+        <div className="relative">
+          <div
+            ref={playerContainerRef}
+            className="relative w-full rounded-lg overflow-hidden border border-border bg-card"
+            style={{
+              aspectRatio: isFullscreen ? undefined : (isMobile ? "4/3" : "16/9"),
+              height: isFullscreen ? "100vh" : undefined,
+            }}
+            onClick={togglePlay}
+            onMouseMove={handleMouseMove}
+          >
           {/* Intro video */}
           {phase === "intro" && !introEnded && (
             <video
