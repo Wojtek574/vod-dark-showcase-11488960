@@ -200,6 +200,64 @@ const Player = () => {
       { name: "Robert Pattinson", role: "Antinous", avatar: "RP" },
       { name: "Charlize Theron", role: "Kirke", avatar: "CT" },
     ],
+    "projekt-hail-mary": [
+      { name: "Ryan Gosling", role: "Ryland Grace", avatar: "RG" },
+      { name: "Sandra Hüller", role: "Eva Stratt", avatar: "SH" },
+      { name: "Awkwafina", role: "Dr. Lokken", avatar: "AW" },
+      { name: "Kumail Nanjiani", role: "Rocky (głos)", avatar: "KN" },
+    ],
+    "lup": [
+      { name: "Matt Damon", role: "Sgt. Walker", avatar: "MD" },
+      { name: "Ben Affleck", role: "Det. Torres", avatar: "BA" },
+      { name: "Steven Yeun", role: "Danny", avatar: "SY" },
+      { name: "Teyana Taylor", role: "Agent Cruz", avatar: "TT" },
+      { name: "Kyle Chandler", role: "Kapitan Briggs", avatar: "KC" },
+    ],
+    "peaky-blinders-niesmiertelny": [
+      { name: "Cillian Murphy", role: "Tommy Shelby", avatar: "CM" },
+      { name: "Stephen Graham", role: "Hayden Stagg", avatar: "SG" },
+      { name: "Rebecca Ferguson", role: "Lady Diana", avatar: "RF" },
+      { name: "Tim Roth", role: "Dr. Holford", avatar: "TR" },
+      { name: "Barry Keoghan", role: "Duke Shelby", avatar: "BK" },
+    ],
+    "narnia": [
+      { name: "Emma Mackey", role: "Biała Czarownica", avatar: "EM" },
+      { name: "Meryl Streep", role: "Aslan (głos)", avatar: "MS" },
+      { name: "Daniel Craig", role: "Wuj Andrew", avatar: "DC" },
+      { name: "Carey Mulligan", role: "Polly", avatar: "CM" },
+    ],
+    "apex": [
+      { name: "Charlize Theron", role: "Kate", avatar: "CT" },
+      { name: "Taron Egerton", role: "Viktor", avatar: "TE" },
+      { name: "Eric Bana", role: "Ranger Jim", avatar: "EB" },
+    ],
+    "hopnieci": [
+      { name: "Piper Curda", role: "Lily (głos)", avatar: "PC" },
+      { name: "Jon Hamm", role: "Kapitan (głos)", avatar: "JH" },
+    ],
+    "krol-dopalaczy": [
+      { name: "Tomasz Włosok", role: "Kamil", avatar: "TW" },
+      { name: "Vanessa Aleksander", role: "Ola", avatar: "VA" },
+    ],
+    "reminders-of-him": [
+      { name: "Maika Monroe", role: "Kenna Rowan", avatar: "MM" },
+      { name: "Tyriq Withers", role: "Ledger Ward", avatar: "TW" },
+    ],
+    "enola-holmes-3": [
+      { name: "Millie Bobby Brown", role: "Enola Holmes", avatar: "MB" },
+      { name: "Henry Cavill", role: "Sherlock Holmes", avatar: "HC" },
+    ],
+    "adventures-of-cliff-booth": [
+      { name: "Brad Pitt", role: "Cliff Booth", avatar: "BP" },
+      { name: "Elizabeth Debicki", role: "Veronica", avatar: "ED" },
+      { name: "Yahya Abdul-Mateen II", role: "Jerome", avatar: "YA" },
+      { name: "Timothy Olyphant", role: "Rick Dalton Jr.", avatar: "TO" },
+    ],
+    "here-comes-the-flood": [
+      { name: "Denzel Washington", role: "Marcus", avatar: "DW" },
+      { name: "Robert Pattinson", role: "Leo", avatar: "RP" },
+      { name: "Daisy Edgar-Jones", role: "Ana", avatar: "DE" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
