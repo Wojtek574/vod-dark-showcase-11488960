@@ -4,7 +4,7 @@ import MediaRow from "@/components/MediaRow";
 import { mediaItems } from "@/data/movies";
 import {
   ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize,
-  SkipBack, SkipForward, Star, Clock, Film,
+  SkipBack, SkipForward, Star, Clock, Film, Calendar,
   Users, Shield, ThumbsUp, MessageCircle, Crown, Zap,
   Plus, Share2, ChevronDown, User, Search
 } from "lucide-react";
