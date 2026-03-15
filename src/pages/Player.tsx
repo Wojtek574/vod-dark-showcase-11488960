@@ -220,7 +220,7 @@ const Player = () => {
   const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
   const comments = commentsBySlug[movie.slug] || commentsBySlug["panna-mloda"];
 
-  const introSrc = isMobile ? "/intros/intro-mobile.mp4" : "/intros/intro-desktop.mp4";
+  const introSrc = "/intros/intro-desktop.mp4";
 
   return (
     <div className="min-h-screen bg-background">
