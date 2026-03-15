@@ -105,11 +105,11 @@ const PlayerIntro = ({ phase, introOpacity, movieTitle, onIntroEnd }: PlayerIntr
               Wymagane konto
             </h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Aby kontynuować oglądanie, musisz posiadać konto. Zarejestruj się za darmo i uzyskaj dostęp do pełnej biblioteki filmów i seriali.
+              Aby kontynuować, musisz posiadać konto. Rozpocznij korzystanie z pełnej biblioteki filmów i seriali.
             </p>
             <div className="mt-6 flex flex-col gap-3">
               <button className="w-full rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90">
-                Zarejestruj się za darmo
+                Rozpocznij teraz
               </button>
               <button
                 onClick={() => { setShowPopup(false); onIntroEnd(); }}
