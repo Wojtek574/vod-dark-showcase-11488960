@@ -75,7 +75,7 @@ const MediaRow = ({ title, items, linkTo, showPremiereDate }: MediaRowProps) => 
         >
           {items.map((item) => (
             <div key={item.id} className="flex-shrink-0 w-[130px] sm:w-[150px] md:w-[170px] lg:w-[185px]">
-              <MediaCard item={item} />
+              <MediaCard item={item} showPremiereDate={showPremiereDate} />
             </div>
           ))}
         </div>
