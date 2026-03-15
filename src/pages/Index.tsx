@@ -129,13 +129,13 @@ const Index = () => {
           {premieres2026.length > 0 && (
             <MediaRow title="🎬 Premiery 2026" items={premieres2026} showPremiereDate />
           )}
+          <MediaRow title="Ostatnio dodane" items={newReleases} />
           <MediaRow title="Popularne filmy" items={films} linkTo="/filmy" />
           <TopTenRow title="Najlepsze pozycje wg. IMDb" items={mediaItems} />
           <MediaRow title="Popularne seriale" items={serials} linkTo="/seriale" />
           {withDescription.length > 0 && (
             <MediaRow title="Polecane dla Ciebie" items={withDescription} />
           )}
-          <MediaRow title="Ostatnio dodane" items={newReleases} />
         </div>
       </main>
     </div>
