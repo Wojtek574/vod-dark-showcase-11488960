@@ -21,6 +21,9 @@ import coverRemindersOfHim from "@/assets/cover-reminders-of-him.webp";
 import coverEnolaHolmes3 from "@/assets/cover-enola-holmes-3.webp";
 import coverCliffBooth from "@/assets/cover-cliff-booth.webp";
 import coverHereComesTheFlood from "@/assets/cover-here-comes-the-flood.webp";
+import coverZielonaMila from "@/assets/cover-zielona-mila.webp";
+import coverSkazaniNaShawshank from "@/assets/cover-skazani-na-shawshank.webp";
+import coverForrestGump from "@/assets/cover-forrest-gump.webp";
 
 export interface MediaItem {
   id: number;
