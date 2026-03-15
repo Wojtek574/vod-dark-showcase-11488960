@@ -369,6 +369,17 @@ const Player = () => {
                     Czas trwania: {movie.duration}
                   </span>
                 )}
+                {movie.premiereDate && (
+                  <span className="inline-flex items-center gap-1.5 rounded border border-primary/50 bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary">
+                    <Calendar className="h-3.5 w-3.5" />
+                    Premiera: {new Date(movie.premiereDate).toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" })}
+                  </span>
+                )}
+                {movie.platform && (
+                  <span className="inline-flex items-center rounded border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground">
+                    📺 {movie.platform}
+                  </span>
+                )}
               </div>
 
               {/* Description */}
