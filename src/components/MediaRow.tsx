@@ -9,6 +9,7 @@ interface MediaRowProps {
   title: string;
   items: MediaItem[];
   linkTo?: string;
+  showPremiereDate?: boolean;
 }
 
 const MediaRow = ({ title, items, linkTo }: MediaRowProps) => {
