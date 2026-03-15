@@ -77,13 +77,21 @@ const Player = () => {
 
   const progress = duration > 0 ? (currentTime / FAKE_DURATION) * 100 : 0;
 
-  const handleIntroEnd = () => {
+  const handleIntroEnd = useCallback(() => {
     setIntroEnded(true);
     setPhase("playing");
-  };
+    // Auto-play trailer after intro
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play();
+        setIsPlaying(true);
+      }
+    }, 200);
+  }, []);
 
   const togglePlay = useCallback(() => {
-    if (phase === "intro") {
+    if (phase === "intro" && !introEnded) {
       if (introVideoRef.current) {
         if (introVideoRef.current.paused) {
           introVideoRef.current.play();
@@ -103,7 +111,7 @@ const Player = () => {
       videoRef.current.pause();
       setIsPlaying(false);
     }
-  }, [phase]);
+  }, [phase, introEnded]);
 
   const handleMouseMove = () => {
     setShowControls(true);
