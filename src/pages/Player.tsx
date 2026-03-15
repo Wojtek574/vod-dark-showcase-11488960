@@ -370,65 +370,6 @@ const Player = () => {
             </div>
           )}
 
-          {/* Registration popup */}
-          {showPopup && (
-            <div
-              className="absolute inset-0 z-40 flex items-center justify-center bg-background/90 backdrop-blur-md"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="mx-4 max-w-md w-full rounded-xl border border-primary/40 bg-card p-6 md:p-8 text-center shadow-2xl shadow-primary/10">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/15 border border-primary/30">
-                  <Crown className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="font-display text-xl md:text-2xl tracking-wider text-foreground">
-                  Wymagane konto
-                </h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                  Rozpocznij korzystanie z pełnego katalogu{" "}
-                  <span className="text-primary font-bold">"{movie.title}"</span> i wielu innych tytułów.
-                </p>
-
-                {/* Playback time */}
-                <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/80 px-4 py-2 text-xs text-muted-foreground">
-                  <Clock className="h-3.5 w-3.5 text-primary" />
-                  Czas odtwarzania: {formatTime(currentTime)} / {movie.duration || "2:06:32"}
-                </div>
-
-                {/* Social proof */}
-                <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1.5">
-                    <Users className="h-3.5 w-3.5 text-primary" /> 12,847 widzów
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Shield className="h-3.5 w-3.5 text-primary" /> Bezpiecznie
-                  </span>
-                </div>
-
-                <div className="mt-6 flex flex-col gap-3">
-                  <button className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
-                    <Zap className="h-4 w-4" /> Rozpocznij teraz
-                  </button>
-                  <button className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30">
-                    Mam konto — Zaloguj się
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowPopup(false);
-                      if (videoRef.current) {
-                        videoRef.current.currentTime = 0;
-                        videoRef.current.play();
-                        setIsPlaying(true);
-                      }
-                    }}
-                    className="text-xs text-muted-foreground/60 hover:text-primary mt-1 transition-colors"
-                  >
-                    Wyszukaj ponownie
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Controls */}
           {phase === "playing" && (
             <div
