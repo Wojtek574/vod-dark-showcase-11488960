@@ -21,6 +21,9 @@ import coverRemindersOfHim from "@/assets/cover-reminders-of-him.webp";
 import coverEnolaHolmes3 from "@/assets/cover-enola-holmes-3.webp";
 import coverCliffBooth from "@/assets/cover-cliff-booth.webp";
 import coverHereComesTheFlood from "@/assets/cover-here-comes-the-flood.webp";
+import coverZielonaMila from "@/assets/cover-zielona-mila.webp";
+import coverSkazaniNaShawshank from "@/assets/cover-skazani-na-shawshank.webp";
+import coverForrestGump from "@/assets/cover-forrest-gump.webp";
 
 export interface MediaItem {
   id: number;
@@ -231,6 +234,39 @@ export const mediaItems: MediaItem[] = [
     duration: "2:10:00",
     premiereDate: "2026-08-01",
     platform: "Netflix",
+  },
+  {
+    id: 24,
+    title: "Zielona Mila",
+    slug: "zielona-mila",
+    genre: "Dramat",
+    year: "1999",
+    image: coverZielonaMila,
+    type: "film",
+    description: "Emerytowany strażnik więzienny opowiada przyjaciółce o niezwykłym mężczyźnie, którego skazano na śmierć za zabójstwo dwóch 9-letnich dziewczynek. Adaptacja powieści Stephena Kinga w reżyserii Franka Darabonta. W rolach głównych: Tom Hanks, Michael Clarke Duncan, David Morse.",
+    duration: "3:08:00",
+  },
+  {
+    id: 25,
+    title: "Skazani na Shawshank",
+    slug: "skazani-na-shawshank",
+    genre: "Dramat",
+    year: "1994",
+    image: coverSkazaniNaShawshank,
+    type: "film",
+    description: "Adaptacja opowiadania Stephena Kinga. Niesłusznie skazany na dożywocie bankier Andy Dufresne stara się przetrwać w brutalnym, więziennym świecie. Reżyseria: Frank Darabont. W rolach głównych: Tim Robbins, Morgan Freeman.",
+    duration: "2:22:00",
+  },
+  {
+    id: 26,
+    title: "Forrest Gump",
+    slug: "forrest-gump",
+    genre: "Komedia / Dramat",
+    year: "1994",
+    image: coverForrestGump,
+    type: "film",
+    description: "Historia życia Forresta, chłopca o niskim ilorazie inteligencji z niedowładem kończyn, który staje się miliarderem i bohaterem wojny w Wietnamie. Reżyseria: Robert Zemeckis. W rolach głównych: Tom Hanks, Robin Wright, Gary Sinise.",
+    duration: "2:22:00",
   },
   // ── Oryginalne placeholder filmy/seriale ──
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
