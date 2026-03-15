@@ -12,7 +12,7 @@ interface MediaRowProps {
   showPremiereDate?: boolean;
 }
 
-const MediaRow = ({ title, items, linkTo }: MediaRowProps) => {
+const MediaRow = ({ title, items, linkTo, showPremiereDate }: MediaRowProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
