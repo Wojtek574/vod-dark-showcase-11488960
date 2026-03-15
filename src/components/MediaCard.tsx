@@ -36,12 +36,6 @@ const MediaCard = ({ item, rank, showPremiereDate }: MediaCardProps) => {
           </div>
         )}
 
-        {/* Platform badge */}
-        {item.platform && (
-          <div className="absolute top-2 right-2 rounded bg-background/80 px-1.5 py-0.5 text-[9px] font-bold text-primary backdrop-blur-sm border border-primary/20">
-            {item.platform}
-          </div>
-        )}
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
