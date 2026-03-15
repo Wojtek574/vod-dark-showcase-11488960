@@ -10,6 +10,17 @@ import coverPannaMloda from "@/assets/cover-panna-mloda.webp";
 import coverDobryChlopiec from "@/assets/cover-dobry-chlopiec.webp";
 import coverBezWyjscia from "@/assets/cover-bez-wyjscia.webp";
 import coverOdyseja from "@/assets/cover-odyseja.webp";
+import coverProjektHailMary from "@/assets/cover-projekt-hail-mary.webp";
+import coverLup from "@/assets/cover-lup.webp";
+import coverPeakyBlinders from "@/assets/cover-peaky-blinders.webp";
+import coverNarnia from "@/assets/cover-narnia.webp";
+import coverApex from "@/assets/cover-apex.webp";
+import coverHopnieci from "@/assets/cover-hopnieci.webp";
+import coverKrolDopalaczy from "@/assets/cover-krol-dopalaczy.webp";
+import coverRemindersOfHim from "@/assets/cover-reminders-of-him.webp";
+import coverEnolaHolmes3 from "@/assets/cover-enola-holmes-3.webp";
+import coverCliffBooth from "@/assets/cover-cliff-booth.webp";
+import coverHereComesTheFlood from "@/assets/cover-here-comes-the-flood.webp";
 
 export interface MediaItem {
   id: number;
@@ -21,8 +32,8 @@ export interface MediaItem {
   type: "film" | "serial";
   description?: string;
   duration?: string;
-  premiereDate?: string; // format: "YYYY-MM-DD"
-  platform?: string; // np. "Netflix", "HBO Max", "Kino", "Disney+"
+  premiereDate?: string;
+  platform?: string;
 }
 
 export const mediaItems: MediaItem[] = [
@@ -78,14 +89,13 @@ export const mediaItems: MediaItem[] = [
     premiereDate: "2026-07-17",
     platform: "Kino",
   },
-  // ── Nowe premiery 2026 ──
   {
     id: 13,
     title: "Projekt Hail Mary",
     slug: "projekt-hail-mary",
     genre: "Sci-Fi",
     year: "2026",
-    image: cover1,
+    image: coverProjektHailMary,
     type: "film",
     description: "Samotny astronauta Ryland Grace budzi się na statku kosmicznym miliony kilometrów od Ziemi. Nie pamięta kim jest ani jaka jest jego misja. Musi rozwiązać największą zagadkę w historii ludzkości, aby ocalić Ziemię. W roli głównej Ryan Gosling. Reżyseria: Phil Lord i Christopher Miller.",
     duration: "2:36:00",
@@ -98,7 +108,7 @@ export const mediaItems: MediaItem[] = [
     slug: "lup",
     genre: "Thriller / Akcja",
     year: "2026",
-    image: cover2,
+    image: coverLup,
     type: "film",
     description: "Grupa policjantów z Miami podczas rutynowej akcji w zapuszczonej melinie odkrywa fortunę. Widok milionów dolarów błyskawicznie niszczy solidarność zespołu. Nie wiadomo, kto jest po czyjej stronie. W rolach głównych: Matt Damon, Ben Affleck, Steven Yeun. Reżyseria: Joe Carnahan.",
     duration: "2:14:00",
@@ -111,7 +121,7 @@ export const mediaItems: MediaItem[] = [
     slug: "peaky-blinders-niesmiertelny",
     genre: "Thriller / Dramat",
     year: "2026",
-    image: cover3,
+    image: coverPeakyBlinders,
     type: "film",
     description: "Filmowa kontynuacja kultowego serialu. Tommy Shelby (Cillian Murphy) powraca z gangiem w nowej, mrocznej historii. W obsadzie: Stephen Graham, Rebecca Ferguson, Tim Roth, Barry Keoghan, Jay Lycurgo. Reżyseria: Tom Harper.",
     duration: "2:20:00",
@@ -124,7 +134,7 @@ export const mediaItems: MediaItem[] = [
     slug: "narnia",
     genre: "Fantasy / Przygodowy",
     year: "2026",
-    image: cover4,
+    image: coverNarnia,
     type: "film",
     description: "Powrót do magicznego świata Narnii w reżyserii Grety Gerwig. Film oparty na książce 'Siostrzeniec czarodzieja'. Emma Mackey jako Biała Czarownica, Meryl Streep głosem Aslana, w obsadzie także Daniel Craig i Carey Mulligan. Premiera w kinach IMAX, potem na Netfliksie.",
     duration: "2:25:00",
@@ -137,11 +147,11 @@ export const mediaItems: MediaItem[] = [
     slug: "apex",
     genre: "Thriller / Akcja",
     year: "2026",
-    image: cover5,
+    image: coverApex,
     type: "film",
     description: "Pasjonatka wspinaczki na samotnej wyprawie odkrywa, że ściga ją psychopata. Charlize Theron w roli głównej, Taron Egerton jako antagonista. W obsadzie także Eric Bana. Reżyseria: Baltasar Kormákur.",
     duration: "1:58:00",
-    premiereDate: "2026-06-15",
+    premiereDate: "2026-04-24",
     platform: "Netflix",
   },
   {
@@ -150,7 +160,7 @@ export const mediaItems: MediaItem[] = [
     slug: "hopnieci",
     genre: "Animacja / Komedia",
     year: "2026",
-    image: cover6,
+    image: coverHopnieci,
     type: "film",
     description: "Animowana komedia przygodowa studia Illumination. Pełna humoru i kolorowej akcji podróż przez fantastyczny świat. Głosy: Piper Curda, Jon Hamm. Reżyseria: Daniel Chong.",
     duration: "1:45:00",
@@ -163,7 +173,7 @@ export const mediaItems: MediaItem[] = [
     slug: "krol-dopalaczy",
     genre: "Akcja / Kryminał",
     year: "2026",
-    image: cover7,
+    image: coverKrolDopalaczy,
     type: "film",
     description: "Polska produkcja akcji oparta na prawdziwych wydarzeniach o świecie dopalaczy. Tomasz Włosok i Vanessa Aleksander w rolach głównych. Reżyseria: Pat Howl. Brutalna, dynamiczna historia z podziemia.",
     duration: "1:52:00",
@@ -176,7 +186,7 @@ export const mediaItems: MediaItem[] = [
     slug: "reminders-of-him",
     genre: "Melodramat / Romans",
     year: "2026",
-    image: cover8,
+    image: coverRemindersOfHim,
     type: "film",
     description: "Adaptacja bestsellerowej powieści Colleen Hoover. Kenna Rowan wychodzi z więzienia i próbuje odbudować relację z córką. Napotyka opór społeczności, ale niespodziewanie znajduje wsparcie. Maika Monroe i Tyriq Withers w rolach głównych.",
     duration: "1:54:00",
@@ -189,7 +199,7 @@ export const mediaItems: MediaItem[] = [
     slug: "enola-holmes-3",
     genre: "Kryminał / Przygodowy",
     year: "2026",
-    image: cover1,
+    image: coverEnolaHolmes3,
     type: "film",
     description: "Millie Bobby Brown po raz trzeci wciela się w Enolę Holmes — siostrzyczkę słynnego Sherlocka. Trzecia część ma być mroczniejsza od poprzednich odsłon. Reżyseria: Philip Barantini.",
     duration: "2:05:00",
@@ -202,7 +212,7 @@ export const mediaItems: MediaItem[] = [
     slug: "adventures-of-cliff-booth",
     genre: "Kryminał / Dramat",
     year: "2026",
-    image: cover3,
+    image: coverCliffBooth,
     type: "film",
     description: "Kontynuacja 'Pewnego razu... w Hollywood'. Brad Pitt powraca w nagrodzonej Oscarem roli Cliffa Bootha. Scenariusz Quentina Tarantino, reżyseria Davida Finchera. W obsadzie: Elizabeth Debicki, Yahya Abdul-Mateen II, Timothy Olyphant.",
     duration: "2:35:00",
@@ -215,7 +225,7 @@ export const mediaItems: MediaItem[] = [
     slug: "here-comes-the-flood",
     genre: "Thriller / Kryminał",
     year: "2026",
-    image: cover4,
+    image: coverHereComesTheFlood,
     type: "film",
     description: "Heist movie Fernando Meirellesa, w którym splotą się losy trzech postaci uwikłanych w napad na bank. Denzel Washington, Robert Pattinson i Daisy Edgar-Jones w rolach głównych.",
     duration: "2:10:00",
