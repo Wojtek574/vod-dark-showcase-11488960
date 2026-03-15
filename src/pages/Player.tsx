@@ -6,7 +6,7 @@ import {
   ArrowLeft, Play, Pause, Volume2, VolumeX, Maximize, Minimize,
   SkipBack, SkipForward, Star, Clock, Film,
   Users, Shield, ThumbsUp, MessageCircle, Crown, Zap,
-  Plus, Share2, ChevronDown, User
+  Plus, Share2, ChevronDown, User, Search
 } from "lucide-react";
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 
