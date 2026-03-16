@@ -500,12 +500,12 @@ const Player = () => {
               </div>
 
               <div className="mt-5 flex flex-col gap-2.5">
-                <button className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
-                  <Zap className="h-4 w-4" /> Rozpocznij teraz
-                </button>
-                <button className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30">
-                  Mam konto — Zaloguj się
-                </button>
+                <a href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103" target="_blank" rel="noopener noreferrer" className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+                   <Zap className="h-4 w-4" /> Rozpocznij teraz
+                 </a>
+                 <a href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103" target="_blank" rel="noopener noreferrer" className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30 text-center">
+                   Mam konto — Zaloguj się
+                 </a>
                 <button
                   onClick={() => {
                     setShowPopup(false);
