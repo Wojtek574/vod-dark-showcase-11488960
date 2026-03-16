@@ -505,9 +505,6 @@ const Player = () => {
                   <button onClick={() => setIsMuted(!isMuted)} className="rounded-sm p-1.5 text-foreground/60 hover:text-foreground transition-colors">
                     {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                   </button>
-                  <span className="ml-1 text-xs tabular-nums text-foreground/50">
-                    {formatTime(currentTime)} / {movie.duration || "2:06:32"}
-                  </span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-medium text-foreground/70 mr-2 hidden md:inline">
@@ -537,10 +534,6 @@ const Player = () => {
               </p>
 
               {/* Playback time */}
-              <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/80 px-4 py-2 text-xs text-muted-foreground">
-                <Clock className="h-3.5 w-3.5 text-primary" />
-                Czas odtwarzania: {formatTime(currentTime)} / {movie.duration || "2:06:32"}
-              </div>
 
               {/* Social proof */}
               <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
