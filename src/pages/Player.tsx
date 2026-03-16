@@ -27,8 +27,6 @@ const Player = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
-  const [phase, setPhase] = useState<"intro" | "playing">("intro");
-  const [introEnded, setIntroEnded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
