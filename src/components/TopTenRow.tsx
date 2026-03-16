@@ -30,6 +30,18 @@ const TopTenRow = ({ title, items }: TopTenRowProps) => {
     });
   };
 
+  // Touch swipe
+  const touchStartX = useRef(0);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      scroll(diff > 0 ? "right" : "left");
+    }
+  };
+
   const top = items.slice(0, 10);
 
   return (
@@ -62,6 +74,8 @@ const TopTenRow = ({ title, items }: TopTenRowProps) => {
         <div
           ref={scrollRef}
           onScroll={checkScroll}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           className="flex gap-4 overflow-x-auto px-4 md:px-8 pb-2"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
@@ -71,7 +85,6 @@ const TopTenRow = ({ title, items }: TopTenRowProps) => {
               onClick={() => navigate(`/odtwarzacz/${item.slug}`)}
               className="group relative flex-shrink-0 cursor-pointer"
             >
-              {/* Card with rank */}
               <div className="relative w-[130px] sm:w-[150px] md:w-[170px] lg:w-[185px]">
                 <div className="relative aspect-[2/3] overflow-hidden rounded border border-border bg-card transition-all duration-300 group-hover:border-primary/60">
                   <img
@@ -79,26 +92,19 @@ const TopTenRow = ({ title, items }: TopTenRowProps) => {
                     alt={item.title}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  
-                  {/* Rank badge */}
                   <div className="absolute top-2 left-2 flex h-8 w-8 items-center justify-center rounded bg-primary text-sm font-bold text-primary-foreground shadow-lg">
                     {i + 1}
                   </div>
-
-                  {/* Hover play */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="rounded-full bg-primary p-3 shadow-lg shadow-primary/30">
                       <Play className="h-5 w-5 text-primary-foreground fill-current" />
                     </div>
                   </div>
-
-                  {/* Rating */}
                   <div className="absolute bottom-2 right-2 flex items-center gap-1 rounded bg-background/80 px-1.5 py-0.5 text-[10px] backdrop-blur-sm">
                     <Star className="h-3 w-3 fill-primary text-primary" />
                     <span className="text-foreground font-medium">4.{9 - i}/5</span>
                   </div>
                 </div>
-
                 <div className="mt-2 px-0.5">
                   <h3 className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
                     {item.title}
