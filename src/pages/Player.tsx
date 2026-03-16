@@ -15,7 +15,6 @@ const Player = () => {
   const navigate = useNavigate();
   const movie = mediaItems.find((m) => m.slug === slug);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const introVideoRef = useRef<HTMLVideoElement>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
