@@ -44,9 +44,9 @@ const Player = () => {
     return mediaItems.filter((m) => m.id !== movie.id).slice(0, 10);
   }, [movie]);
 
-  // 10s popup timer
+  // 10s popup timer from play start
   useEffect(() => {
-    if (isPlaying && !showPopup && phase === "playing") {
+    if (isPlaying && !showPopup) {
       popupTimerRef.current = setTimeout(() => {
         setShowPopup(true);
         videoRef.current?.pause();
@@ -56,7 +56,7 @@ const Player = () => {
     return () => {
       if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
     };
-  }, [isPlaying, showPopup, phase]);
+  }, [isPlaying, showPopup]);
 
   useEffect(() => {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);
