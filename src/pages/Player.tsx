@@ -527,7 +527,7 @@ const Player = () => {
         {/* Button to external link */}
         <div className="mt-4 flex flex-col sm:flex-row items-center gap-3">
           <a
-            href={`https://www.google.com/search?q=${encodeURIComponent(movie.title + " " + movie.year + " cały film")}`}
+            href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105"
