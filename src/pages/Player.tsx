@@ -398,23 +398,11 @@ const Player = () => {
             onClick={togglePlay}
             onMouseMove={handleMouseMove}
           >
-          {/* Intro video */}
-          {phase === "intro" && !introEnded && (
-            <video
-              ref={introVideoRef}
-              src={introSrc}
-              className="absolute inset-0 h-full w-full object-contain bg-background"
-              muted={isMuted}
-              onEnded={handleIntroEnd}
-              playsInline
-            />
-          )}
-
-          {/* Main trailer video */}
+          {/* Single video - intro */}
           <video
             ref={videoRef}
-            src="/trailers/panna-mloda-trailer.mp4"
-            className={`absolute inset-0 h-full w-full object-contain bg-background ${phase === "intro" && !introEnded ? "opacity-0" : "opacity-100"}`}
+            src={introSrc}
+            className="absolute inset-0 h-full w-full object-contain bg-background"
             muted={isMuted}
             onTimeUpdate={() => setCurrentTime(videoRef.current?.currentTime || 0)}
             onLoadedMetadata={() => setDuration(videoRef.current?.duration || 0)}
@@ -428,11 +416,7 @@ const Player = () => {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (!introEnded && phase === "intro") {
-                    startPlayback();
-                  } else {
-                    togglePlay();
-                  }
+                  startPlayback();
                 }}
                 className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
               >
@@ -442,7 +426,7 @@ const Player = () => {
           )}
 
           {/* Controls */}
-          {phase === "playing" && (
+          {isPlaying && (
             <div
               className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-background/90 via-background/50 to-transparent px-4 md:px-6 pb-3 pt-16 transition-opacity duration-300 ${
                 showControls || !isPlaying ? "opacity-100" : "opacity-0"
