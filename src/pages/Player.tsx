@@ -283,6 +283,73 @@ const Player = () => {
       { user: "HeistMovieFan", avatar: "H", rating: 5, text: "Denzel Washington i Robert Pattinson razem? Niesamowite!", time: "4 godziny temu", likes: 76 },
       { user: "CinematicArt", avatar: "C", rating: 4, text: "Meirelles udowadnia, że potrafi kręcić trzymające w napięciu kino.", time: "1 dzień temu", likes: 52 },
     ],
+    "hopnieci": [
+      { user: "AnimacjaFan", avatar: "A", rating: 5, text: "Pixar znów w formie! Koncept hopnozy jest genialny i oryginalny.", time: "1 godzinę temu", likes: 83 },
+      { user: "RodzinneKino", avatar: "R", rating: 5, text: "Dzieci były zachwycone, a dorośli wzruszeni. Idealny film familijny!", time: "4 godziny temu", likes: 61 },
+      { user: "BóbrMechaniczny", avatar: "B", rating: 4, text: "Animacja na najwyższym poziomie. Sceny z bobrami to coś pięknego.", time: "1 dzień temu", likes: 47 },
+    ],
+    "reminders-of-him": [
+      { user: "BookToFilm", avatar: "B", rating: 5, text: "Wierna adaptacja Colleen Hoover. Maika Monroe łamie serce w każdej scenie.", time: "2 godziny temu", likes: 74 },
+      { user: "DramaQueen", avatar: "D", rating: 5, text: "Płakałam trzy razy. Piękna historia o drugich szansach i przebaczeniu.", time: "6 godzin temu", likes: 92 },
+      { user: "CineLove", avatar: "C", rating: 4, text: "Tyriq Withers to odkrycie roku. Chemia między aktorami jest niesamowita.", time: "1 dzień temu", likes: 55 },
+    ],
+    "enola-holmes-3": [
+      { user: "SherlockFan", avatar: "S", rating: 5, text: "Millie Bobby Brown dojrzała w tej roli. Najlepsza część trylogii!", time: "3 godziny temu", likes: 68 },
+      { user: "MysteryLover", avatar: "M", rating: 4, text: "Mroczniejszy ton idealnie pasuje. Zagadka kryminalna trzyma do końca.", time: "8 godzin temu", likes: 41 },
+      { user: "BakerStreet", avatar: "B", rating: 5, text: "Philip Barantini dodał serialowi świeżości. Chcę czwartą część!", time: "1 dzień temu", likes: 53 },
+    ],
+    "zielona-mila": [
+      { user: "KlasykaKina", avatar: "K", rating: 5, text: "Arcydzieło. Tom Hanks i Michael Clarke Duncan tworzą niezapomniany duet.", time: "1 godzinę temu", likes: 156 },
+      { user: "StephenKingFan", avatar: "S", rating: 5, text: "Najlepsza adaptacja Kinga obok Shawshank. Płaczę za każdym razem.", time: "3 godziny temu", likes: 134 },
+      { user: "RetroFilm", avatar: "R", rating: 5, text: "Film, który powinien wygrać Oscara. Ponadczasowa historia o ludzkości i cudach.", time: "1 dzień temu", likes: 112 },
+    ],
+    "skazani-na-shawshank": [
+      { user: "TopIMDB", avatar: "T", rating: 5, text: "Numer jeden na liście najlepszych filmów wszech czasów nie bez powodu.", time: "2 godziny temu", likes: 203 },
+      { user: "MorganFreemanFan", avatar: "M", rating: 5, text: "Narracja Reda to czysta poezja. Freeman w życiowej roli.", time: "5 godzin temu", likes: 178 },
+      { user: "FilmoweKlasyki", avatar: "F", rating: 5, text: "Końcówka na plaży to jedna z najpiękniejszych scen w historii kina.", time: "1 dzień temu", likes: 145 },
+    ],
+    "forrest-gump": [
+      { user: "RunForrestRun", avatar: "R", rating: 5, text: "Życie jest jak pudełko czekoladek — i ten film też. Pełen niespodzianek.", time: "1 godzinę temu", likes: 189 },
+      { user: "90sKids", avatar: "9", rating: 5, text: "Tom Hanks zasłużenie dostał Oscara. Forrest to postać, którą się kocha.", time: "4 godziny temu", likes: 167 },
+      { user: "HistoriaUSA", avatar: "H", rating: 5, text: "Genialny sposób opowiedzenia historii Ameryki przez pryzmat jednego człowieka.", time: "1 dzień temu", likes: 131 },
+    ],
+    "za-duzy-na-bajki-3": [
+      { user: "PolskaRodzina", avatar: "P", rating: 4, text: "Ważny temat hejtu w internecie podany w przystępny sposób dla młodszych widzów.", time: "2 godziny temu", likes: 45 },
+      { user: "MamaWKinie", avatar: "M", rating: 5, text: "Najlepsza część serii! Waldek dorasta i problemy rosną razem z nim.", time: "6 godzin temu", likes: 38 },
+      { user: "FamilijneKino", avatar: "F", rating: 4, text: "Kristoffer Rus znów trafił w sedno. Film, który warto obejrzeć z dziećmi.", time: "1 dzień temu", likes: 29 },
+    ],
+    "cybershadow": [
+      { user: "NeonRunner", avatar: "N", rating: 4, text: "Klimat cyberpunka oddany perfekcyjnie. Świetna ścieżka dźwiękowa!", time: "3 godziny temu", likes: 32 },
+      { user: "SciFiGeek", avatar: "S", rating: 4, text: "Solidne sci-fi z ciekawym światem i nieszablonową fabułą.", time: "8 godzin temu", likes: 24 },
+    ],
+    "noir-district": [
+      { user: "NoirLover", avatar: "N", rating: 5, text: "Mroczny klimat, świetna gra cieni i napięcie do ostatniej sceny.", time: "2 godziny temu", likes: 41 },
+      { user: "ThrillerExpert", avatar: "T", rating: 4, text: "Klasyczny noir w nowoczesnym wydaniu. Twist na końcu zaskakuje.", time: "1 dzień temu", likes: 33 },
+    ],
+    "smocze-krolestwo": [
+      { user: "FantasyWorld", avatar: "F", rating: 5, text: "Smoki wyglądają niesamowicie! Epicka przygoda dla całej rodziny.", time: "4 godziny temu", likes: 57 },
+      { user: "DragonSlayer", avatar: "D", rating: 4, text: "Piękny świat fantasy z głęboką historią. Czekam na kontynuację!", time: "1 dzień temu", likes: 43 },
+    ],
+    "widmowa-rezydencja": [
+      { user: "HorrorNight", avatar: "H", rating: 5, text: "Naprawdę straszny! Dawno nie miałem takiego dreszczu w kinie.", time: "1 godzinę temu", likes: 62 },
+      { user: "GhostHunter", avatar: "G", rating: 4, text: "Atmosfera jest gęsta jak mgła. Świetne efekty praktyczne.", time: "6 godzin temu", likes: 38 },
+    ],
+    "cisza-przed-burza": [
+      { user: "SerialManiak", avatar: "S", rating: 5, text: "Jeden z najlepszych polskich seriali kryminalnych. Każdy odcinek zaskakuje.", time: "3 godziny temu", likes: 48 },
+      { user: "DetektywPL", avatar: "D", rating: 4, text: "Powolne budowanie napięcia, które eksploduje w finale sezonu.", time: "1 dzień temu", likes: 35 },
+    ],
+    "ostatni-ocaleni": [
+      { user: "DramaturgPL", avatar: "D", rating: 5, text: "Poruszający dramat o przetrwaniu. Aktorstwo na światowym poziomie.", time: "2 godziny temu", likes: 44 },
+      { user: "EmocjeWKinie", avatar: "E", rating: 5, text: "Serial, który zostaje z tobą na długo po obejrzeniu.", time: "8 godzin temu", likes: 39 },
+    ],
+    "gwiezdny-horyzont": [
+      { user: "StarTrekker", avatar: "S", rating: 5, text: "Kosmiczna opera z duszą! Efekty specjalne na poziomie Hollywood.", time: "1 godzinę temu", likes: 51 },
+      { user: "GalaxySurfer", avatar: "G", rating: 4, text: "Świetnie napisane postacie i fascynujący świat. Serial roku!", time: "5 godzin temu", likes: 37 },
+    ],
+    "zlote-wybrzeze": [
+      { user: "RomansLover", avatar: "R", rating: 5, text: "Piękne zdjęcia, wzruszająca historia miłosna. Idealne na wieczór we dwoje.", time: "4 godziny temu", likes: 46 },
+      { user: "SunsetVibes", avatar: "S", rating: 4, text: "Lekki, ciepły serial z fantastyczną chemią między głównymi aktorami.", time: "1 dzień temu", likes: 31 },
+    ],
   };
 
   const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
