@@ -24,6 +24,7 @@ import coverHereComesTheFlood from "@/assets/cover-here-comes-the-flood.webp";
 import coverZielonaMila from "@/assets/cover-zielona-mila.webp";
 import coverSkazaniNaShawshank from "@/assets/cover-skazani-na-shawshank.webp";
 import coverForrestGump from "@/assets/cover-forrest-gump.webp";
+import coverZaDuzyNaBajki3 from "@/assets/cover-za-duzy-na-bajki-3.webp";
 
 export interface MediaItem {
   id: number;
@@ -267,6 +268,19 @@ export const mediaItems: MediaItem[] = [
     type: "film",
     description: "Historia życia Forresta, chłopca o niskim ilorazie inteligencji z niedowładem kończyn, który staje się miliarderem i bohaterem wojny w Wietnamie. Reżyseria: Robert Zemeckis. W rolach głównych: Tom Hanks, Robin Wright, Gary Sinise.",
     duration: "2:22:00",
+  },
+  {
+    id: 27,
+    title: "Za Duży na Bajki 3",
+    slug: "za-duzy-na-bajki-3",
+    genre: "Familijny",
+    year: "2026",
+    image: coverZaDuzyNaBajki3,
+    type: "film",
+    description: "Napisany przez Waldka komentarz w Internecie powoduje lawinę hejtu, która dotyka jedną z najbliższych mu osób. Trzecia część popularnej polskiej serii familijnej. Reżyseria: Kristoffer Rus. Scenariusz: Agnieszka Dąbrowska. Produkcja polska.",
+    duration: "1:30:00",
+    premiereDate: "2026-03-06",
+    platform: "Kino",
   },
   // ── Oryginalne placeholder filmy/seriale ──
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
