@@ -15,7 +15,6 @@ const Player = () => {
   const navigate = useNavigate();
   const movie = mediaItems.find((m) => m.slug === slug);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const introVideoRef = useRef<HTMLVideoElement>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -27,8 +26,6 @@ const Player = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
-  const [phase, setPhase] = useState<"intro" | "playing">("intro");
-  const [introEnded, setIntroEnded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const popupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -47,9 +44,9 @@ const Player = () => {
     return mediaItems.filter((m) => m.id !== movie.id).slice(0, 10);
   }, [movie]);
 
-  // 10s popup timer
+  // 10s popup timer from play start
   useEffect(() => {
-    if (isPlaying && !showPopup && phase === "playing") {
+    if (isPlaying && !showPopup) {
       popupTimerRef.current = setTimeout(() => {
         setShowPopup(true);
         videoRef.current?.pause();
@@ -59,7 +56,7 @@ const Player = () => {
     return () => {
       if (popupTimerRef.current) clearTimeout(popupTimerRef.current);
     };
-  }, [isPlaying, showPopup, phase]);
+  }, [isPlaying, showPopup]);
 
   useEffect(() => {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);
@@ -77,32 +74,7 @@ const Player = () => {
 
   const progress = duration > 0 ? (currentTime / FAKE_DURATION) * 100 : 0;
 
-  const handleIntroEnd = useCallback(() => {
-    setIntroEnded(true);
-    setPhase("playing");
-    // Auto-play trailer after intro
-    setTimeout(() => {
-      if (videoRef.current) {
-        videoRef.current.currentTime = 0;
-        videoRef.current.play();
-        setIsPlaying(true);
-      }
-    }, 200);
-  }, []);
-
   const togglePlay = useCallback(() => {
-    if (phase === "intro" && !introEnded) {
-      if (introVideoRef.current) {
-        if (introVideoRef.current.paused) {
-          introVideoRef.current.play();
-          setIsPlaying(true);
-        } else {
-          introVideoRef.current.pause();
-          setIsPlaying(false);
-        }
-      }
-      return;
-    }
     if (!videoRef.current) return;
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -111,7 +83,7 @@ const Player = () => {
       videoRef.current.pause();
       setIsPlaying(false);
     }
-  }, [phase, introEnded]);
+  }, []);
 
   const handleMouseMove = () => {
     setShowControls(true);
@@ -142,11 +114,9 @@ const Player = () => {
   };
 
   const startPlayback = () => {
-    setPhase("intro");
-    setIntroEnded(false);
     setIsPlaying(true);
     setTimeout(() => {
-      introVideoRef.current?.play();
+      videoRef.current?.play();
     }, 100);
   };
 
@@ -428,23 +398,11 @@ const Player = () => {
             onClick={togglePlay}
             onMouseMove={handleMouseMove}
           >
-          {/* Intro video */}
-          {phase === "intro" && !introEnded && (
-            <video
-              ref={introVideoRef}
-              src={introSrc}
-              className="absolute inset-0 h-full w-full object-contain bg-background"
-              muted={isMuted}
-              onEnded={handleIntroEnd}
-              playsInline
-            />
-          )}
-
-          {/* Main trailer video */}
+          {/* Single video - intro */}
           <video
             ref={videoRef}
-            src="/trailers/panna-mloda-trailer.mp4"
-            className={`absolute inset-0 h-full w-full object-contain bg-background ${phase === "intro" && !introEnded ? "opacity-0" : "opacity-100"}`}
+            src={introSrc}
+            className="absolute inset-0 h-full w-full object-contain bg-background"
             muted={isMuted}
             onTimeUpdate={() => setCurrentTime(videoRef.current?.currentTime || 0)}
             onLoadedMetadata={() => setDuration(videoRef.current?.duration || 0)}
@@ -458,11 +416,7 @@ const Player = () => {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (!introEnded && phase === "intro") {
-                    startPlayback();
-                  } else {
-                    togglePlay();
-                  }
+                  startPlayback();
                 }}
                 className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
               >
@@ -472,7 +426,7 @@ const Player = () => {
           )}
 
           {/* Controls */}
-          {phase === "playing" && (
+          {isPlaying && (
             <div
               className={`absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-background/90 via-background/50 to-transparent px-4 md:px-6 pb-3 pt-16 transition-opacity duration-300 ${
                 showControls || !isPlaying ? "opacity-100" : "opacity-0"
