@@ -375,10 +375,10 @@ const Player = () => {
                 <p className="text-xs text-foreground/70 flex-1">
                   Rozpocznij korzystanie z pełnej biblioteki — wymagane aktywne konto
                 </p>
-                <button className="inline-flex items-center gap-2 rounded bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 shrink-0">
-                  <User className="h-4 w-4" />
-                  Rozpocznij teraz
-                </button>
+                <a href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 shrink-0">
+                   <User className="h-4 w-4" />
+                   Rozpocznij teraz
+                 </a>
               </div>
             </div>
           </div>
