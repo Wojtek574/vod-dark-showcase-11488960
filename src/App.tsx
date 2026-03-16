@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PageTransition from "@/components/PageTransition";
 import Index from "./pages/Index";
 import Films from "./pages/Films";
 import Series from "./pages/Series";
@@ -17,13 +18,15 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/filmy" element={<Films />} />
-          <Route path="/seriale" element={<Series />} />
-          <Route path="/odtwarzacz/:slug" element={<Player />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <PageTransition>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/filmy" element={<Films />} />
+            <Route path="/seriale" element={<Series />} />
+            <Route path="/odtwarzacz/:slug" element={<Player />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </PageTransition>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -2,6 +2,8 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import MediaRow from "@/components/MediaRow";
 import TopTenRow from "@/components/TopTenRow";
+import ComingSoonRow from "@/components/ComingSoonRow";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import { mediaItems, premieres2026 } from "@/data/movies";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Search, X, Play, Star } from "lucide-react";
@@ -15,6 +17,12 @@ const Index = () => {
   const serials = mediaItems.filter((m) => m.type === "serial");
   const withDescription = mediaItems.filter((m) => m.description);
   const newReleases = [...mediaItems].sort(() => 0.5 - Math.random()).slice(0, 8);
+
+  // Coming soon: premieres with future dates
+  const comingSoon = useMemo(() => {
+    const now = new Date();
+    return premieres2026.filter((m) => m.premiereDate && new Date(m.premiereDate) > now);
+  }, []);
 
   const filtered = useMemo(() => {
     if (!searchQuery.trim()) return null;
@@ -44,7 +52,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-16 md:pb-0">
       <Header onSearchOpen={() => setSearchOpen(true)} />
 
       {/* Search overlay */}
@@ -130,6 +138,9 @@ const Index = () => {
             <MediaRow title="🎬 Premiery 2026" items={premieres2026} showPremiereDate />
           )}
           <MediaRow title="Ostatnio dodane" items={newReleases} />
+          {comingSoon.length > 0 && (
+            <ComingSoonRow title="Wkrótce w kinach" items={comingSoon} />
+          )}
           <MediaRow title="Popularne filmy" items={films} linkTo="/filmy" />
           <TopTenRow title="Najlepsze pozycje wg. IMDb" items={mediaItems} />
           <MediaRow title="Popularne seriale" items={serials} linkTo="/seriale" />
@@ -138,6 +149,8 @@ const Index = () => {
           )}
         </div>
       </main>
+
+      <MobileBottomNav onSearchOpen={() => setSearchOpen(true)} />
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { ChevronRight, Star } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import { MediaItem } from "@/data/movies";
 import MediaCard from "./MediaCard";
-import { useRef, useState } from "react";
-import { ChevronLeft } from "lucide-react";
+import SkeletonCard from "./SkeletonCard";
+import { useRef, useState, useEffect } from "react";
 
 interface MediaRowProps {
   title: string;
@@ -16,6 +16,12 @@ const MediaRow = ({ title, items, linkTo, showPremiereDate }: MediaRowProps) => 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoaded(true), 400);
+    return () => clearTimeout(timer);
+  }, []);
 
   const checkScroll = () => {
     if (!scrollRef.current) return;
@@ -31,6 +37,18 @@ const MediaRow = ({ title, items, linkTo, showPremiereDate }: MediaRowProps) => 
       left: dir === "left" ? -amount : amount,
       behavior: "smooth",
     });
+  };
+
+  // Touch swipe
+  const touchStartX = useRef(0);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      scroll(diff > 0 ? "right" : "left");
+    }
   };
 
   return (
@@ -70,14 +88,18 @@ const MediaRow = ({ title, items, linkTo, showPremiereDate }: MediaRowProps) => 
         <div
           ref={scrollRef}
           onScroll={checkScroll}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           className="flex gap-3 overflow-x-auto px-4 md:px-8 pb-2"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {items.map((item) => (
-            <div key={item.id} className="flex-shrink-0 w-[130px] sm:w-[150px] md:w-[170px] lg:w-[185px]">
-              <MediaCard item={item} showPremiereDate={showPremiereDate} />
-            </div>
-          ))}
+          {!loaded
+            ? Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
+            : items.map((item) => (
+                <div key={item.id} className="flex-shrink-0 w-[130px] sm:w-[150px] md:w-[170px] lg:w-[185px]">
+                  <MediaCard item={item} showPremiereDate={showPremiereDate} />
+                </div>
+              ))}
         </div>
       </div>
     </section>
