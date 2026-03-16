@@ -88,13 +88,15 @@ const HeroSection = () => {
             )}
 
             <div className="mt-6 flex items-center gap-3">
-              <button
-                onClick={() => navigate(`/odtwarzacz/${featured.slug}`)}
+              <a
+                href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25"
               >
                 <Play className="h-5 w-5 fill-current" />
                 Wyszukaj
-              </button>
+              </a>
             </div>
           </div>
         </div>
