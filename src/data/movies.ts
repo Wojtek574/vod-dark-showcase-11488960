@@ -166,7 +166,7 @@ export const mediaItems: MediaItem[] = [
     year: "2026",
     image: coverHopnieci,
     type: "film",
-    description: "Animowana komedia przygodowa studia Illumination. Pełna humoru i kolorowej akcji podróż przez fantastyczny świat. Głosy: Piper Curda, Jon Hamm. Reżyseria: Daniel Chong.",
+    description: "19-letnia miłośniczka zwierząt wykorzystuje hopnozę – technologię przeszczepiania ludzkiej świadomości do ciała robotycznego bobra, by odkrywać tajemnice świata natury. Nowy film Disneya i Pixara. Reżyseria: Daniel Chong. Scenariusz: Jesse Andrews, Daniel Chong.",
     duration: "1:45:00",
     premiereDate: "2026-03-06",
     platform: "Kino",
