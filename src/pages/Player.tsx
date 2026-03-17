@@ -228,6 +228,36 @@ const Player = () => {
       { name: "Robert Pattinson", role: "Leo", avatar: "RP" },
       { name: "Daisy Edgar-Jones", role: "Ana", avatar: "DE" },
     ],
+    "nie-ma-duchow": [
+      { name: "Zuzanna Puławska", role: "Hania", avatar: "ZP" },
+      { name: "Jakub Gierszał", role: "Maciek", avatar: "JG" },
+      { name: "Maria Sobocińska", role: "Zosia", avatar: "MS" },
+      { name: "Jan Wieteska", role: "Bartek", avatar: "JW" },
+    ],
+    "testament-ann-lee": [
+      { name: "Joaquin Phoenix", role: "Elder Joseph", avatar: "JP" },
+      { name: "Florence Pugh", role: "Ann Lee", avatar: "FP" },
+      { name: "Mark Rylance", role: "Reverend", avatar: "MR" },
+    ],
+    "najbogatsza-kobieta-swiata": [
+      { name: "Léa Seydoux", role: "Liliane", avatar: "LS" },
+      { name: "Vincent Cassel", role: "François", avatar: "VC" },
+      { name: "Isabelle Huppert", role: "Madame Bettencourt", avatar: "IH" },
+    ],
+    "wierzymy-ci": [
+      { name: "Veerle Baetens", role: "Alice", avatar: "VB" },
+      { name: "Arieh Worthalter", role: "Marc", avatar: "AW" },
+    ],
+    "angels-egg": [
+      { name: "Mako Hyōdō", role: "Dziewczyna (głos)", avatar: "MH" },
+      { name: "Jinpachi Nezu", role: "Chłopak (głos)", avatar: "JN" },
+    ],
+    "baw-sie-dobrze": [
+      { name: "Josh Brolin", role: "Rex", avatar: "JB" },
+      { name: "Daisy Ridley", role: "Zara", avatar: "DR" },
+      { name: "Pedro Pascal", role: "Vince", avatar: "PP" },
+      { name: "Awkwafina", role: "Mei", avatar: "AW" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
