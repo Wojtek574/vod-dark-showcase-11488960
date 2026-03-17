@@ -25,6 +25,12 @@ import coverZielonaMila from "@/assets/cover-zielona-mila.webp";
 import coverSkazaniNaShawshank from "@/assets/cover-skazani-na-shawshank.webp";
 import coverForrestGump from "@/assets/cover-forrest-gump.webp";
 import coverZaDuzyNaBajki3 from "@/assets/cover-za-duzy-na-bajki-3.webp";
+import coverNieMaDuchow from "@/assets/cover-nie-ma-duchow.webp";
+import coverTestamentAnnLee from "@/assets/cover-testament-ann-lee.webp";
+import coverNajbogatszaKobieta from "@/assets/cover-najbogatsza-kobieta.webp";
+import coverWierzymyCi from "@/assets/cover-wierzymy-ci.webp";
+import coverAngelsEgg from "@/assets/cover-angels-egg.webp";
+import coverBawSieDobrze from "@/assets/cover-baw-sie-dobrze.webp";
 
 export interface MediaItem {
   id: number;
@@ -186,13 +192,13 @@ export const mediaItems: MediaItem[] = [
   },
   {
     id: 20,
-    title: "Reminders of Him",
+    title: "Reminders of Him. Cząstka Ciebie, którą znam",
     slug: "reminders-of-him",
-    genre: "Melodramat / Romans",
+    genre: "Melodramat",
     year: "2026",
     image: coverRemindersOfHim,
     type: "film",
-    description: "Adaptacja bestsellerowej powieści Colleen Hoover. Kenna Rowan wychodzi z więzienia i próbuje odbudować relację z córką. Napotyka opór społeczności, ale niespodziewanie znajduje wsparcie. Maika Monroe i Tyriq Withers w rolach głównych.",
+    description: "Po opuszczeniu więzienia kobieta usiłuje odbudować relację z córką. Wsparcia udziela jedynie właściciel baru, a konfrontacja z dawnymi błędami staje się nieunikniona. Adaptacja bestsellerowej powieści Colleen Hoover. Reżyseria: Vanessa Caswill. Scenariusz: Lauren Levine, Colleen Hoover.",
     duration: "1:54:00",
     premiereDate: "2026-03-13",
     platform: "Kino",
@@ -280,6 +286,84 @@ export const mediaItems: MediaItem[] = [
     description: "Napisany przez Waldka komentarz w Internecie powoduje lawinę hejtu, która dotyka jedną z najbliższych mu osób. Trzecia część popularnej polskiej serii familijnej. Reżyseria: Kristoffer Rus. Scenariusz: Agnieszka Dąbrowska. Produkcja polska.",
     duration: "1:30:00",
     premiereDate: "2026-03-06",
+    platform: "Kino",
+  },
+  {
+    id: 28,
+    title: "Nie ma duchów w mieszkaniu na Dobrej",
+    slug: "nie-ma-duchow",
+    genre: "Dramat",
+    year: "2025",
+    image: coverNieMaDuchow,
+    type: "film",
+    description: "Czworo rodzeństwa na progu dorosłości szuka własnej drogi, mierząc się z problemami, tajemniczym Dusiołkiem i kryzysami osobistymi. Nagrodzony 2 Orłami polski film w reżyserii Emi Buchwald. Scenariusz: Emi Buchwald, Karol Marczak.",
+    duration: "1:30:00",
+    premiereDate: "2026-03-13",
+    platform: "Kino",
+  },
+  {
+    id: 29,
+    title: "Testament Ann Lee",
+    slug: "testament-ann-lee",
+    genre: "Dramat / Musical",
+    year: "2025",
+    image: coverTestamentAnnLee,
+    type: "film",
+    description: "Ann Lee, założycielka Ruchu Szejkersów, zostaje ogłoszona przez swoich zwolenników kobiecą wersją Chrystusa. Nagrodzony Independent Spirit film w reżyserii Mony Fastvold. Scenariusz: Mona Fastvold, Brady Corbet. Produkcja USA/Wielka Brytania.",
+    duration: "2:17:00",
+    premiereDate: "2026-03-13",
+    platform: "Kino",
+  },
+  {
+    id: 30,
+    title: "Najbogatsza kobieta świata",
+    slug: "najbogatsza-kobieta-swiata",
+    genre: "Dramat",
+    year: "2025",
+    image: coverNajbogatszaKobieta,
+    type: "film",
+    description: "Najbogatsza kobieta świata: jej uroda, inteligencja, władza. Fotograf: jego ambicja, zuchwałość, szaleństwo. Uczucie od pierwszego wejrzenia, które ich porywa. Nagrodzony Cezarem francuski film w reżyserii Thierry'ego Klify. Produkcja Francja/Belgia.",
+    duration: "2:01:00",
+    premiereDate: "2026-03-13",
+    platform: "Kino",
+  },
+  {
+    id: 31,
+    title: "Wierzymy ci",
+    slug: "wierzymy-ci",
+    genre: "Dramat",
+    year: "2025",
+    image: coverWierzymyCi,
+    type: "film",
+    description: "Alice staje przed sądem, broniąc swojego prawa do opieki nad dziećmi. Poruszający belgijski dramat sądowy w reżyserii Arnaud Dufeysa i Charlotte Devillers. Produkcja Belgia.",
+    duration: "1:18:00",
+    premiereDate: "2026-03-13",
+    platform: "Kino",
+  },
+  {
+    id: 32,
+    title: "Angel's Egg",
+    slug: "angels-egg",
+    genre: "Anime / Surrealistyczny",
+    year: "1985",
+    image: coverAngelsEgg,
+    type: "film",
+    description: "Przez opustoszałą krainę podróżuje dziewczyna niosąca jajko. Towarzyszy jej tajemniczy chłopak dzierżący broń podobną do krzyża. Kultowe anime w reżyserii Mamoru Oshii. Scenariusz: Mamoru Oshii. Produkcja japońska.",
+    duration: "1:11:00",
+    premiereDate: "2026-03-20",
+    platform: "Kino",
+  },
+  {
+    id: 33,
+    title: "Baw się dobrze i przeżyj",
+    slug: "baw-sie-dobrze",
+    genre: "Sci-Fi / Akcja",
+    year: "2025",
+    image: coverBawSieDobrze,
+    type: "film",
+    description: "Przybysz z przyszłości ma tylko jedną noc, aby zrekrutować garść klientów knajpy w Los Angeles i uratować świat przed zbuntowaną sztuczną inteligencją. Reżyseria: Gore Verbinski. Scenariusz: Matthew Robinson. Produkcja USA.",
+    duration: "2:14:00",
+    premiereDate: "2026-03-20",
     platform: "Kino",
   },
   // ── Oryginalne placeholder filmy/seriale ──
