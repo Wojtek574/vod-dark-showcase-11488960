@@ -2,9 +2,8 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import MediaRow from "@/components/MediaRow";
 import TopTenRow from "@/components/TopTenRow";
-import ComingSoonRow from "@/components/ComingSoonRow";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import { mediaItems, premieres2026 } from "@/data/movies";
+import { mediaItems } from "@/data/movies";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Search, X, Play, Star } from "lucide-react";
 

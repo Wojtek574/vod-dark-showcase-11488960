@@ -377,7 +377,3 @@ export const mediaItems: MediaItem[] = [
   { id: 8, title: "Złote Wybrzeże", slug: "zlote-wybrzeze", genre: "Romans", year: "2025", image: cover8, type: "serial" },
 ];
 
-/** Filmy z datą premiery 2026 */
-export const premieres2026 = mediaItems
-  .filter((m) => m.premiereDate && m.premiereDate.startsWith("2026"))
-  .sort((a, b) => (a.premiereDate! > b.premiereDate! ? 1 : -1));
