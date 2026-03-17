@@ -25,6 +25,12 @@ import coverZielonaMila from "@/assets/cover-zielona-mila.webp";
 import coverSkazaniNaShawshank from "@/assets/cover-skazani-na-shawshank.webp";
 import coverForrestGump from "@/assets/cover-forrest-gump.webp";
 import coverZaDuzyNaBajki3 from "@/assets/cover-za-duzy-na-bajki-3.webp";
+import coverNieMaDuchow from "@/assets/cover-nie-ma-duchow.webp";
+import coverTestamentAnnLee from "@/assets/cover-testament-ann-lee.webp";
+import coverNajbogatszaKobieta from "@/assets/cover-najbogatsza-kobieta.webp";
+import coverWierzymyCi from "@/assets/cover-wierzymy-ci.webp";
+import coverAngelsEgg from "@/assets/cover-angels-egg.webp";
+import coverBawSieDobrze from "@/assets/cover-baw-sie-dobrze.webp";
 
 export interface MediaItem {
   id: number;
