@@ -380,6 +380,36 @@ const Player = () => {
       { user: "RomansLover", avatar: "R", rating: 5, text: "Piękne zdjęcia, wzruszająca historia miłosna. Idealne na wieczór we dwoje.", time: "4 godziny temu", likes: 46 },
       { user: "SunsetVibes", avatar: "S", rating: 4, text: "Lekki, ciepły serial z fantastyczną chemią między głównymi aktorami.", time: "1 dzień temu", likes: 31 },
     ],
+    "nie-ma-duchow": [
+      { user: "PolskiDramat", avatar: "P", rating: 5, text: "Emi Buchwald stworzyła intymny portret rodzeństwa na progu dorosłości. Dusiołek to genialna metafora!", time: "2 godziny temu", likes: 52 },
+      { user: "WarszawskieKino", avatar: "W", rating: 5, text: "Zasłużone Orły! Czworo aktorów gra tak naturalnie, jakby naprawdę byli rodziną.", time: "6 godzin temu", likes: 41 },
+      { user: "DebiutRoku", avatar: "D", rating: 4, text: "Świeży głos w polskim kinie. Scenariusz pełen ciepła i humoru mimo trudnych tematów.", time: "1 dzień temu", likes: 33 },
+    ],
+    "testament-ann-lee": [
+      { user: "HistoriaKina", avatar: "H", rating: 5, text: "Fascynujący portret kobiety, która zmieniła historię religii w Ameryce. Muzyka jest hipnotyzująca.", time: "3 godziny temu", likes: 47 },
+      { user: "MusicalFan", avatar: "M", rating: 4, text: "Mona Fastvold łączy dramat z musicalem w sposób, który nigdy wcześniej nie był tak poruszający.", time: "8 godzin temu", likes: 35 },
+      { user: "IndieSpirit", avatar: "I", rating: 5, text: "Nagroda Independent Spirit w pełni zasłużona. Brady Corbet znów współtworzył coś wyjątkowego.", time: "1 dzień temu", likes: 58 },
+    ],
+    "najbogatsza-kobieta-swiata": [
+      { user: "FrancuskieKino", avatar: "F", rating: 4, text: "Elegancki dramat o władzy, pięknie i obsesji. Zdjęcia jak z magazynu mody.", time: "2 godziny temu", likes: 38 },
+      { user: "CezarFan", avatar: "C", rating: 4, text: "Nagrodzony Cezarem nie bez powodu. Aktorstwo na najwyższym poziomie.", time: "5 godzin temu", likes: 29 },
+      { user: "ArtHouse", avatar: "A", rating: 5, text: "Thierry Klifa stworzył hipnotyzujący portret miłości i ambicji w świecie luksusu.", time: "1 dzień temu", likes: 44 },
+    ],
+    "wierzymy-ci": [
+      { user: "DokumentFan", avatar: "D", rating: 5, text: "Brutalnie szczery film o walce matki o swoje dzieci. Ściska za serce.", time: "1 godzinę temu", likes: 56 },
+      { user: "BelgijskieKino", avatar: "B", rating: 5, text: "Zaledwie 78 minut, a każda sekunda jest naładowana emocjami. Rewelacyjna rola główna.", time: "4 godziny temu", likes: 42 },
+      { user: "PrawdziweHistorie", avatar: "P", rating: 4, text: "Film, który zmusza do myślenia o systemie sądowniczym. Dufeys i Devillers — duet do zapamiętania.", time: "1 dzień temu", likes: 31 },
+    ],
+    "angels-egg": [
+      { user: "AnimeKlasyk", avatar: "A", rating: 5, text: "Mamoru Oshii stworzył arcydzieło surrealizmu. Każda klatka to dzieło sztuki.", time: "1 godzinę temu", likes: 89 },
+      { user: "OshiiFan", avatar: "O", rating: 5, text: "40 lat i ani chwila nie straciła na aktualności. Symbolika jajka i krzyża jest ponadczasowa.", time: "5 godzin temu", likes: 72 },
+      { user: "ArtAnimation", avatar: "A", rating: 5, text: "Wreszcie na wielkim ekranie w Polsce! Cisza tego filmu mówi więcej niż tysiąc dialogów.", time: "1 dzień temu", likes: 64 },
+    ],
+    "baw-sie-dobrze": [
+      { user: "VerbiskiFan", avatar: "V", rating: 4, text: "Gore Verbinski wraca do formy! Szalona mieszanka sci-fi i komedii w barze pełnym dziwacznych postaci.", time: "3 godziny temu", likes: 51 },
+      { user: "SciFiAction", avatar: "S", rating: 4, text: "Koncept podróżnika z przyszłości rekrutującego bywalców knajpy jest genialny i absurdalny zarazem.", time: "6 godzin temu", likes: 38 },
+      { user: "PopcornMovie", avatar: "P", rating: 5, text: "Czysta rozrywka! Zbuntowana AI, barowi bohaterowie i jedna szalona noc w LA.", time: "1 dzień temu", likes: 45 },
+    ],
   };
 
   const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
