@@ -17,11 +17,6 @@ const Index = () => {
   const withDescription = mediaItems.filter((m) => m.description);
   const newReleases = [...mediaItems].sort(() => 0.5 - Math.random()).slice(0, 8);
 
-  // Coming soon: premieres with future dates
-  const comingSoon = useMemo(() => {
-    const now = new Date();
-    return premieres2026.filter((m) => m.premiereDate && new Date(m.premiereDate) > now);
-  }, []);
 
   const filtered = useMemo(() => {
     if (!searchQuery.trim()) return null;
