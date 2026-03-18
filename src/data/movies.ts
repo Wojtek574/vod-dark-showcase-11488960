@@ -31,6 +31,14 @@ import coverNajbogatszaKobieta from "@/assets/cover-najbogatsza-kobieta.webp";
 import coverWierzymyCi from "@/assets/cover-wierzymy-ci.webp";
 import coverAngelsEgg from "@/assets/cover-angels-egg.webp";
 import coverBawSieDobrze from "@/assets/cover-baw-sie-dobrze.webp";
+import coverZmartwychwstanie from "@/assets/cover-zmartwychwstanie.webp";
+import coverWielkaMalaKoza from "@/assets/cover-wielka-mala-koza.webp";
+import coverWartoscSentymentalna from "@/assets/cover-wartosc-sentymentalna.webp";
+import coverToBylZwyklyPrzypadek from "@/assets/cover-to-byl-zwykly-przypadek.webp";
+import coverKopnelabymCie from "@/assets/cover-kopnelabym-cie.webp";
+import coverMuppetShow from "@/assets/cover-muppet-show.webp";
+import coverOrzelekIggy from "@/assets/cover-orzelek-iggy.webp";
+import coverDalejJazda2 from "@/assets/cover-dalej-jazda-2.webp";
 
 export interface MediaItem {
   id: number;
@@ -364,6 +372,110 @@ export const mediaItems: MediaItem[] = [
     description: "Przybysz z przyszłości ma tylko jedną noc, aby zrekrutować garść klientów knajpy w Los Angeles i uratować świat przed zbuntowaną sztuczną inteligencją. Reżyseria: Gore Verbinski. Scenariusz: Matthew Robinson. Produkcja USA.",
     duration: "2:14:00",
     premiereDate: "2026-03-20",
+    platform: "Kino",
+  },
+  {
+    id: 34,
+    title: "Zmartwychwstanie",
+    slug: "zmartwychwstanie",
+    genre: "Sci-Fi / Dramat",
+    year: "2025",
+    image: coverZmartwychwstanie,
+    type: "film",
+    description: "W świecie, w którym ludzie utracili zdolność śnienia, jedno stworzenie wciąż żyje wizjami zanikającego świata snów. Gdy pojawia się kobieta obdarzona darem dostrzegania tych iluzji, wkracza w sny potwora, by odkryć ukrytą w nich prawdę. Nagrodzony Złotą Palmą film Gan Bi. Produkcja Chiny/Francja/USA.",
+    duration: "2:40:00",
+    premiereDate: "2026-02-27",
+    platform: "Kino",
+  },
+  {
+    id: 35,
+    title: "Wielka mała koza",
+    slug: "wielka-mala-koza",
+    genre: "Animacja / Komedia / Sportowy",
+    year: "2026",
+    image: coverWielkaMalaKoza,
+    type: "film",
+    description: "Mała koza z wielkimi ambicjami trafia do świata rykokoszu, gdzie na niebezpiecznych arenach musi dowieść, że pasuje do drużyny mistrzów. Animowany film Disneya. Reżyseria: Tyree Dillihay, Adam Rosette. Produkcja USA.",
+    duration: "1:35:00",
+    premiereDate: "2026-02-13",
+    platform: "Kino",
+  },
+  {
+    id: 36,
+    title: "Wartość sentymentalna",
+    slug: "wartosc-sentymentalna",
+    genre: "Dramat / Komedia",
+    year: "2025",
+    image: coverWartoscSentymentalna,
+    type: "film",
+    description: "W życiu dwóch sióstr pojawia się ich dawno niewidziany ojciec, który ma dla nich pewną propozycję. Nagrodzony Oscarem norweski dramat Joachima Triera. Scenariusz: Joachim Trier, Eskil Vogt. Produkcja Norwegia/Dania/Francja.",
+    duration: "2:15:00",
+    premiereDate: "2026-02-27",
+    platform: "Kino",
+  },
+  {
+    id: 37,
+    title: "To był zwykły przypadek",
+    slug: "to-byl-zwykly-przypadek",
+    genre: "Dramat",
+    year: "2025",
+    image: coverToBylZwyklyPrzypadek,
+    type: "film",
+    description: "To, co zaczyna się jako drobny wypadek, uruchamia lawinę narastających konsekwencji. Nagrodzony Złotą Palmą i nominowany do Oscara nowy film Jafara Panahiego. Produkcja Francja/Iran/Luksemburg.",
+    duration: "1:45:00",
+    premiereDate: "2026-02-20",
+    platform: "Kino",
+  },
+  {
+    id: 38,
+    title: "Kopnęłabym cię, gdybym mogła",
+    slug: "kopnelabym-cie",
+    genre: "Czarna komedia",
+    year: "2025",
+    image: coverKopnelabymCie,
+    type: "film",
+    description: "Linda próbuje poradzić sobie z tajemniczą chorobą dziecka, nieobecnym mężem, zaginioną osobą i coraz bardziej wrogimi relacjami ze swoim terapeutą. Nagrodzona Złotym Globem czarna komedia Mary Bronstein. Produkcja USA.",
+    duration: "1:53:00",
+    premiereDate: "2026-02-20",
+    platform: "Kino",
+  },
+  {
+    id: 39,
+    title: "The Muppet Show",
+    slug: "muppet-show",
+    genre: "Familijny / Komedia / Muzyczny",
+    year: "2026",
+    image: coverMuppetShow,
+    type: "film",
+    description: "Muppety powracają do swojego starego teatru, a ich gościem specjalnym będzie Sabrina Carpenter. Reżyseria: Alex Timbers. Scenariusz: Albertina Rizzo, Kelly Younger. Produkcja USA. Dostępny na Disney+.",
+    duration: "0:30:00",
+    premiereDate: "2026-02-04",
+    platform: "Disney+",
+  },
+  {
+    id: 40,
+    title: "Orzełek Iggy",
+    slug: "orzelek-iggy",
+    genre: "Animacja / Familijny / Przygodowy",
+    year: "2025",
+    image: coverOrzelekIggy,
+    type: "film",
+    description: "W świecie uzależnionym od ekranów orzełek Iggy marzy, by znów poczuć wiatr pod skrzydłami. Ale spełnianie marzeń bywa FRUUUstrujące, zwłaszcza gdy stawką jest wolność całej cywilizacji! Polska animacja w reżyserii Bartosza Kędzierskiego.",
+    duration: "1:25:00",
+    premiereDate: "2026-02-06",
+    platform: "Kino",
+  },
+  {
+    id: 41,
+    title: "Dalej jazda 2",
+    slug: "dalej-jazda-2",
+    genre: "Komedia",
+    year: "2026",
+    image: coverDalejJazda2,
+    type: "film",
+    description: "Józiek i Ela planują wziąć ślub! Rodzinne przygotowania szybko zamieniają się w serię nieoczekiwanych zdarzeń — od zniknięcia panny młodej, przez niespodziewaną podróż, aż po kolejne zaręczyny. Polska komedia w reżyserii Mariusza Kuczewskiego.",
+    duration: "1:43:00",
+    premiereDate: "2026-02-06",
     platform: "Kino",
   },
   // ── Oryginalne placeholder filmy/seriale ──
