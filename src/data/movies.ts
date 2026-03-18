@@ -31,6 +31,14 @@ import coverNajbogatszaKobieta from "@/assets/cover-najbogatsza-kobieta.webp";
 import coverWierzymyCi from "@/assets/cover-wierzymy-ci.webp";
 import coverAngelsEgg from "@/assets/cover-angels-egg.webp";
 import coverBawSieDobrze from "@/assets/cover-baw-sie-dobrze.webp";
+import coverZmartwychwstanie from "@/assets/cover-zmartwychwstanie.webp";
+import coverWielkaMalaKoza from "@/assets/cover-wielka-mala-koza.webp";
+import coverWartoscSentymentalna from "@/assets/cover-wartosc-sentymentalna.webp";
+import coverToBylZwyklyPrzypadek from "@/assets/cover-to-byl-zwykly-przypadek.webp";
+import coverKopnelabymCie from "@/assets/cover-kopnelabym-cie.webp";
+import coverMuppetShow from "@/assets/cover-muppet-show.webp";
+import coverOrzelekIggy from "@/assets/cover-orzelek-iggy.webp";
+import coverDalejJazda2 from "@/assets/cover-dalej-jazda-2.webp";
 
 export interface MediaItem {
   id: number;
