@@ -448,6 +448,46 @@ const Player = () => {
       { user: "SciFiAction", avatar: "S", rating: 4, text: "Koncept podróżnika z przyszłości rekrutującego bywalców knajpy jest genialny i absurdalny zarazem.", time: "6 godzin temu", likes: 38 },
       { user: "PopcornMovie", avatar: "P", rating: 5, text: "Czysta rozrywka! Zbuntowana AI, barowi bohaterowie i jedna szalona noc w LA.", time: "1 dzień temu", likes: 45 },
     ],
+    "zmartwychwstanie": [
+      { user: "ZłotaPalma", avatar: "Z", rating: 5, text: "Gan Bi stworzył wizualną poezję. Każda scena snów wygląda jak obraz olejny ożywiony światłem.", time: "1 godzinę temu", likes: 87 },
+      { user: "SennyWidz", avatar: "S", rating: 5, text: "Film, który ogląda się jak medytację. 2 godziny 40 minut i ani sekundy nudy — czysta hipnoza.", time: "5 godzin temu", likes: 63 },
+      { user: "ArtKino", avatar: "A", rating: 4, text: "Cannes nagrodziło słusznie. To kino dla cierpliwych, ale nagroda jest ogromna.", time: "1 dzień temu", likes: 49 },
+    ],
+    "wielka-mala-koza": [
+      { user: "AnimacjaRządzi", avatar: "A", rating: 5, text: "Disney znów trafił w serce! Mała koza z wielkimi marzeniami — moje dzieci chcą ją na pluszaka.", time: "2 godziny temu", likes: 94 },
+      { user: "SportowyFan", avatar: "S", rating: 4, text: "Rykokosz to najlepszy wymyślony sport od quidditcha. Areny wyglądają obłędnie!", time: "6 godzin temu", likes: 71 },
+      { user: "FamilijneKino2", avatar: "F", rating: 5, text: "Śmialiśmy się, płakaliśmy, kibicowaliśmy. Film idealny na rodzinny weekend.", time: "1 dzień temu", likes: 58 },
+    ],
+    "wartosc-sentymentalna": [
+      { user: "OscarWatch", avatar: "O", rating: 5, text: "Joachim Trier dotknął czegoś uniwersalnego. Relacja sióstr z ojcem pokazana z chirurgiczną precyzją i ciepłem.", time: "1 godzinę temu", likes: 102 },
+      { user: "NordicCinema", avatar: "N", rating: 5, text: "Renate Reinsve po 'Najgorszym człowieku na świecie' znów zachwyca. Nagroda w pełni zasłużona.", time: "4 godziny temu", likes: 78 },
+      { user: "EmocjePL", avatar: "E", rating: 4, text: "Film, który zostaje pod skórą. Prosty temat — ojciec wraca — a emocje jak tsunami.", time: "1 dzień temu", likes: 61 },
+    ],
+    "to-byl-zwykly-przypadek": [
+      { user: "PanahiFan", avatar: "P", rating: 5, text: "Mistrz irańskiego kina pokazuje, jak z małego zdarzenia stworzyć wielkie kino. Złota Palma zasłużona!", time: "2 godziny temu", likes: 76 },
+      { user: "FestiwaloweFenomeny", avatar: "F", rating: 5, text: "Panahi kręci z zakazem kręcenia i nadal robi lepsze filmy niż 90% Hollywood.", time: "6 godzin temu", likes: 64 },
+      { user: "KinoAutorskie", avatar: "K", rating: 4, text: "Minimalizm formy, maksymalizm treści. 1:45 czystej prawdy o ludzkich konsekwencjach.", time: "1 dzień temu", likes: 48 },
+    ],
+    "kopnelabym-cie": [
+      { user: "A24Maniak", avatar: "A", rating: 5, text: "Rose Byrne w roli życia! Czarna komedia, która śmieszy i jednocześnie mrozi krew w żyłach.", time: "1 godzinę temu", likes: 83 },
+      { user: "ZłotyGlob", avatar: "Z", rating: 5, text: "Nagroda Złotego Globu w pełni zasłużona. Mary Bronstein debiutuje z hukiem.", time: "5 godzin temu", likes: 67 },
+      { user: "DarkHumor", avatar: "D", rating: 4, text: "Nie wiem czy się śmiałam czy płakałam. Sceny z terapeutą to czyste złoto.", time: "1 dzień temu", likes: 52 },
+    ],
+    "muppet-show": [
+      { user: "MuppetFan", avatar: "M", rating: 5, text: "Kermit i spółka wracają i jest dokładnie tak, jak powinno być — ciepło, śmiesznie i z duszą!", time: "2 godziny temu", likes: 73 },
+      { user: "DisneyPlusPL", avatar: "D", rating: 5, text: "Sabrina Carpenter jako gość specjalny to strzał w dziesiątkę. Muzyczne numery są fantastyczne.", time: "6 godzin temu", likes: 61 },
+      { user: "NostalgiaTV", avatar: "N", rating: 4, text: "30 minut czystej radości. Muppety udowadniają, że są ponadczasowe.", time: "1 dzień temu", likes: 47 },
+    ],
+    "orzelek-iggy": [
+      { user: "PolskaAnimacja", avatar: "P", rating: 5, text: "Polska animacja na światowym poziomie! Iggy to bohater, jakiego potrzebowaliśmy — marzy, walczy, lata.", time: "1 godzinę temu", likes: 68 },
+      { user: "EkranFree", avatar: "E", rating: 4, text: "Świetny przekaz o odłożeniu telefonu i spojrzeniu w niebo. Dzieci były zachwycone.", time: "4 godziny temu", likes: 52 },
+      { user: "AnimacjaPL", avatar: "A", rating: 5, text: "Kędzierski stworzył coś wyjątkowego. FRUUUstracja Iggy'ego jest tak urocza, że chce się go przytulić.", time: "1 dzień temu", likes: 41 },
+    ],
+    "dalej-jazda-2": [
+      { user: "PolskaKomedia", avatar: "P", rating: 4, text: "Lepsza niż jedynka! Ślubne perypetie Józka i Eli to komedia pomyłek w najlepszym stylu.", time: "2 godziny temu", likes: 56 },
+      { user: "KinoweŚmiechy", avatar: "K", rating: 4, text: "Królikowski i Bołądź mają świetną chemię. Sala kinowa ryczała ze śmiechu.", time: "5 godzin temu", likes: 43 },
+      { user: "WeekendoweKino", avatar: "W", rating: 5, text: "Idealny film na luźny wieczór. Zero pretensji, sto procent zabawy!", time: "1 dzień temu", likes: 37 },
+    ],
   };
 
   const cast = castBySlug[movie.slug] || castBySlug["panna-mloda"];
