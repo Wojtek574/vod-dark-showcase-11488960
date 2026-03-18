@@ -258,6 +258,44 @@ const Player = () => {
       { name: "Pedro Pascal", role: "Vince", avatar: "PP" },
       { name: "Awkwafina", role: "Mei", avatar: "AW" },
     ],
+    "zmartwychwstanie": [
+      { name: "Tang Wei", role: "Kobieta", avatar: "TW" },
+      { name: "Lee Kang-sheng", role: "Stworzenie", avatar: "LK" },
+      { name: "Sylvia Chang", role: "Starsza kobieta", avatar: "SC" },
+    ],
+    "wielka-mala-koza": [
+      { name: "Dwayne Johnson", role: "Coach (głos)", avatar: "DJ" },
+      { name: "Zendaya", role: "Koza Gigi (głos)", avatar: "ZE" },
+      { name: "Jack Black", role: "Byk (głos)", avatar: "JB" },
+    ],
+    "wartosc-sentymentalna": [
+      { name: "Renate Reinsve", role: "Nora", avatar: "RR" },
+      { name: "Anders Danielsen Lie", role: "Ojciec", avatar: "AD" },
+      { name: "Elle Fanning", role: "Liv", avatar: "EF" },
+    ],
+    "to-byl-zwykly-przypadek": [
+      { name: "Jafar Panahi", role: "Reżyser / Aktor", avatar: "JP" },
+      { name: "Mina Kavani", role: "Sara", avatar: "MK" },
+      { name: "Bakhtiar Panjeei", role: "Ali", avatar: "BP" },
+    ],
+    "kopnelabym-cie": [
+      { name: "Rose Byrne", role: "Linda", avatar: "RB" },
+      { name: "A24 Ensemble", role: "Obsada", avatar: "A2" },
+    ],
+    "muppet-show": [
+      { name: "Sabrina Carpenter", role: "Gość specjalny", avatar: "SC" },
+      { name: "Matt Vogel", role: "Kermit (głos)", avatar: "MV" },
+      { name: "Eric Jacobson", role: "Miss Piggy (głos)", avatar: "EJ" },
+    ],
+    "orzelek-iggy": [
+      { name: "Głosy polskie", role: "Obsada polska", avatar: "GP" },
+      { name: "Bartosz Kędzierski", role: "Reżyser", avatar: "BK" },
+    ],
+    "dalej-jazda-2": [
+      { name: "Antoni Królikowski", role: "Józiek", avatar: "AK" },
+      { name: "Olga Bołądź", role: "Ela", avatar: "OB" },
+      { name: "Tomasz Karolak", role: "Wujek", avatar: "TK" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
