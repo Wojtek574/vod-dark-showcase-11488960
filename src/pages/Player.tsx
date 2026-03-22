@@ -296,6 +296,11 @@ const Player = () => {
       { name: "Olga Bołądź", role: "Ela", avatar: "OB" },
       { name: "Tomasz Karolak", role: "Wujek", avatar: "TK" },
     ],
+    "pan-ryba": [
+      { name: "Ricard Cussó", role: "Reżyser", avatar: "RC" },
+      { name: "Elise Allen", role: "Scenariusz", avatar: "EA" },
+      { name: "Elie Choufany", role: "Scenariusz", avatar: "EC" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
