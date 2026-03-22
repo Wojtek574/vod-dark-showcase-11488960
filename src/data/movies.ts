@@ -479,6 +479,16 @@ export const mediaItems: MediaItem[] = [
     premiereDate: "2026-02-06",
     platform: "Kino",
   },
+  {
+    id: 140,
+    title: "Pan Ryba",
+    slug: "pan-ryba",
+    genre: "Animacja",
+    year: "2026",
+    image: coverPanRyba,
+    type: "film" as const,
+    description: "Mieszkając na zniszczonym wraku statku, Pan Ryba pewnego dnia odkrywa na nim młodego konika morskiego kradnącego jego rzeczy. Razem wyruszają w podwodną przygodę.",
+  },
   // ── Oryginalne placeholder filmy/seriale ──
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
   { id: 2, title: "Noir District", slug: "noir-district", genre: "Thriller", year: "2025", image: cover2, type: "film" },
