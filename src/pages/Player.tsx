@@ -296,6 +296,11 @@ const Player = () => {
       { name: "Olga Bołądź", role: "Ela", avatar: "OB" },
       { name: "Tomasz Karolak", role: "Wujek", avatar: "TK" },
     ],
+    "pan-ryba": [
+      { name: "Ricard Cussó", role: "Reżyser", avatar: "RC" },
+      { name: "Elise Allen", role: "Scenariusz", avatar: "EA" },
+      { name: "Elie Choufany", role: "Scenariusz", avatar: "EC" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
@@ -487,6 +492,11 @@ const Player = () => {
       { user: "PolskaKomedia", avatar: "P", rating: 4, text: "Lepsza niż jedynka! Ślubne perypetie Józka i Eli to komedia pomyłek w najlepszym stylu.", time: "2 godziny temu", likes: 56 },
       { user: "KinoweŚmiechy", avatar: "K", rating: 4, text: "Królikowski i Bołądź mają świetną chemię. Sala kinowa ryczała ze śmiechu.", time: "5 godzin temu", likes: 43 },
       { user: "WeekendoweKino", avatar: "W", rating: 5, text: "Idealny film na luźny wieczór. Zero pretensji, sto procent zabawy!", time: "1 dzień temu", likes: 37 },
+    ],
+    "pan-ryba": [
+      { user: "AnimacjaFan", avatar: "A", rating: 5, text: "Urocza podwodna animacja! Mój 5-latek nie mógł oderwać oczu od ekranu, a ja sam się wzruszyłem.", time: "3 godziny temu", likes: 48 },
+      { user: "RodzinneSeansy", avatar: "R", rating: 4, text: "Pan Ryba to taki podwodny Shrek – humor dla dorosłych ukryty w bajce dla dzieci. Konik morski kradnie każdą scenę!", time: "6 godzin temu", likes: 35 },
+      { user: "OceanKina", avatar: "O", rating: 5, text: "Animacja wody jest niesamowita. Pixar powinien się bać – australijsko-amerykański duet daje radę!", time: "1 dzień temu", likes: 52 },
     ],
   };
 

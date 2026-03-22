@@ -39,6 +39,7 @@ import coverKopnelabymCie from "@/assets/cover-kopnelabym-cie.webp";
 import coverMuppetShow from "@/assets/cover-muppet-show.webp";
 import coverOrzelekIggy from "@/assets/cover-orzelek-iggy.webp";
 import coverDalejJazda2 from "@/assets/cover-dalej-jazda-2.webp";
+import coverPanRyba from "@/assets/cover-pan-ryba.webp";
 
 export interface MediaItem {
   id: number;
@@ -477,6 +478,16 @@ export const mediaItems: MediaItem[] = [
     duration: "1:43:00",
     premiereDate: "2026-02-06",
     platform: "Kino",
+  },
+  {
+    id: 140,
+    title: "Pan Ryba",
+    slug: "pan-ryba",
+    genre: "Animacja",
+    year: "2026",
+    image: coverPanRyba,
+    type: "film" as const,
+    description: "Mieszkając na zniszczonym wraku statku, Pan Ryba pewnego dnia odkrywa na nim młodego konika morskiego kradnącego jego rzeczy. Razem wyruszają w podwodną przygodę.",
   },
   // ── Oryginalne placeholder filmy/seriale ──
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
