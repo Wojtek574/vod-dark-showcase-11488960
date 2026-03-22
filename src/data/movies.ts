@@ -39,6 +39,7 @@ import coverKopnelabymCie from "@/assets/cover-kopnelabym-cie.webp";
 import coverMuppetShow from "@/assets/cover-muppet-show.webp";
 import coverOrzelekIggy from "@/assets/cover-orzelek-iggy.webp";
 import coverDalejJazda2 from "@/assets/cover-dalej-jazda-2.webp";
+import coverPanRyba from "@/assets/cover-pan-ryba.webp";
 
 export interface MediaItem {
   id: number;
