@@ -28,6 +28,7 @@ import coverZaDuzyNaBajki3 from "@/assets/cover-za-duzy-na-bajki-3.webp";
 import coverNieMaDuchow from "@/assets/cover-nie-ma-duchow.webp";
 import coverTestamentAnnLee from "@/assets/cover-testament-ann-lee.webp";
 import coverNajbogatszaKobieta from "@/assets/cover-najbogatsza-kobieta.webp";
+import coverFleak from "@/assets/cover-fleak.webp";
 import coverWierzymyCi from "@/assets/cover-wierzymy-ci.webp";
 import coverAngelsEgg from "@/assets/cover-angels-egg.webp";
 import coverBawSieDobrze from "@/assets/cover-baw-sie-dobrze.webp";
