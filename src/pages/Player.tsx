@@ -301,6 +301,11 @@ const Player = () => {
       { name: "Elise Allen", role: "Scenariusz", avatar: "EA" },
       { name: "Elie Choufany", role: "Scenariusz", avatar: "EC" },
     ],
+    "fleak-futrzak-i-ja": [
+      { name: "Jens Møller", role: "Reżyser", avatar: "JM" },
+      { name: "Kim Hagen Jensen", role: "Reżyser", avatar: "KJ" },
+      { name: "Thorbjørn Christoffersen", role: "Scenariusz", avatar: "TC" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
