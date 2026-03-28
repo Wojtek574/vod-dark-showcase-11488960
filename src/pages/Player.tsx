@@ -301,6 +301,11 @@ const Player = () => {
       { name: "Elise Allen", role: "Scenariusz", avatar: "EA" },
       { name: "Elie Choufany", role: "Scenariusz", avatar: "EC" },
     ],
+    "fleak-futrzak-i-ja": [
+      { name: "Jens Møller", role: "Reżyser", avatar: "JM" },
+      { name: "Kim Hagen Jensen", role: "Reżyser", avatar: "KJ" },
+      { name: "Thorbjørn Christoffersen", role: "Scenariusz", avatar: "TC" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
@@ -497,6 +502,11 @@ const Player = () => {
       { user: "AnimacjaFan", avatar: "A", rating: 5, text: "Urocza podwodna animacja! Mój 5-latek nie mógł oderwać oczu od ekranu, a ja sam się wzruszyłem.", time: "3 godziny temu", likes: 48 },
       { user: "RodzinneSeansy", avatar: "R", rating: 4, text: "Pan Ryba to taki podwodny Shrek – humor dla dorosłych ukryty w bajce dla dzieci. Konik morski kradnie każdą scenę!", time: "6 godzin temu", likes: 35 },
       { user: "OceanKina", avatar: "O", rating: 5, text: "Animacja wody jest niesamowita. Pixar powinien się bać – australijsko-amerykański duet daje radę!", time: "1 dzień temu", likes: 52 },
+    ],
+    "fleak-futrzak-i-ja": [
+      { user: "BajkowyŚwiat", avatar: "B", rating: 5, text: "Fleak to najlepszy animowany przyjaciel od czasów Baymaxa! Moje dziecko chce teraz futrzaka z innego wymiaru na urodziny 😄", time: "2 godziny temu", likes: 56 },
+      { user: "DuńskieKino", avatar: "D", rating: 4, text: "Skandynawska animacja na najwyższym poziomie. Prosty przekaz o wyobraźni i odwadze, ale podany z takim wdziękiem, że łezka się kręci.", time: "5 godzin temu", likes: 41 },
+      { user: "TataNaSeanisie", avatar: "T", rating: 5, text: "Poszedłem z córką – oboje byliśmy zachwyceni. Humor dla dzieci i dorosłych, piękna animacja i wzruszający finał. Polecam!", time: "1 dzień temu", likes: 63 },
     ],
   };
 
