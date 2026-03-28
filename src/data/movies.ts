@@ -490,6 +490,10 @@ export const mediaItems: MediaItem[] = [
     type: "film" as const,
     description: "Mieszkając na zniszczonym wraku statku, Pan Ryba pewnego dnia odkrywa na nim młodego konika morskiego kradnącego jego rzeczy. Razem wyruszają w podwodną przygodę.",
   },
+  {
+    id: 141, title: "Fleak. Futrzak i ja", slug: "fleak-futrzak-i-ja", genre: "Animacja", year: "2025", image: coverFleak, type: "film",
+    description: "Kiedy jedenastoletni Tomek spotyka Fleaka – przybysza z innego wymiaru – jego świat staje na głowie. Wraz z nowym przyjacielem wyrusza w niezwykłą przygodę, w której odkrywa moc wyobraźni, odwagi i… własnego cienia.",
+  },
   // ── Oryginalne placeholder filmy/seriale ──
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
   { id: 2, title: "Noir District", slug: "noir-district", genre: "Thriller", year: "2025", image: cover2, type: "film" },
