@@ -1,3 +1,4 @@
+import coverDrama from "@/assets/cover-drama.webp";
 import cover1 from "@/assets/cover1.jpg";
 import cover2 from "@/assets/cover2.jpg";
 import cover3 from "@/assets/cover3.jpg";
