@@ -2,6 +2,8 @@ import { Link, useLocation } from "react-router-dom";
 import { Search, Menu, X, User } from "lucide-react";
 import { useState, useEffect } from "react";
 
+const CTA_URL = "https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103";
+
 interface HeaderProps {
   onSearchOpen?: () => void;
 }
@@ -75,10 +77,15 @@ const Header = ({ onSearchOpen }: HeaderProps) => {
               <Search className="h-5 w-5" />
             </button>
           )}
-          <button className="hidden md:inline-flex items-center gap-2 rounded-md border border-primary bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
+          <a
+            href={CTA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:inline-flex items-center gap-2 rounded-md bg-primary px-4 py-1.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20"
+          >
             <User className="h-4 w-4" />
-            Zaloguj / Zarejestruj się
-          </button>
+            Rozpocznij
+          </a>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -106,10 +113,15 @@ const Header = ({ onSearchOpen }: HeaderProps) => {
             </Link>
           ))}
           <div className="pt-2 border-t border-border mt-2">
-            <button className="w-full flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground">
+            <a
+              href={CTA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground"
+            >
               <User className="h-4 w-4" />
-              Zaloguj / Zarejestruj się
-            </button>
+              Rozpocznij
+            </a>
           </div>
         </div>
       )}

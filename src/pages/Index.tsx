@@ -5,7 +5,9 @@ import TopTenRow from "@/components/TopTenRow";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { mediaItems } from "@/data/movies";
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Search, X, Play, Star } from "lucide-react";
+import { Search, X, Play, Star, Zap, TrendingUp, Shield, Users } from "lucide-react";
+
+const CTA_URL = "https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,7 +18,6 @@ const Index = () => {
   const serials = mediaItems.filter((m) => m.type === "serial");
   const withDescription = mediaItems.filter((m) => m.description);
   const newReleases = [...mediaItems].sort(() => 0.5 - Math.random()).slice(0, 8);
-
 
   const filtered = useMemo(() => {
     if (!searchQuery.trim()) return null;
@@ -46,7 +47,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background pb-16 md:pb-0">
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
       <Header onSearchOpen={() => setSearchOpen(true)} />
 
       {/* Search overlay */}
@@ -127,9 +128,42 @@ const Index = () => {
       <main>
         <HeroSection />
 
-        <div className="relative z-10 -mt-6 space-y-8 pb-16">
+        <div className="relative z-10 -mt-6 space-y-8 pb-8">
           <MediaRow title="Ostatnio dodane" items={newReleases} />
           <MediaRow title="Popularne filmy" items={films} linkTo="/filmy" />
+
+          {/* Conversion banner between rows */}
+          <section className="px-4 md:px-8 max-w-screen-xl mx-auto">
+            <div className="relative overflow-hidden rounded-lg border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-5 md:p-7">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingUp className="h-5 w-5 text-primary" />
+                    <h3 className="font-display text-lg md:text-xl tracking-wider text-foreground">
+                      Tysiące tytułów czeka na Ciebie
+                    </h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed max-w-lg">
+                    Uzyskaj dostęp do pełnej biblioteki filmów i seriali. Dołącz do społeczności ponad 12 000 widzów.
+                  </p>
+                  <div className="flex items-center gap-4 mt-2 text-[11px] text-muted-foreground">
+                    <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-primary" /> Bezpiecznie</span>
+                    <span className="flex items-center gap-1"><Users className="h-3 w-3 text-primary" /> 12 847 użytkowników</span>
+                  </div>
+                </div>
+                <a
+                  href={CTA_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/25 shrink-0"
+                >
+                  <Zap className="h-4 w-4" />
+                  Rozpocznij teraz
+                </a>
+              </div>
+            </div>
+          </section>
+
           <TopTenRow title="Najlepsze pozycje wg. IMDb" items={mediaItems} />
           <MediaRow title="Popularne seriale" items={serials} linkTo="/seriale" />
           {withDescription.length > 0 && (
@@ -137,6 +171,19 @@ const Index = () => {
           )}
         </div>
       </main>
+
+      {/* Sticky mobile CTA */}
+      <div className="fixed bottom-16 left-0 right-0 z-40 md:hidden px-4 pb-2">
+        <a
+          href={CTA_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full rounded-lg bg-primary py-3 text-sm font-bold text-primary-foreground shadow-xl shadow-primary/30"
+        >
+          <Zap className="h-4 w-4" />
+          Rozpocznij teraz
+        </a>
+      </div>
 
       <MobileBottomNav onSearchOpen={() => setSearchOpen(true)} />
     </div>

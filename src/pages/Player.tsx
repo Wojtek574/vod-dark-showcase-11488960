@@ -710,50 +710,72 @@ const Player = () => {
 
           {/* Registration popup - ABOVE player */}
           {showPopup && (
-            <div className="mt-4 rounded-xl border border-primary/40 bg-card p-5 md:p-6 text-center shadow-2xl shadow-primary/10">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 border border-primary/30">
-                <Crown className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="font-display text-lg md:text-xl tracking-wider text-foreground">
-                Wymagane konto
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Rozpocznij korzystanie z pełnego katalogu{" "}
-                <span className="text-primary font-bold">"{movie.title}"</span> i wielu innych tytułów.
-              </p>
+            <div className="mt-4 rounded-xl border border-primary/40 bg-card p-5 md:p-8 text-center shadow-2xl shadow-primary/10 relative overflow-hidden">
+              {/* Background glow */}
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
 
-              {/* Playback time */}
+              <div className="relative">
+                <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-primary/15 border border-primary/30 animate-pulse">
+                  <Crown className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="font-display text-xl md:text-2xl tracking-wider text-foreground">
+                  Kontynuuj oglądanie
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
+                  Aby oglądać <span className="text-primary font-bold">„{movie.title}"</span> i tysiące innych tytułów, aktywuj konto w kilka sekund.
+                </p>
 
-              {/* Social proof */}
-              <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <Users className="h-3.5 w-3.5 text-primary" /> 12,847 widzów
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Shield className="h-3.5 w-3.5 text-primary" /> Bezpiecznie
-                </span>
-              </div>
+                {/* Social proof */}
+                <div className="mt-4 flex items-center justify-center gap-5 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5 text-primary" /> 12 847 widzów
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Shield className="h-3.5 w-3.5 text-primary" /> Bezpiecznie
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Star className="h-3.5 w-3.5 fill-primary text-primary" /> 4.8/5
+                  </span>
+                </div>
 
-              <div className="mt-5 flex flex-col gap-2.5">
-                <a href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103" target="_blank" rel="noopener noreferrer" className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
-                   <Zap className="h-4 w-4" /> Rozpocznij teraz
-                 </a>
-                 <a href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103" target="_blank" rel="noopener noreferrer" className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30 text-center">
-                   Mam konto — Zaloguj się
-                 </a>
-                <button
-                  onClick={() => {
-                    setShowPopup(false);
-                    if (videoRef.current) {
-                      videoRef.current.currentTime = 0;
-                      videoRef.current.play();
-                      setIsPlaying(true);
-                    }
-                  }}
-                  className="text-xs text-muted-foreground/60 hover:text-primary mt-1 transition-colors"
-                >
-                  Wyszukaj ponownie
-                </button>
+                {/* Urgency */}
+                <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-xs font-medium text-primary">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                  </span>
+                  347 osób właśnie się zarejestrowało
+                </div>
+
+                <div className="mt-6 flex flex-col gap-2.5">
+                  <a href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103" target="_blank" rel="noopener noreferrer" className="group/cta relative w-full rounded-lg bg-primary px-4 py-3.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-primary/25">
+                    <span className="absolute inset-0 rounded-lg bg-primary/40 animate-ping opacity-15" />
+                    <Zap className="h-4 w-4" /> Rozpocznij teraz
+                  </a>
+                  <a href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103" target="_blank" rel="noopener noreferrer" className="w-full rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground hover:border-primary/30 text-center">
+                    Mam konto — Zaloguj się
+                  </a>
+                  <button
+                    onClick={() => {
+                      setShowPopup(false);
+                      if (videoRef.current) {
+                        videoRef.current.currentTime = 0;
+                        videoRef.current.play();
+                        setIsPlaying(true);
+                      }
+                    }}
+                    className="text-xs text-muted-foreground/40 hover:text-muted-foreground mt-1 transition-colors"
+                  >
+                    Wyszukaj ponownie
+                  </button>
+                </div>
+
+                {/* Trust row */}
+                <div className="mt-5 flex items-center justify-center gap-4 text-[10px] text-muted-foreground/60">
+                  <span>✓ Bez zobowiązań</span>
+                  <span>✓ Wysoka jakość</span>
+                  <span>✓ Ponad 10 000 tytułów</span>
+                </div>
               </div>
             </div>
           )}
@@ -765,12 +787,28 @@ const Player = () => {
             href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105"
+            className="inline-flex items-center gap-2 rounded bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
           >
             <Search className="h-4 w-4" />
             Wyszukaj „{movie.title}"
           </a>
           <span className="text-xs text-muted-foreground">Rozpocznij wyszukiwanie w zewnętrznych źródłach</span>
+        </div>
+
+        {/* Mid-page CTA banner */}
+        <div className="mt-6 rounded-lg border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <div className="flex-1">
+            <p className="text-sm font-medium text-foreground">Chcesz więcej? Pełna biblioteka czeka.</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Dołącz do 12 847 widzów korzystających z platformy.</p>
+          </div>
+          <a
+            href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 shrink-0"
+          >
+            <Zap className="h-4 w-4" /> Rozpocznij
+          </a>
         </div>
       </div>
 
