@@ -495,6 +495,10 @@ export const mediaItems: MediaItem[] = [
     id: 141, title: "Fleak. Futrzak i ja", slug: "fleak-futrzak-i-ja", genre: "Animacja", year: "2025", image: coverFleak, type: "film",
     description: "Kiedy jedenastoletni Tomek spotyka Fleaka – przybysza z innego wymiaru – jego świat staje na głowie. Wraz z nowym przyjacielem wyrusza w niezwykłą przygodę, w której odkrywa moc wyobraźni, odwagi i… własnego cienia.",
   },
+  {
+    id: 142, title: "Drama", slug: "drama", genre: "Komedia rom.", year: "2026", image: coverDrama, type: "film" as const,
+    description: "Pozornie idealna para przechodzi kryzys, gdy na kilka dni przed ślubem na jaw wychodzą skrywane tajemnice.",
+  },
   // ── Oryginalne placeholder filmy/seriale ──
   { id: 1, title: "Cybershadow", slug: "cybershadow", genre: "Sci-Fi", year: "2026", image: cover1, type: "film" },
   { id: 2, title: "Noir District", slug: "noir-district", genre: "Thriller", year: "2025", image: cover2, type: "film" },
