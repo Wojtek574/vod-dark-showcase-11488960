@@ -306,6 +306,11 @@ const Player = () => {
       { name: "Kim Hagen Jensen", role: "Reżyser", avatar: "KJ" },
       { name: "Thorbjørn Christoffersen", role: "Scenariusz", avatar: "TC" },
     ],
+    "drama": [
+      { name: "Kristoffer Borgli", role: "Reżyser / Scenariusz", avatar: "KB" },
+      { name: "Zendaya", role: "Aktorka", avatar: "ZE" },
+      { name: "Robert Pattinson", role: "Aktor", avatar: "RP" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
@@ -507,6 +512,11 @@ const Player = () => {
       { user: "BajkowyŚwiat", avatar: "B", rating: 5, text: "Fleak to najlepszy animowany przyjaciel od czasów Baymaxa! Moje dziecko chce teraz futrzaka z innego wymiaru na urodziny 😄", time: "2 godziny temu", likes: 56 },
       { user: "DuńskieKino", avatar: "D", rating: 4, text: "Skandynawska animacja na najwyższym poziomie. Prosty przekaz o wyobraźni i odwadze, ale podany z takim wdziękiem, że łezka się kręci.", time: "5 godzin temu", likes: 41 },
       { user: "TataNaSeanisie", avatar: "T", rating: 5, text: "Poszedłem z córką – oboje byliśmy zachwyceni. Humor dla dzieci i dorosłych, piękna animacja i wzruszający finał. Polecam!", time: "1 dzień temu", likes: 63 },
+    ],
+    "drama": [
+      { user: "RomKomFan", avatar: "R", rating: 5, text: "Zendaya i Pattinson razem to casting roku! Chemia między nimi jest tak elektryzująca, że zapominasz o popcornie 🍿", time: "3 godziny temu", likes: 72 },
+      { user: "KinoNorwega", avatar: "K", rating: 4, text: "Borgli po 'Sick of Myself' znów udowadnia, że potrafi rozbierać relacje na części pierwsze. Zabawne i niepokojące jednocześnie.", time: "6 godzin temu", likes: 48 },
+      { user: "ŚlubneDramy", avatar: "Ś", rating: 5, text: "Każdy, kto planował ślub, zrozumie ten film. Tajemnice, kłótnie, moment paniki – a wszystko podane z przymrużeniem oka. Arcydzieło!", time: "1 dzień temu", likes: 91 },
     ],
   };
 
