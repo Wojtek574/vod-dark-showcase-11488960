@@ -787,12 +787,28 @@ const Player = () => {
             href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105"
+            className="inline-flex items-center gap-2 rounded bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
           >
             <Search className="h-4 w-4" />
             Wyszukaj „{movie.title}"
           </a>
           <span className="text-xs text-muted-foreground">Rozpocznij wyszukiwanie w zewnętrznych źródłach</span>
+        </div>
+
+        {/* Mid-page CTA banner */}
+        <div className="mt-6 rounded-lg border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <div className="flex-1">
+            <p className="text-sm font-medium text-foreground">Chcesz więcej? Pełna biblioteka czeka.</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Dołącz do 12 847 widzów korzystających z platformy.</p>
+          </div>
+          <a
+            href="https://securedeal.pro/a/rkLGi2AVgsyo3p?ld=1103"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 shrink-0"
+          >
+            <Zap className="h-4 w-4" /> Rozpocznij
+          </a>
         </div>
       </div>
 
