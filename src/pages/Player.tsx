@@ -306,6 +306,11 @@ const Player = () => {
       { name: "Kim Hagen Jensen", role: "Reżyser", avatar: "KJ" },
       { name: "Thorbjørn Christoffersen", role: "Scenariusz", avatar: "TC" },
     ],
+    "drama": [
+      { name: "Kristoffer Borgli", role: "Reżyser / Scenariusz", avatar: "KB" },
+      { name: "Zendaya", role: "Aktorka", avatar: "ZE" },
+      { name: "Robert Pattinson", role: "Aktor", avatar: "RP" },
+    ],
   };
 
   const commentsBySlug: Record<string, { user: string; avatar: string; rating: number; text: string; time: string; likes: number }[]> = {
